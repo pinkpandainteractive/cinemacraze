@@ -17,8 +17,7 @@ public class ObjectSelector : MonoBehaviour
     //private List<GameObject> selectedObjectsList = new List<GameObject>();
     string saveOldText = "";
 
-    private Dictionary<GameObject, int> selectedObjects = new Dictionary<GameObject, int>();
-
+    Dictionary<GameObject, int> selectedObjects = new Dictionary<GameObject, int>();
 
     // Start is called before the first frame update
     void Start()
