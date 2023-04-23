@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         Debug.Log("Loading Game");
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Blockout");
     }
 
     public void QuitGame()
