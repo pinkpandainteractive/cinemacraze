@@ -10,19 +10,23 @@ public class ObjectSelector : MonoBehaviour
 {
 
     public Text selectedObjectText;
-    public Material Matl_popcorn;
-    public Material Matl_nacho;
-    public Material Matl_cash;
-    public Material Matl_selected;
+    public Material matl_popcorn;
+    public Material matl_nacho;
+    public Material matl_cash;
+    public Material matl_selected;
+
+    public Button btn_delete;
+
     //private List<GameObject> selectedObjectsList = new List<GameObject>();
     string saveOldText = "";
 
-    Dictionary<GameObject, int> selectedObjects = new Dictionary<GameObject, int>();
+    public Dictionary<GameObject, int> selectedObjects = new Dictionary<GameObject, int>();
 
     // Start is called before the first frame update
     void Start()
     {
-
+        //Button btn = btn_delete.GetComponent<Button>();
+        //btn.onClick.AddListener(delete);
     }
 
     // Update is called once per frame
@@ -43,8 +47,8 @@ public class ObjectSelector : MonoBehaviour
                     clickedObject.name.Equals("Cash") || clickedObject.name.Equals("Customer"))
                 {
 
-   
-                  
+
+
 
                     if (selectedObjects.ContainsKey(clickedObject))
                     {
@@ -63,31 +67,31 @@ public class ObjectSelector : MonoBehaviour
                         // Deselect previously selected object
                         if (saveOldText.Equals("Popcorn"))
                         {
-                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = Matl_popcorn;
-                          
+                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_popcorn;
+
                         }
 
                         if (saveOldText.Equals("Nacho"))
                         {
-                            GameObject.Find("Nacho").GetComponent<Renderer>().material = Matl_nacho;
+                            GameObject.Find("Nacho").GetComponent<Renderer>().material = matl_nacho;
 
                         }
 
                         if (saveOldText.Equals("Cash"))
                         {
-                            GameObject.Find("Cash").GetComponent<Renderer>().material = Matl_cash;
+                            GameObject.Find("Cash").GetComponent<Renderer>().material = matl_cash;
 
                         }
 
                         if (saveOldText.Equals("Customer"))
                         {
                             GameObject.Find("Customer").GetComponent<Renderer>().material.color = Color.white;
-                            
+
                         }
                     }
 
-                    
-                    clickedObject.GetComponent<Renderer>().material = Matl_selected;
+
+                    clickedObject.GetComponent<Renderer>().material = matl_selected;
                     saveOldText = clickedObject.name;
                 }
                 else
@@ -99,19 +103,19 @@ public class ObjectSelector : MonoBehaviour
                         // Deselect previously selected object
                         if (saveOldText.Equals("Popcorn"))
                         {
-                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = Matl_popcorn;
+                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_popcorn;
 
                         }
 
                         if (saveOldText.Equals("Nacho"))
                         {
-                            GameObject.Find("Nacho").GetComponent<Renderer>().material = Matl_nacho;
+                            GameObject.Find("Nacho").GetComponent<Renderer>().material = matl_nacho;
 
                         }
 
                         if (saveOldText.Equals("Cash"))
                         {
-                            GameObject.Find("Cash").GetComponent<Renderer>().material = Matl_cash;
+                            GameObject.Find("Cash").GetComponent<Renderer>().material = matl_cash;
 
                         }
 
@@ -119,18 +123,33 @@ public class ObjectSelector : MonoBehaviour
                         {
                             GameObject.Find("Customer").GetComponent<Renderer>().material.color = Color.white;
 
-                        }   
-                 
+                        }
+
                     }
 
                 }
+                if (clickedObject.name.Equals("DeleteNacho") && selectedObjects[GameObject.Find("Nacho")] > 0)
+                {
 
+                    selectedObjects[GameObject.Find("Nacho")]--;
+                    UpdateObjectNameText();
+                }
+                if (clickedObject.name.Equals("DeletePopcorn") && selectedObjects[GameObject.Find("Popcorn")] > 0)
+                {
 
+                    selectedObjects[GameObject.Find("Popcorn")]--;
+
+                    UpdateObjectNameText();
+                }
             }
         }
     }
 
-
+    private void delete()
+    {
+        selectedObjectText.text = " ";
+        selectedObjects = new Dictionary<GameObject, int>();
+    }
     private void UpdateObjectNameText()
     {
         selectedObjectText.text = " ";
