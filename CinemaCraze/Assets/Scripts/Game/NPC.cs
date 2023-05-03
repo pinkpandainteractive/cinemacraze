@@ -44,15 +44,15 @@ public class NPC : MonoBehaviour
                 //If you click on the npc, it moves to the next waypoint (waypoint end)
                 if (clickedObject != null && clickedObject.name.Contains("Customer"))
                 {
-                    /*if (objectSelector != null)
+                    if (objectSelector != null)
                     {
                         string text = objectSelector.selectedObjectText.text;
                         Debug.Log(text);
-                        if (text.Contains("Popcorn"))
-                        {*/
+                        if (text.Contains("Popcorn x1"))
+                        {
                             MoveNPCToEnd(clickedObject);
-                       // }
-                    //}
+                        }
+                    }
                     // MoveNPCToEnd(clickedObject);
                 }
             }
