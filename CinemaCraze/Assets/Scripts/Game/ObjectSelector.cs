@@ -19,7 +19,7 @@ public class ObjectSelector : MonoBehaviour
 
     //private List<GameObject> selectedObjectsList = new List<GameObject>();
     string saveOldText = "";
-
+    public List<string> listSelectedObjects = new List<string>();
     public Dictionary<GameObject, int> selectedObjects = new Dictionary<GameObject, int>();
 
     // Start is called before the first frame update
@@ -57,6 +57,8 @@ public class ObjectSelector : MonoBehaviour
                     else
                     {
                         selectedObjects.Add(clickedObject, 1);
+                        
+
                     }
 
                     UpdateObjectNameText();
@@ -128,36 +130,80 @@ public class ObjectSelector : MonoBehaviour
                     }
 
                 }
-                if (clickedObject.name.Equals("DeleteNacho") && selectedObjects[GameObject.Find("Nacho")] > 0)
+                
+                if (clickedObject.name.Equals("DeleteNacho") && selectedObjects.ContainsKey(GameObject.Find("Nacho")) && selectedObjects[GameObject.Find("Nacho")] > 0)
                 {
-
+                    Debug.Log("selectedObjects[GameObject.Find(\"Nacho\")] " + selectedObjects[GameObject.Find("Nacho")]);
                     selectedObjects[GameObject.Find("Nacho")]--;
+                    if (selectedObjects[GameObject.Find("Nacho")] == 0)
+                    {
+                        selectedObjectText.text = " ";
+                        Dictionary<GameObject, int> saveObjects = new Dictionary<GameObject, int>();
+                        foreach (KeyValuePair<GameObject, int> pair in selectedObjects)
+                        {
+                            if (!pair.Key.name.Equals("Nacho"))
+                            {
+                                selectedObjectText.text += pair.Key.name + " x" + pair.Value + " ";
+                                saveObjects.Add(pair.Key, pair.Value);
+                            }
+
+
+                            if (pair.Key != selectedObjects.Keys.Last())
+                            {
+                                selectedObjectText.text += ", ";
+                            }
+                        }
+                        selectedObjects = saveObjects;
+                    }
                     UpdateObjectNameText();
                 }
-                if (clickedObject.name.Equals("DeletePopcorn") && selectedObjects[GameObject.Find("Popcorn")] > 0)
+
+                if (clickedObject.name.Equals("DeletePopcorn") && selectedObjects.ContainsKey(GameObject.Find("Popcorn")) && selectedObjects[GameObject.Find("Popcorn")] > 0)
                 {
 
                     selectedObjects[GameObject.Find("Popcorn")]--;
+                    if (selectedObjects[GameObject.Find("Popcorn")] == 0)
+                    {
+                        selectedObjectText.text = " ";
+                        Dictionary<GameObject, int> saveObjects = new Dictionary<GameObject, int>();
+                        foreach (KeyValuePair<GameObject, int> pair in selectedObjects)
+                        {
+                            if (!pair.Key.name.Equals("Popcorn"))
+                            {
+                                selectedObjectText.text += pair.Key.name + " x" + pair.Value + " ";
+                                saveObjects.Add(pair.Key, pair.Value);
+                            }
+                            
 
+                            if (pair.Key != selectedObjects.Keys.Last())
+                            {
+                                selectedObjectText.text += ", ";
+                            }
+                        }
+                            selectedObjects = saveObjects;
+                    }
                     UpdateObjectNameText();
                 }
             }
         }
     }
 
-    private void delete()
+    public void Delete()
     {
-        selectedObjectText.text = " ";
+        selectedObjectText.text = "";
         selectedObjects = new Dictionary<GameObject, int>();
+        listSelectedObjects.Clear();
     }
     private void UpdateObjectNameText()
     {
         selectedObjectText.text = " ";
-
+        listSelectedObjects = new List<string>();
         foreach (KeyValuePair<GameObject, int> pair in selectedObjects)
         {
             selectedObjectText.text += pair.Key.name + " x" + pair.Value + " ";
-
+            listSelectedObjects.Add(pair.Key.name + " x" + pair.Value);
+            listSelectedObjects.Sort();
+            
             if (pair.Key != selectedObjects.Keys.Last())
             {
                 selectedObjectText.text += ", ";

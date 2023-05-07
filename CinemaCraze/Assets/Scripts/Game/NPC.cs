@@ -1,10 +1,8 @@
-using Palmmedia.ReportGenerator.Core.Common;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class NPC : MonoBehaviour
 {
@@ -14,16 +12,22 @@ public class NPC : MonoBehaviour
     public List<GameObject> npcList;
     public List<bool> npcStatusList;
     public float spawnTime = 5f;
+    public Text order;
 
     private Vector3 spawnPosition;
     private int count = 0;
     private int countStatus = 0;
     private bool checkStatus = false;
     public ObjectSelector objectSelector;
+    public MainMenu mainMenu;
+    public Order orderClass;
+
+    private GameObject currentCustomerOrder;
+    private int countForStatusOrder = 0;
+    List<string> listOrder = new List<string>();
+
     private void Start()
     {
-        //objectSelector = GetComponent<ObjectSelector>();
-
         spawnPosition = new Vector3(-400.0f, 1.3f, -14.0f); //Spawn position npc
         StartCoroutine(SpawnNPC());
     }
@@ -42,21 +46,20 @@ public class NPC : MonoBehaviour
                 //Define clickedObject
                 GameObject clickedObject = hit.collider.gameObject;
                 //If you click on the npc, it moves to the next waypoint (waypoint end)
-                if (clickedObject != null && clickedObject.name.Contains("Customer"))
+                if (clickedObject != null && clickedObject.name.Contains("Customer") && listOrder!= null)
                 {
-                    if (objectSelector != null)
+
+                    if (CheckMatch(listOrder, objectSelector.listSelectedObjects) == true)
                     {
-                        string text = objectSelector.selectedObjectText.text;
-                        Debug.Log(text);
-                        if (text.Contains("Popcorn x1"))
-                        {
-                            MoveNPCToEnd(clickedObject);
-                        }
+                        MoveNPCToEnd(clickedObject);
+                        objectSelector.Delete();
+                        orderClass.DeleteOrder(listOrder);
                     }
-                    // MoveNPCToEnd(clickedObject);
                 }
             }
         }
+
+        
 
         //Go through all npc and see if they need to be deleted or collide with each other
         if (npcList != null)
@@ -67,6 +70,20 @@ public class NPC : MonoBehaviour
                 {
                     CheckCollisionNPC(npcList[i], npcList[i].transform.position, waypoints[0].position, npcStatusList[i]);
                     DestroyNPC(npcList[i], npcList[i].transform.position, waypoints[waypoints.Length - 1].position);
+                    if (Vector3.Distance(npcList[i].transform.position, waypoints[0].position) < 1.0f && countForStatusOrder == 0)
+                    {
+                        currentCustomerOrder = npcList[i];
+                        countForStatusOrder++;
+                        listOrder = orderClass.GenerateOrder();
+                    }
+                    if(currentCustomerOrder != null)
+                    {
+                        if (Vector3.Distance(currentCustomerOrder.transform.position, waypoints[0].position) > 1.0f)
+                        {
+                            countForStatusOrder = 0;
+                        }
+                    }
+                    
                 }
 
             }
@@ -77,6 +94,33 @@ public class NPC : MonoBehaviour
 
 
     }
+
+    bool CheckMatch(List<string> l1, List<string> l2)
+    {
+        
+        if (l1.Count == 0 || l2.Count == 0)
+        {
+            return false;
+        }
+            
+        if (l1.Count != l2.Count)
+        {
+            return false;
+        }
+            
+
+        for (int i = 0; i < l1.Count; i++)
+        {
+            if (l1[i] != l2[i])
+            {
+                return false;
+            }
+                
+        }
+
+        return true;
+    }
+
     private bool DestroyNPC(GameObject npc, Vector3 positionNPC, Vector3 endTarget)
     {
 
@@ -129,9 +173,6 @@ public class NPC : MonoBehaviour
 
     private void CheckCollisionNPC(GameObject npc, Vector3 npcPosition, Vector3 endTarget, bool status)
     {
-
-        // Überprüfung, ob sich ein anderes GameObject mit dem Tag "NPC" in der Nähe befindet
-        
         NavMeshAgent navMeshAgent = npc.GetComponent<NavMeshAgent>();
         Vector3 collisionDirection = new Vector3(0, 0, -1); // negative Z-Richtung
         Collider[] colliders = Physics.OverlapSphere(npc.transform.position, 1.5f, LayerMask.GetMask("npc"));
@@ -168,7 +209,6 @@ public class NPC : MonoBehaviour
 
             yield return new WaitForSeconds(spawnTime); // Wait for a certain time
             GameObject npc = Instantiate(npcPrefab, spawnPosition, Quaternion.identity); // Create a new NPC at the position of the last NPC
-           // npc.tag = "NPC";
             count++;
             npc.name = ("Customer " + count);
             npcList.Add(npc);
@@ -185,4 +225,5 @@ public class NPC : MonoBehaviour
 
 
     }
+
 }
