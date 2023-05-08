@@ -9,6 +9,7 @@ public class Order : MonoBehaviour
    
     public Text order;
     public MainMenu mainMenu;
+    
     public List<string> GenerateOrder()
     {
         List<string> listOrder = new List<string>();
@@ -48,7 +49,6 @@ public class Order : MonoBehaviour
         }
         return listOrder;
     }
-
     public void DeleteOrder(List<string> listOrder)
     {
         listOrder.Clear();

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -9,8 +10,8 @@ public class NPC : MonoBehaviour
     public NavMeshAgent agent;
     public Transform[] waypoints;
     public GameObject npcPrefab; // Prefab for the npc
-    public List<GameObject> npcList;
-    public List<bool> npcStatusList;
+    
+    public List<Npc> npcList = new List<Npc>();
     public float spawnTime = 5f;
     public Text order;
 
@@ -25,6 +26,16 @@ public class NPC : MonoBehaviour
     private GameObject currentCustomerOrder;
     private int countForStatusOrder = 0;
     List<string> listOrder = new List<string>();
+
+    public class Npc
+    {
+        public int ID { get; set; }
+        public GameObject Object { get; set; }
+        public string Name { get; set; }
+        public List<string> Order { get; set; }
+        public bool Status { get; set; }
+    }
+
 
     private void Start()
     {
@@ -48,42 +59,47 @@ public class NPC : MonoBehaviour
                 //If you click on the npc, it moves to the next waypoint (waypoint end)
                 if (clickedObject != null && clickedObject.name.Contains("Customer") && listOrder!= null)
                 {
-
-                    if (CheckMatch(listOrder, objectSelector.listSelectedObjects) == true)
+                    npcList.ForEach(x =>
+                    {
+                    if (x.Name == clickedObject.name)
+                    {
+                        if (CheckMatch(npcList[x.ID - 1].Order, objectSelector.listSelectedObjects) == true)
                     {
                         MoveNPCToEnd(clickedObject);
                         objectSelector.Delete();
                         orderClass.DeleteOrder(listOrder);
+                        npcList[x.ID - 1].Status = false;
                     }
+                    }
+                    });
                 }
             }
         }
-
-        
 
         //Go through all npc and see if they need to be deleted or collide with each other
         if (npcList != null)
         {
             for (int i = 0; i < npcList.Count; i++)
             {
-                if (npcList[i] != null)
+                if (npcList[i].Object != null)
                 {
-                    CheckCollisionNPC(npcList[i], npcList[i].transform.position, waypoints[0].position, npcStatusList[i]);
-                    DestroyNPC(npcList[i], npcList[i].transform.position, waypoints[waypoints.Length - 1].position);
-                    if (Vector3.Distance(npcList[i].transform.position, waypoints[0].position) < 1.0f && countForStatusOrder == 0)
+                    CheckCollisionNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[0].position, npcList[i].Status);
+                    DestroyNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[waypoints.Length - 1].position);
+
+                    if (Vector3.Distance(npcList[i].Object.transform.position, waypoints[0].position) < 1.0f && countForStatusOrder == 0)
                     {
-                        currentCustomerOrder = npcList[i];
+                        currentCustomerOrder = npcList[i].Object;
                         countForStatusOrder++;
-                        listOrder = orderClass.GenerateOrder();
+                        listOrder = npcList[i].Order;
                     }
-                    if(currentCustomerOrder != null)
+                    if (currentCustomerOrder != null)
                     {
                         if (Vector3.Distance(currentCustomerOrder.transform.position, waypoints[0].position) > 1.0f)
                         {
                             countForStatusOrder = 0;
                         }
                     }
-                    
+
                 }
 
             }
@@ -102,7 +118,7 @@ public class NPC : MonoBehaviour
         {
             return false;
         }
-            
+        Debug.Log("l1 " + l1[0] + "l2 " + l2[0]);
         if (l1.Count != l2.Count)
         {
             return false;
@@ -138,35 +154,35 @@ public class NPC : MonoBehaviour
     private void MoveNPCToEnd(GameObject npc)
     {
         npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[waypoints.Length - 1].position);
-        string getNumber = npc.name.Substring(8);
-        int num = int.Parse(getNumber);
-        npcStatusList[num - 1] = false;
     }
 
     private bool NPCStatus()
     {
-        countStatus = 0;
-        npcStatusList.ForEach(x =>
+        if (npcList != null)
         {
-            if (x == true)
+            countStatus = 0;
+            npcList.ForEach(x =>
             {
-                countStatus++;
+                if (x.Status == true)
+                {
+                    countStatus++;
+                }
+            });
+
+            if (countStatus >= 3)
+            {
+
+                StopCoroutine(SpawnNPC());
+                checkStatus = true;
+                return true;
             }
-        });
+            if (countStatus < 3 && checkStatus == true)
+            {
 
-        if (countStatus >= 3)
-        {
-
-            StopCoroutine(SpawnNPC());
-            checkStatus = true;
-            return true;
-        }
-        if (countStatus < 3 && checkStatus == true)
-        {
-
-            StartCoroutine(SpawnNPC());
-            checkStatus = false;
-            return false;
+                StartCoroutine(SpawnNPC());
+                checkStatus = false;
+                return false;
+            }
         }
         return false;
     }
@@ -210,13 +226,19 @@ public class NPC : MonoBehaviour
             yield return new WaitForSeconds(spawnTime); // Wait for a certain time
             GameObject npc = Instantiate(npcPrefab, spawnPosition, Quaternion.identity); // Create a new NPC at the position of the last NPC
             count++;
-            npc.name = ("Customer " + count);
-            npcList.Add(npc);
-            npcStatusList.Add(true);
-
-
             if (npc != null)
             {
+            npc.name = ("Customer " + count);
+
+            npcList.Add(new Npc
+            {
+                ID = count,
+                Object = npc,
+                Name = npc.name,
+                Order = orderClass.GenerateOrder(),
+                Status = true
+            });
+           
                 npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position);
                 yield return null;
             }
