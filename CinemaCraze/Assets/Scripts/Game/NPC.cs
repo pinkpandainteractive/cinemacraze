@@ -22,6 +22,8 @@ public class NPC : MonoBehaviour
     public ObjectSelector objectSelector;
     public MainMenu mainMenu;
     public Order orderClass;
+    public string npcName;
+    public List<string> npcOrder;
 
     private GameObject currentCustomerOrder;
     private int countForStatusOrder = 0;
@@ -67,7 +69,7 @@ public class NPC : MonoBehaviour
                     {
                         MoveNPCToEnd(clickedObject);
                         objectSelector.Delete();
-                        orderClass.DeleteOrder(listOrder);
+                        //orderClass.DeleteOrder(listOrder);
                         npcList[x.ID - 1].Status = false;
                     }
                     }
@@ -90,7 +92,7 @@ public class NPC : MonoBehaviour
                     {
                         currentCustomerOrder = npcList[i].Object;
                         countForStatusOrder++;
-                        listOrder = npcList[i].Order;
+                        //listOrder = npcList[i].Order;
                     }
                     if (currentCustomerOrder != null)
                     {
@@ -113,12 +115,12 @@ public class NPC : MonoBehaviour
 
     bool CheckMatch(List<string> l1, List<string> l2)
     {
-        
+      
         if (l1.Count == 0 || l2.Count == 0)
         {
             return false;
         }
-        Debug.Log("l1 " + l1[0] + "l2 " + l2[0]);
+        
         if (l1.Count != l2.Count)
         {
             return false;
@@ -229,7 +231,7 @@ public class NPC : MonoBehaviour
             if (npc != null)
             {
             npc.name = ("Customer " + count);
-
+            
             npcList.Add(new Npc
             {
                 ID = count,
@@ -238,7 +240,13 @@ public class NPC : MonoBehaviour
                 Order = orderClass.GenerateOrder(),
                 Status = true
             });
-           
+                if (npcList.Count > 0)
+                {
+                    npcName = npc.name;
+                    npcOrder = npcList[count - 1].Order;
+                   
+                }
+                
                 npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position);
                 yield return null;
             }

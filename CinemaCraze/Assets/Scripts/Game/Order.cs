@@ -21,7 +21,7 @@ public class Order : MonoBehaviour
                 {
                     listOrder.Clear();
                     int numPopcorn = Random.Range(1, 4);
-                    order.text = "Popcorn x" + numPopcorn;
+                   // order.text = "Popcorn x" + numPopcorn;
                     listOrder.Add("Popcorn x" + numPopcorn);
                     return listOrder;
                 }
@@ -29,7 +29,7 @@ public class Order : MonoBehaviour
                 {
                     listOrder.Clear();
                     int numNacho = Random.Range(1, 4);
-                    order.text = "Nacho x" + numNacho;
+                    //order.text = "Nacho x" + numNacho;
                     listOrder.Add("Nacho x" + numNacho);
                     return listOrder;
                 }
@@ -38,7 +38,7 @@ public class Order : MonoBehaviour
                     listOrder.Clear();
                     int numNacho = Random.Range(1, 3);
                     int numPopcorn = Random.Range(1, 3);
-                    order.text = "Nacho x" + numNacho + ", Popcorn x" + numPopcorn;
+                    //order.text = "Nacho x" + numNacho + ", Popcorn x" + numPopcorn;
 
                     listOrder.Add("Nacho x" + numNacho);
                     listOrder.Add("Popcorn x" + numPopcorn);
