@@ -16,7 +16,7 @@ public class ObjectSelector : MonoBehaviour
     public Material matl_selected;
 
     public Button btn_delete;
-
+    public MainMenu menuStatus;
     //private List<GameObject> selectedObjectsList = new List<GameObject>();
     string saveOldText = "";
     public List<string> listSelectedObjects = new List<string>();
@@ -25,13 +25,19 @@ public class ObjectSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Button btn = btn_delete.GetComponent<Button>();
-        //btn.onClick.AddListener(delete);
+        Button btn = btn_delete.GetComponent<Button>();
+        btn_delete.gameObject.SetActive(false);
+        btn.onClick.AddListener(Delete);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (menuStatus.PlayGame() == true)
+        {
+            btn_delete.gameObject.SetActive(true);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

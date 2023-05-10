@@ -1,16 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenuUI;
-  
-    public void PlayGame()
+
+    public bool PlayGame()
     {
         Debug.Log("Loading Game");
-        mainMenuUI.SetActive(false);
+        if(mainMenuUI != null)
+        {
+            mainMenuUI.SetActive(false);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+        
     }
 
     public void QuitGame()
