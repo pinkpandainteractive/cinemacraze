@@ -131,9 +131,10 @@ public class ObjectSelector : MonoBehaviour
 
                 }
                 
-                if (clickedObject.name.Equals("DeleteNacho") && selectedObjects.ContainsKey(GameObject.Find("Nacho")) && selectedObjects[GameObject.Find("Nacho")] > 0)
+                if (clickedObject.name.Equals("DeleteNacho") && selectedObjects.ContainsKey(GameObject.Find("Nacho"))
+                    && selectedObjects[GameObject.Find("Nacho")] > 0)
                 {
-                    Debug.Log("selectedObjects[GameObject.Find(\"Nacho\")] " + selectedObjects[GameObject.Find("Nacho")]);
+                    
                     selectedObjects[GameObject.Find("Nacho")]--;
                     if (selectedObjects[GameObject.Find("Nacho")] == 0)
                     {
@@ -158,7 +159,8 @@ public class ObjectSelector : MonoBehaviour
                     UpdateObjectNameText();
                 }
 
-                if (clickedObject.name.Equals("DeletePopcorn") && selectedObjects.ContainsKey(GameObject.Find("Popcorn")) && selectedObjects[GameObject.Find("Popcorn")] > 0)
+                if (clickedObject.name.Equals("DeletePopcorn") && selectedObjects.ContainsKey(GameObject.Find("Popcorn")) 
+                    && selectedObjects[GameObject.Find("Popcorn")] > 0)
                 {
 
                     selectedObjects[GameObject.Find("Popcorn")]--;

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static NPC;
 
 public class NPCCanvas : MonoBehaviour
 {
@@ -12,15 +11,10 @@ public class NPCCanvas : MonoBehaviour
 
     void Start()
     {
-        // Zugriff auf das Canvas-Component
+        // Accessing the Canvas Component
         canvas = GetComponent<Canvas>();
-    }
 
-    void Update()
-    {
-        // Aktualisiert den Text im Canvas
-        if(npc.npcName == npcObject.name)
-        {
+        // Creates the order text for the customer
             List<string> listOrder = npc.npcOrder;
             canvasText.text = "";
             for (int j = 0; j < listOrder.Count; j++)
@@ -32,14 +26,16 @@ public class NPCCanvas : MonoBehaviour
                 }
 
             }
-        }
-       
-       
-        // Setzt die Position des Canvas-GameObjects an die Position des NPC-GameObjects
+    }
+
+    void Update()
+    {
+
+        // Sets the position of the canvas GameObject to the position of the NPC GameObject
         canvas.transform.position = npcObject.transform.position;
 
-        // Bewegt das Canvas-GameObject in der lokalen Z-Achse
         canvas.transform.Translate(Vector3.up);
+        // Moves the Canvas GameObject in the local Z-axis
         canvas.transform.Translate(Vector3.back);
     }
 }

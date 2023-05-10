@@ -12,30 +12,25 @@ public class NPC : MonoBehaviour
     public GameObject npcPrefab; // Prefab for the npc
     
     public List<Npc> npcList = new List<Npc>();
+    public List<string> npcOrder;
     public float spawnTime = 5f;
-    public Text order;
-
+    public ObjectSelector objectSelector;
+    public MainMenu mainMenu;
+    public Order orderClass;
+    
     private Vector3 spawnPosition;
     private int count = 0;
     private int countStatus = 0;
     private bool checkStatus = false;
-    public ObjectSelector objectSelector;
-    public MainMenu mainMenu;
-    public Order orderClass;
-    public string npcName;
-    public List<string> npcOrder;
-
-    private GameObject currentCustomerOrder;
-    private int countForStatusOrder = 0;
-    List<string> listOrder = new List<string>();
-
+    
     public class Npc
     {
         public int ID { get; set; }
         public GameObject Object { get; set; }
         public string Name { get; set; }
         public List<string> Order { get; set; }
-        public bool Status { get; set; }
+        //OrderStatus = true means that the order has not yet been processed
+        public bool OrderStatus { get; set; }
     }
 
 
@@ -59,7 +54,7 @@ public class NPC : MonoBehaviour
                 //Define clickedObject
                 GameObject clickedObject = hit.collider.gameObject;
                 //If you click on the npc, it moves to the next waypoint (waypoint end)
-                if (clickedObject != null && clickedObject.name.Contains("Customer") && listOrder!= null)
+                if (clickedObject != null && clickedObject.name.Contains("Customer"))
                 {
                     npcList.ForEach(x =>
                     {
@@ -69,8 +64,7 @@ public class NPC : MonoBehaviour
                     {
                         MoveNPCToEnd(clickedObject);
                         objectSelector.Delete();
-                        //orderClass.DeleteOrder(listOrder);
-                        npcList[x.ID - 1].Status = false;
+                        npcList[x.ID - 1].OrderStatus = false;
                     }
                     }
                     });
@@ -79,39 +73,26 @@ public class NPC : MonoBehaviour
         }
 
         //Go through all npc and see if they need to be deleted or collide with each other
-        if (npcList != null)
+        if (npcList != null )
         {
             for (int i = 0; i < npcList.Count; i++)
             {
                 if (npcList[i].Object != null)
                 {
-                    CheckCollisionNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[0].position, npcList[i].Status);
+                    CheckCollisionNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[0].position, npcList[i].OrderStatus);
                     DestroyNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[waypoints.Length - 1].position);
-
-                    if (Vector3.Distance(npcList[i].Object.transform.position, waypoints[0].position) < 1.0f && countForStatusOrder == 0)
-                    {
-                        currentCustomerOrder = npcList[i].Object;
-                        countForStatusOrder++;
-                        //listOrder = npcList[i].Order;
-                    }
-                    if (currentCustomerOrder != null)
-                    {
-                        if (Vector3.Distance(currentCustomerOrder.transform.position, waypoints[0].position) > 1.0f)
-                        {
-                            countForStatusOrder = 0;
-                        }
-                    }
-
                 }
-
             }
-
         }
         //Status for npc; true means the maximum of npcs exists on the scene (3)
         checkStatus = NPCStatus();
 
 
     }
+    
+    /*
+     Checks the NPC's order list with the player's selection (also a list).
+     */
 
     bool CheckMatch(List<string> l1, List<string> l2)
     {
@@ -165,7 +146,7 @@ public class NPC : MonoBehaviour
             countStatus = 0;
             npcList.ForEach(x =>
             {
-                if (x.Status == true)
+                if (x.OrderStatus == true)
                 {
                     countStatus++;
                 }
@@ -227,9 +208,9 @@ public class NPC : MonoBehaviour
 
             yield return new WaitForSeconds(spawnTime); // Wait for a certain time
             GameObject npc = Instantiate(npcPrefab, spawnPosition, Quaternion.identity); // Create a new NPC at the position of the last NPC
-            count++;
             if (npc != null)
             {
+            count++;
             npc.name = ("Customer " + count);
             
             npcList.Add(new Npc
@@ -238,16 +219,16 @@ public class NPC : MonoBehaviour
                 Object = npc,
                 Name = npc.name,
                 Order = orderClass.GenerateOrder(),
-                Status = true
+                OrderStatus = true
             });
+                //Pass global parameters. Important for NPCCanvas Script
                 if (npcList.Count > 0)
                 {
-                    npcName = npc.name;
-                    npcOrder = npcList[count - 1].Order;
                    
+                    npcOrder = npcList[count - 1].Order;
                 }
                 
-                npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position);
+                npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position); //After spawning move to the bar
                 yield return null;
             }
 
