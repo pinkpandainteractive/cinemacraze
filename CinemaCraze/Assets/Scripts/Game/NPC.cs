@@ -54,7 +54,8 @@ public class NPC : MonoBehaviour
                 //Define clickedObject
                 GameObject clickedObject = hit.collider.gameObject;
                 //If you click on the npc, it moves to the next waypoint (waypoint end)
-                if (clickedObject != null && clickedObject.name.Contains("Customer"))
+                if (clickedObject != null && clickedObject.name.Contains("Customer") && npcList != null 
+                    && objectSelector.listSelectedObjects != null)
                 {
                     npcList.ForEach(x =>
                     {

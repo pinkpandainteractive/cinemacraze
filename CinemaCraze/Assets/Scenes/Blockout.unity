@@ -5766,7 +5766,7 @@ MonoBehaviour:
   npcPrefab: {fileID: 669542819}
   npcOrder: []
   spawnTime: 2
-  objectSelector: {fileID: 0}
+  objectSelector: {fileID: 1409852034}
   mainMenu: {fileID: 1409852033}
   orderClass: {fileID: 1813931984}
 --- !u!4 &2097748154

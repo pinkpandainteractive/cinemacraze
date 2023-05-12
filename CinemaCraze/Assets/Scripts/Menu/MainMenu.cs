@@ -4,21 +4,11 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenuUI;
-
-    public bool PlayGame()
+  
+    public void PlayGame()
     {
-        Debug.Log("Loading Game");
-        if(mainMenuUI != null)
-        {
-            mainMenuUI.SetActive(false);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-        
-        
+        Debug.Log("Loading Game");     
+        mainMenuUI.SetActive(false);   
     }
 
     public void QuitGame()
