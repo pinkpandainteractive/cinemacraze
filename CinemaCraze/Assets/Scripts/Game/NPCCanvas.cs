@@ -34,7 +34,7 @@ public class NPCCanvas : MonoBehaviour
         // Sets the position of the canvas GameObject to the position of the NPC GameObject
         canvas.transform.position = npcObject.transform.position;
 
-        canvas.transform.Translate(Vector3.up);
+        //canvas.transform.Translate(Vector3.up);
         // Moves the Canvas GameObject in the local Z-axis
         canvas.transform.Translate(Vector3.back);
     }

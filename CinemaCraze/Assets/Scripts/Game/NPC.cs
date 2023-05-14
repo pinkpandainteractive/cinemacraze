@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using static NPC;
 
 public class NPC : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform[] waypoints;
     public GameObject npcPrefab; // Prefab for the npc
-    
+    public GameObject zone;
+
+
     public List<Npc> npcList = new List<Npc>();
     public List<string> npcOrder;
     public float spawnTime = 5f;
@@ -31,12 +35,13 @@ public class NPC : MonoBehaviour
         public List<string> Order { get; set; }
         //OrderStatus = true means that the order has not yet been processed
         public bool OrderStatus { get; set; }
+        public bool WaitingStatus { get; set; }
     }
 
 
     private void Start()
     {
-        spawnPosition = new Vector3(-400.0f, 1.3f, -14.0f); //Spawn position npc
+        spawnPosition = new Vector3(-399.7f, 1.3f, -14.0f); //Spawn position npc
         StartCoroutine(SpawnNPC());
     }
 
@@ -80,11 +85,32 @@ public class NPC : MonoBehaviour
             {
                 if (npcList[i].Object != null)
                 {
-                    CheckCollisionNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[0].position, npcList[i].OrderStatus);
+                    CheckCollisionNPC(npcList[i].Object, npcList[i].OrderStatus, i);
                     DestroyNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[waypoints.Length - 1].position);
                 }
             }
         }
+
+        // Prüfe, ob sich der NPC innerhalb der Wartezone befindet
+        Collider[] colliders = Physics.OverlapBox(zone.transform.position, zone.transform.localScale / 2f);
+        float speed = -1;
+        bool isInZone = false;
+        foreach (Collider col in colliders)
+        {
+            
+            if (col.gameObject.tag == "npc")
+            {
+                speed = col.GetComponent<NavMeshAgent>().velocity.magnitude;
+                isInZone = true;
+                break;
+            }
+        }
+        if (isInZone && speed == 0)
+        {
+            Debug.Log("NPC befindet sich innerhalb der Wartezone und steht still!");
+        }
+        
+
         //Status for npc; true means the maximum of npcs exists on the scene (3)
         checkStatus = NPCStatus();
 
@@ -171,11 +197,30 @@ public class NPC : MonoBehaviour
         return false;
     }
 
-    private void CheckCollisionNPC(GameObject npc, Vector3 npcPosition, Vector3 endTarget, bool status)
+    private void CheckCollisionNPC(GameObject npc, bool status, int npcNumber)
     {
         NavMeshAgent navMeshAgent = npc.GetComponent<NavMeshAgent>();
+
+
+        float speed = navMeshAgent.velocity.magnitude;
+
+        
+       
+
+        //Debug.Log("NPC " + targetPosition + " Ziel "+ waypoints[0].position);
+        if (speed == 0 )
+        {
+            npcList[npcNumber].WaitingStatus = true;
+        }
+        else
+        {
+            npcList[npcNumber].WaitingStatus = false;
+        }
         Vector3 collisionDirection = new Vector3(0, 0, -1); // negative Z-Richtung
-        Collider[] colliders = Physics.OverlapSphere(npc.transform.position, 1.5f, LayerMask.GetMask("npc"));
+
+        
+        Collider[] colliders = Physics.OverlapBox(npc.transform.position, npc.transform.localScale / 1.0f, 
+            Quaternion.identity, LayerMask.GetMask("npc"));
         foreach (Collider hitCollider in colliders)
         {
             Vector3 directionToCollider = (hitCollider.transform.position - npc.transform.position).normalized;
@@ -183,6 +228,7 @@ public class NPC : MonoBehaviour
             if (Vector3.Dot(directionToCollider, collisionDirection) > 0)
             {
                 //Ignore collision on the wrong diraction
+                
                 continue;
             }
            
@@ -191,11 +237,13 @@ public class NPC : MonoBehaviour
 
                 //Stop the NavMeshAgent of the current NPC if another NPC is in the surrounding area
                 navMeshAgent.isStopped = true;
+                
                 return;
             }
         }
         // If no other NPC is nearby, continue the NavMeshAgent
         navMeshAgent.isStopped = false;
+        
     }
     IEnumerator SpawnNPC()
     {
@@ -213,14 +261,15 @@ public class NPC : MonoBehaviour
             {
             count++;
             npc.name = ("Customer " + count);
-            
+            npc.tag = "npc";
             npcList.Add(new Npc
             {
                 ID = count,
                 Object = npc,
                 Name = npc.name,
                 Order = orderClass.GenerateOrder(),
-                OrderStatus = true
+                OrderStatus = true,
+                WaitingStatus = false,
             });
                 //Pass global parameters. Important for NPCCanvas Script
                 if (npcList.Count > 0)
