@@ -1,12 +1,12 @@
-
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenuUI;
 
-    void Start()
+    public void Start()
     {
+        mainMenuUI.SetActive(true);
         Time.timeScale = 0f;
     }
   
