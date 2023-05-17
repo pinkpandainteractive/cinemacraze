@@ -1,37 +1,47 @@
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
-using static NPC;
+
 
 public class TimeScript : MonoBehaviour
 {
 
     public NPC npc;
-    public GameObject npcObject;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-    public Text spielzeitText;
+    public Text gametimeText;
+    float _gametime;
+    int _minuten;
+    int _sekunden;
+    float _generatedTime = 10.0f;
+  
     // Update is called once per frame
     void Update()
     {
-        float spielzeit = Time.time;
-        int minuten = Mathf.FloorToInt(spielzeit / 60f);
-        int sekunden = Mathf.FloorToInt(spielzeit % 60f);
-        spielzeitText.text = "Spielzeit: " + minuten.ToString("00") + ":" + sekunden.ToString("00");
-        
-        
-       
-        for (int j = 0; j < npc.npcList.Count; j++)
-        {
-           
-            if (npc.npcList[j].WaitingStatus == true)
-            {
-                
-            }
+        _gametime = Time.time;
+        _minuten = Mathf.FloorToInt(_gametime / 60f);
+        _sekunden = Mathf.FloorToInt(_gametime % 60f);
+        gametimeText.text = _minuten.ToString("00") + ":" + _sekunden.ToString("00");
 
+        string border1 = "00:10";
+        string border2 = "00:30";
+        string border3 = "01:00";
+
+        if (gametimeText.text == border1)
+        {
+            _generatedTime = 8.0f;
         }
+        if (gametimeText.text == border2)
+        {
+            _generatedTime = 6.0f;
+        }
+        if (gametimeText.text == border3)
+        {
+            _generatedTime = 4.0f;
+        }
+        
+    }
+
+    public float generateWaitingTime()
+    {
+        return _generatedTime;
     }
 }

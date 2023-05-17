@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
+using static NPC;
 
 public class NPCCanvas : MonoBehaviour
 {
     public GameObject npcObject;
     public NPC npc;
+    public ZoneScript zone;
     public Text canvasText;
-    private Canvas canvas;
+    private Canvas _canvas;
 
     void Start()
     {
         // Accessing the Canvas Component
-        canvas = GetComponent<Canvas>();
+        _canvas = GetComponent<Canvas>();
 
         // Creates the order text for the customer
             List<string> listOrder = npc.npcOrder;
@@ -26,16 +29,16 @@ public class NPCCanvas : MonoBehaviour
                 }
 
             }
+        
     }
 
     void Update()
     {
-
         // Sets the position of the canvas GameObject to the position of the NPC GameObject
-        canvas.transform.position = npcObject.transform.position;
+        _canvas.transform.position = npcObject.transform.position;
 
         //canvas.transform.Translate(Vector3.up);
         // Moves the Canvas GameObject in the local Z-axis
-        canvas.transform.Translate(Vector3.back);
+        _canvas.transform.Translate(Vector3.back);
     }
 }

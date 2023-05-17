@@ -1,20 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
-using static NPC;
+
 
 public class NPC : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform[] waypoints;
     public GameObject npcPrefab; // Prefab for the npc
-    public GameObject zone;
-
-
     public List<Npc> npcList = new List<Npc>();
     public List<string> npcOrder;
     public float spawnTime = 5f;
@@ -22,10 +16,10 @@ public class NPC : MonoBehaviour
     public MainMenu mainMenu;
     public Order orderClass;
     
-    private Vector3 spawnPosition;
-    private int count = 0;
-    private int countStatus = 0;
-    private bool checkStatus = false;
+    private Vector3 _spawnPosition;
+    private int _count = 0;
+    private int _countStatus = 0;
+    private bool _spawnMax = false;
     
     public class Npc
     {
@@ -35,13 +29,14 @@ public class NPC : MonoBehaviour
         public List<string> Order { get; set; }
         //OrderStatus = true means that the order has not yet been processed
         public bool OrderStatus { get; set; }
-        public bool WaitingStatus { get; set; }
+        
+        
     }
 
 
     private void Start()
     {
-        spawnPosition = new Vector3(-399.7f, 1.3f, -14.0f); //Spawn position npc
+        _spawnPosition = new Vector3(-399.7f, 1.3f, -14.0f); //Spawn position npc
         StartCoroutine(SpawnNPC());
     }
 
@@ -85,36 +80,13 @@ public class NPC : MonoBehaviour
             {
                 if (npcList[i].Object != null)
                 {
-                    CheckCollisionNPC(npcList[i].Object, npcList[i].OrderStatus, i);
+                    CheckCollisionNPC(npcList[i].Object, npcList[i].OrderStatus, i, npcList[i].OrderStatus);
                     DestroyNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[waypoints.Length - 1].position);
                 }
             }
         }
 
-        // Prüfe, ob sich der NPC innerhalb der Wartezone befindet
-        Collider[] colliders = Physics.OverlapBox(zone.transform.position, zone.transform.localScale / 2f);
-        float speed = -1;
-        bool isInZone = false;
-        foreach (Collider col in colliders)
-        {
-            
-            if (col.gameObject.tag == "npc")
-            {
-                speed = col.GetComponent<NavMeshAgent>().velocity.magnitude;
-                isInZone = true;
-                break;
-            }
-        }
-        if (isInZone && speed == 0)
-        {
-            Debug.Log("NPC befindet sich innerhalb der Wartezone und steht still!");
-        }
-        
-
-        //Status for npc; true means the maximum of npcs exists on the scene (3)
-        checkStatus = NPCStatus();
-
-
+        NPCOrderStatus();
     }
     
     /*
@@ -143,22 +115,18 @@ public class NPC : MonoBehaviour
             }
                 
         }
-
+        //The lists are equal
         return true;
     }
 
-    private bool DestroyNPC(GameObject npc, Vector3 positionNPC, Vector3 endTarget)
+    private void DestroyNPC(GameObject npc, Vector3 positionNPC, Vector3 endTarget)
     {
 
         if (Vector3.Distance(positionNPC, endTarget) < 2.5f && npc != null)
         {
-            Debug.Log("Destroy npc: " + npc.name);
+            Debug.Log("Destroyed " + npc.name);
             Destroy(npc);
-            return true;
         }
-
-        return false;
-
     }
 
     private void MoveNPCToEnd(GameObject npc)
@@ -166,116 +134,84 @@ public class NPC : MonoBehaviour
         npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[waypoints.Length - 1].position);
     }
 
-    private bool NPCStatus()
+    private void NPCOrderStatus()
     {
         if (npcList != null)
         {
-            countStatus = 0;
+            _countStatus = 0;
             npcList.ForEach(x =>
             {
                 if (x.OrderStatus == true)
                 {
-                    countStatus++;
+                    _countStatus++;
                 }
             });
 
-            if (countStatus >= 3)
+            if (_countStatus >= 3)
             {
-
                 StopCoroutine(SpawnNPC());
-                checkStatus = true;
-                return true;
+                _spawnMax = true;
             }
-            if (countStatus < 3 && checkStatus == true)
+            if (_countStatus < 3 && _spawnMax == true)
             {
-
                 StartCoroutine(SpawnNPC());
-                checkStatus = false;
-                return false;
+                _spawnMax = false;
             }
         }
-        return false;
+        
     }
 
-    private void CheckCollisionNPC(GameObject npc, bool status, int npcNumber)
+    private void CheckCollisionNPC(GameObject npc, bool status, int npcNumber, bool orderStatus)
     {
         NavMeshAgent navMeshAgent = npc.GetComponent<NavMeshAgent>();
 
-
-        float speed = navMeshAgent.velocity.magnitude;
-
-        
-       
-
-        //Debug.Log("NPC " + targetPosition + " Ziel "+ waypoints[0].position);
-        if (speed == 0 )
-        {
-            npcList[npcNumber].WaitingStatus = true;
-        }
-        else
-        {
-            npcList[npcNumber].WaitingStatus = false;
-        }
-        Vector3 collisionDirection = new Vector3(0, 0, -1); // negative Z-Richtung
-
-        
         Collider[] colliders = Physics.OverlapBox(npc.transform.position, npc.transform.localScale / 1.0f, 
             Quaternion.identity, LayerMask.GetMask("npc"));
         foreach (Collider hitCollider in colliders)
         {
-            Vector3 directionToCollider = (hitCollider.transform.position - npc.transform.position).normalized;
-            
-            if (Vector3.Dot(directionToCollider, collisionDirection) > 0)
-            {
-                //Ignore collision on the wrong diraction
-                
-                continue;
-            }
-           
-            if (Vector3.Dot(directionToCollider, collisionDirection) < 0 && status == true)
+            if (hitCollider.gameObject != npc.gameObject && orderStatus == true)
             {
 
-                //Stop the NavMeshAgent of the current NPC if another NPC is in the surrounding area
+                // Stop the NavMeshAgent of the current NPC if another NPC is in the environment
                 navMeshAgent.isStopped = true;
-                
+
                 return;
             }
         }
-        // If no other NPC is nearby, continue the NavMeshAgent
+
+        // If no other NPC is around, continue the NavMeshAgent
         navMeshAgent.isStopped = false;
-        
+
     }
     IEnumerator SpawnNPC()
     {
         while (true)
         {
             //Npc no longer spawn if 3 Npcs exist in the current scene
-            if (countStatus >= 3)
+            if (_countStatus >= 3)
             {
                 break;
             }
 
             yield return new WaitForSeconds(spawnTime); // Wait for a certain time
-            GameObject npc = Instantiate(npcPrefab, spawnPosition, Quaternion.identity); // Create a new NPC at the position of the last NPC
+            GameObject npc = Instantiate(npcPrefab, _spawnPosition, Quaternion.identity); // Create a new NPC at the position of the last NPC
             if (npc != null)
             {
-            count++;
-            npc.name = ("Customer " + count);
+            _count++;
+            npc.name = ("Customer " + _count);
             npc.tag = "npc";
             npcList.Add(new Npc
             {
-                ID = count,
+                ID = _count,
                 Object = npc,
                 Name = npc.name,
                 Order = orderClass.GenerateOrder(),
-                OrderStatus = true,
-                WaitingStatus = false,
+                OrderStatus = true
             });
                 //Pass global parameters. Important for NPCCanvas Script
                 if (npcList.Count > 0)
                 {
-                   
-                    npcOrder = npcList[count - 1].Order;
+                    npcOrder = npcList[_count - 1].Order;
                 }
                 
                 npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position); //After spawning move to the bar

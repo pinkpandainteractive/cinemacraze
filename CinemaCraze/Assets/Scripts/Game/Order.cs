@@ -1,8 +1,6 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
 
 public class Order : MonoBehaviour
 {
@@ -12,8 +10,6 @@ public class Order : MonoBehaviour
     public List<string> GenerateOrder()
     {
         List<string> listOrder = new List<string>();
-        //if (mainMenu != null){
-            //if (!mainMenu.mainMenuUI.activeInHierarchy){
                
                 if (Random.Range(0, 10) > 5)
                 {
@@ -40,13 +36,6 @@ public class Order : MonoBehaviour
                     listOrder.Sort();
                     return listOrder;
                 }
-          //  }
-        //}
-       // return listOrder;
     }
-    /*public void DeleteOrder(List<string> listOrder)
-    {
-        listOrder.Clear();
-        order.text = "";
-    }*/
+    
 }
