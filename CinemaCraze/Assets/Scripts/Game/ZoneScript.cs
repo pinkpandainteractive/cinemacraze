@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class ZoneScript : MonoBehaviour
 {
 
+    public GameObject _gameOverScreen;
+    public GameObject _gameOverlayUI;
+
     int lives = 3;
     GameObject _heart3;
     GameObject _heart2;
@@ -13,7 +16,9 @@ public class ZoneScript : MonoBehaviour
 
     public float waitTime = 10f;
     public Transform[] waypoints;
+
     public TimeScript timeScript;
+
     public NPC npcList;
     private readonly Dictionary<GameObject, float> _npcTimers = new();
     private bool _inZone = false;
@@ -86,11 +91,13 @@ public class ZoneScript : MonoBehaviour
                         }
                         else if (lives == 1)
                         {
+                            Debug.Log("Game Over");
                             _heart1 = GameObject.Find("Heart1");
                             _heart1.SetActive(false);
                             lives--;
-                            Debug.Log("Game Over");
                             Time.timeScale = 0f;
+                            _gameOverScreen.SetActive(true);
+                            _gameOverlayUI.SetActive(false);
                         }
                     }
                     else

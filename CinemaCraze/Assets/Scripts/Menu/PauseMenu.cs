@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using MainMenu;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -48,11 +47,8 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("Loading Main Menu");
         pauseMenuUI.SetActive(false);
+        mainMenuUI.SetActive(true);
+        Time.timeScale = 0f;
     }
-
-    public void QuitGame()
-    {
-        Debug.Log("Quitting Game");
-        Application.Quit();
-    }
+    
 }

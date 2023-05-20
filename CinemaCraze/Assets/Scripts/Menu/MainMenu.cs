@@ -3,10 +3,10 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenuUI;
+    public GameObject gameOverlayUI;
 
     public void Start()
     {
-        mainMenuUI.SetActive(true);
         Time.timeScale = 0f;
     }
   
@@ -14,13 +14,8 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Loading Game");
         Time.timeScale = 1f;
+        gameOverlayUI.SetActive(true);
         mainMenuUI.SetActive(false);   
-    }
-
-    public void QuitGame()
-    {
-        Debug.Log("Quitting Game");
-        Application.Quit();
     }
 
 }
