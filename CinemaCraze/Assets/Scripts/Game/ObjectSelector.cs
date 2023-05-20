@@ -45,8 +45,7 @@ public class ObjectSelector : MonoBehaviour
                 GameObject clickedObject = hit.collider.gameObject;
 
                 //Allows only the modification of objects with this name
-                if (clickedObject.name.Equals("Popcorn") || clickedObject.name.Equals("Nacho") ||
-                    clickedObject.name.Equals("Cash") || clickedObject.name.Equals("Customer"))
+                if (clickedObject.name.Equals("Popcorn") || clickedObject.name.Equals("Nacho"))
                 {
 
 
@@ -81,17 +80,9 @@ public class ObjectSelector : MonoBehaviour
 
                         }
 
-                        if (saveOldText.Equals("Cash"))
-                        {
-                            GameObject.Find("Cash").GetComponent<Renderer>().material = matl_cash;
+                        
 
-                        }
-
-                        if (saveOldText.Equals("Customer"))
-                        {
-                            GameObject.Find("Customer").GetComponent<Renderer>().material.color = Color.white;
-
-                        }
+                        
                     }
 
 
@@ -117,17 +108,8 @@ public class ObjectSelector : MonoBehaviour
 
                         }
 
-                        if (saveOldText.Equals("Cash"))
-                        {
-                            GameObject.Find("Cash").GetComponent<Renderer>().material = matl_cash;
 
-                        }
-
-                        if (saveOldText.Equals("Customer"))
-                        {
-                            GameObject.Find("Customer").GetComponent<Renderer>().material.color = Color.white;
-
-                        }
+                        
 
                     }
 
