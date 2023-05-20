@@ -36,7 +36,7 @@ public class ZoneScript : MonoBehaviour
         {
             GameObject npc = other.gameObject;
             _npcTimers.Remove(npc);
-            Destroy(npc.transform.GetChild(0).gameObject);
+            Destroy(npc.transform.GetChild(0).gameObject); // TODO manchmal fliegt hier ne 'OutOfBoundsException'
 
             if (_npcTimers.Count == 0)
             {
