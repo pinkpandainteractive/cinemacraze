@@ -12,7 +12,7 @@ public class TimeScript : MonoBehaviour
     int _minuten;
     int _sekunden;
     float _generatedTime = 10.0f;
-  
+
     // Update is called once per frame
     void Update()
     {
@@ -37,7 +37,7 @@ public class TimeScript : MonoBehaviour
         {
             _generatedTime = 4.0f;
         }
-        
+
     }
 
     public float generateWaitingTime()

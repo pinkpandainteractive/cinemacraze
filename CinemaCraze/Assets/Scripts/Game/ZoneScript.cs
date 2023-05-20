@@ -5,12 +5,19 @@ using UnityEngine.UI;
 
 public class ZoneScript : MonoBehaviour
 {
+
+    int lives = 3;
+    GameObject _heart3;
+    GameObject _heart2;
+    GameObject _heart1;
+
     public float waitTime = 10f;
     public Transform[] waypoints;
     public TimeScript timeScript;
     public NPC npcList;
     private readonly Dictionary<GameObject, float> _npcTimers = new();
     private bool _inZone = false;
+
 
 
     private void OnTriggerEnter(Collider other)
@@ -38,22 +45,20 @@ public class ZoneScript : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (_inZone)
         {
             // Erstelle eine separate Liste von NPCs zum Iterieren
             List<GameObject> npcsToIterate = new List<GameObject>(_npcTimers.Keys);
-
             foreach (GameObject npc in npcsToIterate)
             {
                 NavMeshAgent navMeshAgent = npc.GetComponent<NavMeshAgent>();
 
-                
                 float speed = navMeshAgent.velocity.magnitude;
-                if(speed == 0.0f)
+                if (speed == 0.0f)
                 {
-                
+
                     if (_npcTimers[npc] <= 0f)
                     {
                         // Time's up, move NPC to next waypoint
@@ -65,7 +70,28 @@ public class ZoneScript : MonoBehaviour
                                 x.OrderStatus = false;
                             }
                         });
-                     
+
+                        Debug.Log("Time's up for " + npc.name);
+                        if (lives == 3)
+                        {
+                            _heart3 = GameObject.Find("Heart3");
+                            _heart3.SetActive(false);
+                            lives--;
+                        }
+                        else if (lives == 2)
+                        {
+                            _heart2 = GameObject.Find("Heart2");
+                            _heart2.SetActive(false);
+                            lives--;
+                        }
+                        else if (lives == 1)
+                        {
+                            _heart1 = GameObject.Find("Heart1");
+                            _heart1.SetActive(false);
+                            lives--;
+                            Debug.Log("Game Over");
+                            Time.timeScale = 0f;
+                        }
                     }
                     else
                     {
@@ -77,7 +103,7 @@ public class ZoneScript : MonoBehaviour
                         timerTextComponent.text = _npcTimers[npc].ToString("F1");
                     }
                 }
-                
+
             }
         }
     }
