@@ -384,7 +384,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 77919373}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -405.19, y: 0.36, z: 13.12}
+  m_LocalPosition: {x: -405.26, y: 0.36, z: 14.91}
   m_LocalScale: {x: 0.26766786, y: 0.26766786, z: 0.26766786}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5514,6 +5514,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npc: {fileID: 2097748156}
   gametimeText: {fileID: 1507413477}
+  basetime: 30
+  popcornTime: 3
+  nachoTime: 4
+  timeBorder1: 00:30
+  timeBorder2: 01:00
+  timeBorder3: 01:30
 --- !u!1 &1451971048
 GameObject:
   m_ObjectHideFlags: 0
@@ -8493,7 +8499,6 @@ MonoBehaviour:
   - {fileID: 1074504569}
   - {fileID: 77919377}
   npcPrefab: {fileID: 669542819}
-  npcOrder: []
   spawnTime: 2
   objectSelector: {fileID: 1409852034}
   orderClass: {fileID: 1813931984}

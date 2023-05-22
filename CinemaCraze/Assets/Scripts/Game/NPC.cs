@@ -12,7 +12,6 @@ public class NPC : MonoBehaviour
     public Transform[] waypoints;
     public GameObject npcPrefab; // Prefab for the npc
     public List<Npc> npcList = new List<Npc>();
-    public List<string> npcOrder;
     public float spawnTime = 5f;
     public ObjectSelector objectSelector;
     public Order orderClass;
@@ -58,22 +57,29 @@ public class NPC : MonoBehaviour
                 if (clickedObject != null && clickedObject.name.Contains("Customer") && npcList != null
                     && objectSelector.listSelectedObjects != null)
                 {
-                    npcList.ForEach(x =>
+
+                    if (npcList.Count > 0)
                     {
-                        if (x.Name == clickedObject.name)
+                        for (int i = 0; i < npcList.Count; i++)
                         {
-                            if (CheckMatch(npcList[x.ID - 1].Order, objectSelector.listSelectedObjects) == true)
+                            if (npcList[i].Object != null)
                             {
-                                MoveNPCToEnd(clickedObject);
-                                objectSelector.Delete();
-                                npcList[x.ID - 1].OrderStatus = false;
+                                if (npcList[i].Name == clickedObject.name)
+                                {
+                                    if (CheckMatch(npcList[i].Order, objectSelector.listSelectedObjects) == true)
+                                    {
+                                        MoveNPCToEnd(clickedObject);
+                                        objectSelector.Delete();
+                                        npcList[i].OrderStatus = false;
+                                    }
+                                }
                             }
                         }
-                    });
+                    }
                 }
             }
         }
-
+       
         //Go through all npc and see if they need to be deleted or collide with each other
         if (npcList != null)
         {
@@ -82,7 +88,7 @@ public class NPC : MonoBehaviour
                 if (npcList[i].Object != null)
                 {
                     CheckCollisionNPC(npcList[i].Object, npcList[i].OrderStatus, i, npcList[i].OrderStatus);
-                    DestroyNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[waypoints.Length - 1].position);
+                    DestroyNPC(npcList[i].Object, npcList[i].Object.transform.position, waypoints[waypoints.Length - 1].position, npcList[i]);
                 }
             }
         }
@@ -96,7 +102,7 @@ public class NPC : MonoBehaviour
 
     bool CheckMatch(List<string> l1, List<string> l2)
     {
-
+       
         if (l1.Count == 0 || l2.Count == 0)
         {
             return false;
@@ -120,12 +126,13 @@ public class NPC : MonoBehaviour
         return true;
     }
 
-    private void DestroyNPC(GameObject npc, Vector3 positionNPC, Vector3 endTarget)
+    private void DestroyNPC(GameObject npc, Vector3 positionNPC, Vector3 endTarget, Npc npcListNPC)
     {
 
         if (Vector3.Distance(positionNPC, endTarget) < 2.5f && npc != null)
         {
-            Debug.Log("Destroyed " + npc.name);
+            //Debug.Log("Destroyed " + npc.name);
+            npcList.Remove(npcListNPC);
             Destroy(npc);
         }
     }
@@ -209,11 +216,7 @@ public class NPC : MonoBehaviour
                     Order = orderClass.GenerateOrder(),
                     OrderStatus = true
                 });
-                //Pass global parameters. Important for NPCCanvas Script
-                if (npcList.Count > 0)
-                {
-                    npcOrder = npcList[_count - 1].Order;
-                }
+                
 
                 npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position); //After spawning move to the bar
                 yield return null;

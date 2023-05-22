@@ -16,19 +16,31 @@ public class NPCCanvas : MonoBehaviour
     {
         // Accessing the Canvas Component
         _canvas = GetComponent<Canvas>();
-
-        // Creates the order text for the customer
-            List<string> listOrder = npc.npcOrder;
-            canvasText.text = "";
-            for (int j = 0; j < listOrder.Count; j++)
+        if(npc.npcList.Count > 0 )
+        {
+            for(int i = 0; i < npc.npcList.Count; i++)
             {
-                canvasText.text += listOrder[j];
-                if (j + 1 < listOrder.Count)
+                if (npc.npcList[i] != null)
                 {
-                    canvasText.text += ", ";
-                }
+                    if (npc.npcList[i].Name == npcObject.name)
+                    {
+                        // Creates the order text for the customer
+                        List<string> listOrder = npc.npcList[i].Order;
+                        canvasText.text = "";
+                        for (int j = 0; j < listOrder.Count; j++)
+                        {
+                            canvasText.text += listOrder[j];
+                            if (j + 1 < listOrder.Count)
+                            {
+                                canvasText.text += ", ";
+                            }
 
+                        }
+                    } 
+                }
             }
+        }
+        
         
     }
 

@@ -30,7 +30,7 @@ public class ZoneScript : MonoBehaviour
         if (other.gameObject.CompareTag("npc"))
         {
             GameObject npc = other.gameObject;
-            _npcTimers.Add(npc, timeScript.generateWaitingTime());
+            _npcTimers.Add(npc, timeScript.generateWaitingTime(npc));
             _inZone = true;
         }
     }
