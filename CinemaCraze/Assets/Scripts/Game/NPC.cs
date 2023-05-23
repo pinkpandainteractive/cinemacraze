@@ -7,7 +7,9 @@ using UnityEngine.UI;
 
 public class NPC : MonoBehaviour
 {
-
+    public Camera CameraMain;
+    public Camera CameraProduct;
+    public CameraSwitch CameraSwitch;
     public NavMeshAgent agent;
     public Transform[] waypoints;
     public GameObject npcPrefab; // Prefab for the npc
@@ -47,7 +49,16 @@ public class NPC : MonoBehaviour
         //Handle mouse click on npc
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray;
+            if (CameraSwitch.isCameraMainActive == true)
+            {
+                ray = CameraMain.ScreenPointToRay(Input.mousePosition);
+            }
+            else
+            {
+                ray = CameraProduct.ScreenPointToRay(Input.mousePosition);
+            }
+            
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {

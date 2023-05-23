@@ -8,12 +8,15 @@ using UnityEngine.UI;
 
 public class ObjectSelector : MonoBehaviour
 {
-
+    public Camera CameraMain;
+    public Camera CameraProduct;
+    public CameraSwitch CameraSwitch;
     public Text selectedObjectText;
     public Material matl_popcorn;
     public Material matl_nacho;
     public Material matl_cash;
     public Material matl_selected;
+    public Material matl_colorPalette;
 
     public Button btn_delete;
     public MainMenu menuStatus;
@@ -36,7 +39,15 @@ public class ObjectSelector : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray;
+            if (CameraSwitch.isCameraMainActive == true)
+            {
+                ray = CameraMain.ScreenPointToRay(Input.mousePosition);
+            }
+            else
+            {
+                ray = CameraProduct.ScreenPointToRay(Input.mousePosition);
+            }
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
@@ -70,7 +81,7 @@ public class ObjectSelector : MonoBehaviour
                         // Deselect previously selected object
                         if (saveOldText.Equals("Popcorn"))
                         {
-                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_popcorn;
+                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_colorPalette;
 
                         }
 
@@ -98,7 +109,7 @@ public class ObjectSelector : MonoBehaviour
                         // Deselect previously selected object
                         if (saveOldText.Equals("Popcorn"))
                         {
-                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_popcorn;
+                            GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_colorPalette;
 
                         }
 
