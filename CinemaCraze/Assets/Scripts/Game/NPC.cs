@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class NPC : MonoBehaviour
 {
+    public TMP_Text scoreText;
     public Camera CameraMain;
     public Camera CameraProduct;
     public CameraSwitch CameraSwitch;
@@ -79,9 +81,14 @@ public class NPC : MonoBehaviour
                                 {
                                     if (CheckMatch(npcList[i].Order, objectSelector.listSelectedObjects) == true)
                                     {
+                                        Debug.Log("Order is correct");
                                         MoveNPCToEnd(clickedObject);
                                         objectSelector.Delete();
                                         npcList[i].OrderStatus = false;
+
+                                        //Add 100 points to the score
+                                        scoreText.text = (int.Parse(scoreText.text) + 100).ToString();
+
                                     }
                                 }
                             }
