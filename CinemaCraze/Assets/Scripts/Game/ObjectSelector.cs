@@ -11,19 +11,21 @@ public class ObjectSelector : MonoBehaviour
     public Camera CameraMain;
     public Camera CameraProduct;
     public CameraSwitch CameraSwitch;
+
     public Text selectedObjectText;
     public Material matl_popcorn;
     public Material matl_nacho;
     public Material matl_cash;
     public Material matl_selected;
     public Material matl_colorPalette;
-
     public Button btn_delete;
     public MainMenu menuStatus;
-    //private List<GameObject> selectedObjectsList = new List<GameObject>();
-    string saveOldText = "";
-    public List<string> listSelectedObjects = new List<string>();
-    public Dictionary<GameObject, int> selectedObjects = new Dictionary<GameObject, int>();
+    
+    
+    public List<string> listSelectedObjects = new ();
+    public Dictionary<GameObject, int> selectedObjects = new ();
+
+    string _saveOldText = "";
 
     // Start is called before the first frame update
     void Start()
@@ -56,11 +58,8 @@ public class ObjectSelector : MonoBehaviour
                 GameObject clickedObject = hit.collider.gameObject;
 
                 //Allows only the modification of objects with this name
-                if (clickedObject.name.Equals("Popcorn") || clickedObject.name.Equals("Nacho"))
+                if (clickedObject.name.Equals("Popcorn") || clickedObject.name.Equals("Nacho") || clickedObject.name.Equals("Soda"))
                 {
-
-
-
 
                     if (selectedObjects.ContainsKey(clickedObject))
                     {
@@ -76,54 +75,51 @@ public class ObjectSelector : MonoBehaviour
                     UpdateObjectNameText();
 
 
-                    if (clickedObject != null && saveOldText != null)
+                    if (clickedObject != null && _saveOldText != null)
                     {
                         // Deselect previously selected object
-                        if (saveOldText.Equals("Popcorn"))
+                        if (_saveOldText.Equals("Popcorn"))
                         {
                             GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_colorPalette;
-
                         }
 
-                        if (saveOldText.Equals("Nacho"))
+                        if (_saveOldText.Equals("Nacho"))
                         {
                             GameObject.Find("Nacho").GetComponent<Renderer>().material = matl_nacho;
-
                         }
 
-                        
-
-                        
+                        if (_saveOldText.Equals("Soda"))
+                        {
+                            GameObject.Find("Soda").GetComponent<Renderer>().material = matl_colorPalette;
+                        }
                     }
 
 
                     clickedObject.GetComponent<Renderer>().material = matl_selected;
-                    saveOldText = clickedObject.name;
+                    _saveOldText = clickedObject.name;
                 }
                 else
                 {
                     //If you missclick
 
-                    if (clickedObject != null && saveOldText != null)
+                    if (clickedObject != null && _saveOldText != null)
                     {
                         // Deselect previously selected object
-                        if (saveOldText.Equals("Popcorn"))
+                        if (_saveOldText.Equals("Popcorn"))
                         {
                             GameObject.Find("Popcorn").GetComponent<Renderer>().material = matl_colorPalette;
-
                         }
 
-                        if (saveOldText.Equals("Nacho"))
+                        if (_saveOldText.Equals("Nacho"))
                         {
                             GameObject.Find("Nacho").GetComponent<Renderer>().material = matl_nacho;
-
                         }
 
-
-                        
-
+                        if (_saveOldText.Equals("Soda"))
+                        {
+                            GameObject.Find("Soda").GetComponent<Renderer>().material = matl_colorPalette;
+                        }
                     }
-
                 }
                 
                 if (clickedObject.name.Equals("DeleteNacho") && selectedObjects.ContainsKey(GameObject.Find("Nacho"))
@@ -134,7 +130,8 @@ public class ObjectSelector : MonoBehaviour
                     if (selectedObjects[GameObject.Find("Nacho")] == 0)
                     {
                         selectedObjectText.text = " ";
-                        Dictionary<GameObject, int> saveObjects = new Dictionary<GameObject, int>();
+                        Dictionary<GameObject, int> saveObjects = new ();
+
                         foreach (KeyValuePair<GameObject, int> pair in selectedObjects)
                         {
                             if (!pair.Key.name.Equals("Nacho"))
@@ -162,7 +159,8 @@ public class ObjectSelector : MonoBehaviour
                     if (selectedObjects[GameObject.Find("Popcorn")] == 0)
                     {
                         selectedObjectText.text = " ";
-                        Dictionary<GameObject, int> saveObjects = new Dictionary<GameObject, int>();
+                        Dictionary<GameObject, int> saveObjects = new ();
+
                         foreach (KeyValuePair<GameObject, int> pair in selectedObjects)
                         {
                             if (!pair.Key.name.Equals("Popcorn"))
@@ -181,6 +179,36 @@ public class ObjectSelector : MonoBehaviour
                     }
                     UpdateObjectNameText();
                 }
+
+                if (clickedObject.name.Equals("DeleteSoda") && selectedObjects.ContainsKey(GameObject.Find("Soda"))
+                    && selectedObjects[GameObject.Find("Soda")] > 0)
+                {
+
+                    selectedObjects[GameObject.Find("Soda")]--;
+                    if (selectedObjects[GameObject.Find("Soda")] == 0)
+                    {
+                        selectedObjectText.text = " ";
+                        Dictionary<GameObject, int> saveObjects = new();
+
+                        foreach (KeyValuePair<GameObject, int> pair in selectedObjects)
+                        {
+                            if (!pair.Key.name.Equals("Soda"))
+                            {
+                                selectedObjectText.text += pair.Key.name + " x" + pair.Value + " ";
+                                saveObjects.Add(pair.Key, pair.Value);
+                            }
+
+
+                            if (pair.Key != selectedObjects.Keys.Last())
+                            {
+                                selectedObjectText.text += ", ";
+                            }
+                        }
+                        selectedObjects = saveObjects;
+                    }
+                    UpdateObjectNameText();
+                }
+
             }
         }
     }
