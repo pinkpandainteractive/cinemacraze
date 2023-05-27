@@ -6,7 +6,8 @@ using TMPro;
 
 public class NPC : MonoBehaviour
 {
-    public TMP_Text scoreText;
+
+    public Score score;
     public Camera CameraMain;
     public Camera CameraProduct;
     public CameraSwitch CameraSwitch;
@@ -57,7 +58,7 @@ public class NPC : MonoBehaviour
                         npcSpawn.countStatus -= 1;
                         
                         //Add 100 points to the score
-                        scoreText.text = (int.Parse(scoreText.text) + 100).ToString();
+                        score.AddScore(100);
 
                     }
                 }
