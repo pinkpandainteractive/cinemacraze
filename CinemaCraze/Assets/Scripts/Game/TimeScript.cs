@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +9,19 @@ using UnityEngine.UI;
 public class TimeScript : MonoBehaviour
 {
 
-    public NPC npc;
+    
     public Text gametimeText;
-    public float basetime = 30.0f;
+    public float basetimeGeneral = 0.0f;
     public float popcornTime = 3.0f;
     public float nachoTime = 4.0f;
     public string timeBorder1 = "00:30";
+    public float basetimeBorder1 = 0.0f;
     public string timeBorder2 = "01:00";
+    public float basetimeBorder2 = 0.0f;
     public string timeBorder3 = "01:30";
-    float orderTime;
+    public float basetimeBorder3 = 0.0f;
+
+    float _orderTime;
     float _gametime;
     int _minuten;
     int _sekunden;
@@ -36,49 +39,42 @@ public class TimeScript : MonoBehaviour
 
         if (gametimeText.text == timeBorder1)
         {
-            basetime = 20.0f;
+            basetimeGeneral = basetimeBorder1;
         }
         if (gametimeText.text == timeBorder2)
         {
-            basetime = 10.0f;
+            basetimeGeneral = basetimeBorder2;
         }
         if (gametimeText.text == timeBorder3)
         {
-            basetime = 0.0f;
+            basetimeGeneral = basetimeBorder3;
         }
 
     }
 
     public float generateWaitingTime(GameObject npcInOrder)
     {
-        orderTime = 0;
-        for(int i = 0; i < npc.npcList.Count; i++)
-        {
-            if (npcInOrder.name == npc.npcList[i].Name)
-            {
-                List<string> listOrder = new List<string>();
-                listOrder = npc.npcList[i].Order;
-                for (int j = 0; j < listOrder.Count; j++)
-                {
-                    if (listOrder[j] != null)
-                    {
-                        if (listOrder[j].Contains("Popcorn"))
-                        {
-                            string num = Regex.Match(listOrder[j], @"\d+").Value;
-                            orderTime += Int32.Parse(num) * popcornTime;
-                        }
-                        if (listOrder[j].Contains("Nacho"))
-                        {
-                            string num = Regex.Match(listOrder[j], @"\d+").Value;
-                            orderTime += Int32.Parse(num) * nachoTime;
-                        }
-                    }
-                }
-                
-            }
-        }
+        _orderTime = 0;
         
-        _generatedTime = basetime + orderTime;  
+        List<string> listOrder = npcInOrder.GetComponent<CustomComponent>().Order;
+        for (int j = 0; j < listOrder.Count; j++)
+        {
+            if (listOrder[j] != null)
+            {
+                if (listOrder[j].Contains("Popcorn"))
+                {
+                    string num = Regex.Match(listOrder[j], @"\d+").Value;
+                    _orderTime += Int32.Parse(num) * popcornTime;
+                }
+                if (listOrder[j].Contains("Nacho"))
+                {
+                    string num = Regex.Match(listOrder[j], @"\d+").Value;
+                    _orderTime += Int32.Parse(num) * nachoTime;
+                }
+            }   
+        }
+
+        _generatedTime = basetimeGeneral + _orderTime;  
         return _generatedTime;
     }
 }

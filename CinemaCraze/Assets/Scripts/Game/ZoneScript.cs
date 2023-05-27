@@ -16,10 +16,11 @@ public class ZoneScript : MonoBehaviour
 
     public float waitTime = 10f;
     public Transform[] waypoints;
-
+    public NPC npcs;
     public TimeScript timeScript;
-
+    public NPCSpawn npcSpawn;
     public NPC npcList;
+
     private readonly Dictionary<GameObject, float> _npcTimers = new();
     private bool _inZone = false;
 
@@ -68,13 +69,9 @@ public class ZoneScript : MonoBehaviour
                     {
                         // Time's up, move NPC to next waypoint
                         npc.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position);
-                        npcList.npcList.ForEach(x =>
-                        {
-                            if (npc.name == x.Name)
-                            {
-                                x.OrderStatus = false;
-                            }
-                        });
+                        npc.GetComponent<CustomComponent>().OrderStatus = false;
+                        npcSpawn.countStatus -= 1;
+                        
 
                         Debug.Log("Time's up for " + npc.name);
                         if (lives == 3)
