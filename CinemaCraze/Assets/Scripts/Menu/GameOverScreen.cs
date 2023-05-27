@@ -2,34 +2,28 @@ using UnityEngine;
 
 public class GameOverScreen : MonoBehaviour
 {
-    public GameObject gameOverScreen;
-    public GameObject gameOverlayUI;
-    public GameObject mainMenuUI;
+    public GameObject gameOverScreenGO;
+    public MenuManager menuManager;
+    public TimeManager timeManager;
 
-    public void ShowGameOverScreen()
+    public void Show()
     {
-        Debug.Log("Show Game Over Screen");
-        gameOverScreen.SetActive(true);
+        gameOverScreenGO.SetActive(true);
     }
 
-    public void HideGameOverScreen()
+    public void Hide()
     {
-        Debug.Log("Hide Game Over Screen");
-        gameOverScreen.SetActive(false);
+        gameOverScreenGO.SetActive(false);
     }
 
-    public void RestartGame()
+    public void ReturnToMainMenu()
     {
-        Debug.Log("Restart Game");
-        gameOverScreen.SetActive(false);
-        gameOverlayUI.SetActive(true);
-        Time.timeScale = 1f;
-    }
-
-    public void LoadMainMenu()
-    {
-        Debug.Log("Loading Main Menu");
-        gameOverScreen.SetActive(false);
-        mainMenuUI.SetActive(true);
+        Debug.Log("Returning to Main Menu");
+        Hide();
+        menuManager.HideGameOverlay();
+        menuManager.HidePauseMenu();
+        menuManager.DisablePauseMenu();
+        menuManager.ShowMainMenu();
+        timeManager.Pause();
     }
 }

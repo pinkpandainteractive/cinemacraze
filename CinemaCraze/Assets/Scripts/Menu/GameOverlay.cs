@@ -1,20 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOverlay : MonoBehaviour
 {
-    public GameObject overlay;
+    public GameObject gameOverlayGO;
 
-    public void ShowOverlay()
+    public void Show()
     {
-        Debug.Log("Show Overlay");
-        overlay.SetActive(true);
+        gameOverlayGO.SetActive(true);
     }
 
-    public void HideOverlay()
+    public void Hide()
     {
-        Debug.Log("Hide Overlay");
-        overlay.SetActive(false);
+        gameOverlayGO.SetActive(false);
     }
 }

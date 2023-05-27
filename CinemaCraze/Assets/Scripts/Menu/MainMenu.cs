@@ -2,20 +2,33 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject mainMenuUI;
-    public GameObject gameOverlayUI;
-
-    public void Start()
-    {
-        Time.timeScale = 0f;
-    }
+    public GameObject mainMenuGO;
+    public MenuManager menuManager;
+    public TimeManager timeManager;
   
-    public void PlayGame()
+    public void Start() 
     {
-        Debug.Log("Loading Game");
-        Time.timeScale = 1f;
-        gameOverlayUI.SetActive(true);
-        mainMenuUI.SetActive(false);   
+        
+    }
+
+    public void Play()
+    {
+        Debug.Log("Play");
+        menuManager.HideMainMenu();
+        menuManager.HidePauseMenu();
+        menuManager.EnablePauseMenu();
+        menuManager.ShowGameOverlay();
+        timeManager.Resume();
+    }
+
+    public void Show()
+    {
+        mainMenuGO.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        mainMenuGO.SetActive(false);
     }
 
 }

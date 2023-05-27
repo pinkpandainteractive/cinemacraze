@@ -6,8 +6,9 @@ public class Lives : MonoBehaviour
     public GameObject heart3;
     public GameObject heart2;
     public GameObject heart1;
-    public GameOverScreen gameOverScreen;
-    public GameOverlay gameOverlay;
+    
+    public MenuManager menuManager;
+    public TimeManager timeManager;
 
     public void AddLife()
     {
@@ -44,8 +45,10 @@ public class Lives : MonoBehaviour
         {
             heart1.SetActive(false);
             Debug.Log("Game Over");
-            gameOverScreen.ShowGameOverScreen();
-            gameOverlay.HideOverlay();
+            menuManager.ShowGameOverScreen();
+            menuManager.HideGameOverlay();
+            menuManager.DisablePauseMenu();
+            timeManager.Pause();
         }
     }
 
