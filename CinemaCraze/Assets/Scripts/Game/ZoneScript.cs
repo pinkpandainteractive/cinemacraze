@@ -9,10 +9,8 @@ public class ZoneScript : MonoBehaviour
     public GameObject _gameOverScreen;
     public GameObject _gameOverlayUI;
 
-    int lives = 3;
-    GameObject _heart3;
-    GameObject _heart2;
-    GameObject _heart1;
+
+    public Lives lives;
 
     public float waitTime = 10f;
     public Transform[] waypoints;
@@ -72,30 +70,7 @@ public class ZoneScript : MonoBehaviour
                         npc.GetComponent<CustomComponent>().OrderStatus = false;
                         npcSpawn.countStatus -= 1;
                         
-
-                        Debug.Log("Time's up for " + npc.name);
-                        if (lives == 3)
-                        {
-                            _heart3 = GameObject.Find("Heart3");
-                            _heart3.SetActive(false);
-                            lives--;
-                        }
-                        else if (lives == 2)
-                        {
-                            _heart2 = GameObject.Find("Heart2");
-                            _heart2.SetActive(false);
-                            lives--;
-                        }
-                        else if (lives == 1)
-                        {
-                            Debug.Log("Game Over");
-                            _heart1 = GameObject.Find("Heart1");
-                            _heart1.SetActive(false);
-                            lives--;
-                            Time.timeScale = 0f;
-                            _gameOverScreen.SetActive(true);
-                            _gameOverlayUI.SetActive(false);
-                        }
+                        lives.LoseLife();
                     }
                     else
                     {
