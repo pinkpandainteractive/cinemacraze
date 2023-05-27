@@ -19,6 +19,18 @@ public class TimeManager : MonoBehaviour {
         Time.timeScale = 1f;
     }
 
+    public void Toggle()
+    {
+        Debug.Log("Toggling Time");
+        if(Time.timeScale == 0f)
+        {
+            Resume();
+        } else
+        {
+            Pause();
+        }
+    }
+
     public void SetTimeScale(float scale)
     {
         Debug.Log("Setting Time Scale to " + scale);

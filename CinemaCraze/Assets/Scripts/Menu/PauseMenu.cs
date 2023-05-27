@@ -9,10 +9,13 @@ public class PauseMenu : MonoBehaviour
     public bool Enabled = true;
 
 
-    // Update is called once per frame
-    void Update()
+    public void Start() {
+        Debug.Log("Start PauseMenu");
+    }
+    public void Toggle()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        Debug.Log("Toggle PauseMenu");
+        if(Enabled)
         {
             if(paused)
             {

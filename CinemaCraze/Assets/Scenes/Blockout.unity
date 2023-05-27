@@ -1595,8 +1595,8 @@ MonoBehaviour:
   heart3: {fileID: 1338903765}
   heart2: {fileID: 563748039}
   heart1: {fileID: 1179714767}
-  menuManager: {fileID: 0}
-  timeManager: {fileID: 0}
+  menuManager: {fileID: 321129536}
+  timeManager: {fileID: 1629263767}
 --- !u!1 &461612212 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6e693b38ad778cd48801b3eeeaaf2974, type: 3}
@@ -6005,6 +6005,7 @@ MonoBehaviour:
   pauseMenuGO: {fileID: 1451971048}
   menuManager: {fileID: 321129536}
   timeManager: {fileID: 1629263767}
+  paused: 0
 --- !u!1 &1463098977
 GameObject:
   m_ObjectHideFlags: 0
@@ -6704,7 +6705,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1451971052}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: ReturnToMainMenu
         m_Mode: 1
@@ -8861,7 +8862,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1451971052}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
