@@ -8,9 +8,6 @@ public class NPC : MonoBehaviour
 {
 
     public Score score;
-    public Camera CameraMain;
-    public Camera CameraProduct;
-    public CameraSwitch CameraSwitch;
     public NavMeshAgent agent;
     public Transform waypointEnd;
     public GameObject npcPrefab; // Prefab for the npc
@@ -20,54 +17,25 @@ public class NPC : MonoBehaviour
     public NPCSpawn npcSpawn;
 
 
-    private void Update()
+    public void Interact(GameObject npc)
     {
-
-        if (Input.GetMouseButtonDown(0))
+        if (objectSelector.listSelectedObjects != null)
         {
-
-            Ray ray;
-            if (CameraSwitch.isCameraMainActive == true)
+            if (CheckMatch(npc.GetComponent<CustomComponent>().Order, objectSelector.listSelectedObjects) == true)
             {
-                ray = CameraMain.ScreenPointToRay(Input.mousePosition);
-            }
-            else
-            {
-                ray = CameraProduct.ScreenPointToRay(Input.mousePosition);
-            }
-            int layerMask = ~LayerMask.GetMask("WaitingZone"); //Ignore WaitingZone
+                Debug.Log("Order is correct");
+                MoveNPCToEnd(npc);
+                objectSelector.Delete();
+                npc.GetComponent<CustomComponent>().OrderStatus = false;
+                npcSpawn.countStatus -= 1;
 
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-            {
-
-                //Define clickedObject
-                GameObject clickedObject = hit.collider.gameObject;
-
-                //If you click on the npc, it moves to the next waypoint (waypoint end)
-                if (clickedObject != null && clickedObject.name.Contains("Customer")
-                    && objectSelector.listSelectedObjects != null)
-                {
-
-                    if (CheckMatch(clickedObject.GetComponent<CustomComponent>().Order, objectSelector.listSelectedObjects) == true)
-                    {
-                        Debug.Log("Order is correct");
-                        MoveNPCToEnd(clickedObject);
-                        objectSelector.Delete();
-                        clickedObject.GetComponent<CustomComponent>().OrderStatus = false;
-                        npcSpawn.countStatus -= 1;
-                        
-                        //Add 100 points to the score
-                        score.AddScore(100);
-
-                    }
-                }
+                // * Add 100 points to the score
+                score.AddScore(100);
             }
         }
-     
     }
 
-   
+
 
     private void MoveNPCToEnd(GameObject npc)
     {
