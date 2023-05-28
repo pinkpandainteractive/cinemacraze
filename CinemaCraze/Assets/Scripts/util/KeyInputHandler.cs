@@ -19,6 +19,7 @@ public class KeyInputHandler : MonoBehaviour
         // * Toggles if the time is paused
         else if(Input.GetKeyDown(KeyCode.P))
         {
+            
             timeManager.Toggle();
         }
 
