@@ -19,25 +19,28 @@ public class NPC : MonoBehaviour
 
     public void Interact(GameObject npc)
     {
-        if (objectSelector.listSelectedObjects != null)
-        {
-            if (CheckMatch(npc.GetComponent<CustomComponent>().Order, objectSelector.listSelectedObjects) == true)
-            {
-                Debug.Log("Order is correct");
-                MoveNPCToEnd(npc);
-                objectSelector.Delete();
-                npc.GetComponent<CustomComponent>().OrderStatus = false;
-                npcSpawn.countStatus -= 1;
+        if (objectSelector.listSelectedObjects == null) return;
 
-                // * Add 100 points to the score
-                score.AddScore(100);
-            }
+        if (CheckMatch(npc.GetComponent<CustomComponent>().Order, objectSelector.listSelectedObjects))
+        {
+            Debug.Log("Order is correct");
+            MoveNPCToEnd(npc);
+            objectSelector.Delete();
+            npc.GetComponent<CustomComponent>().OrderStatus = false;
+            npcSpawn.countStatus -= 1;
+
+            // * Add 100 points to the score
+            score.AddScore(100);
+        }
+        else
+        {
+            Debug.Log("Order is incorrect");
+            // * Add -100 points to the score
+            score.AddScore(-100);
         }
     }
 
-
-
-    private void MoveNPCToEnd(GameObject npc)
+    void MoveNPCToEnd(GameObject npc)
     {
         npc.GetComponent<NavMeshAgent>().SetDestination(waypointEnd.position);
     }

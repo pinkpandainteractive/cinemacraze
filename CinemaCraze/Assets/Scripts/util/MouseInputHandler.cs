@@ -63,6 +63,7 @@ public class MouseInputHandler : MonoBehaviour
     void HandleLeftClick(GameObject obj)
     {
         if (obj == null) return;
+
         if (obj.name.Contains("Customer"))
         {
             npc.Interact(obj);
