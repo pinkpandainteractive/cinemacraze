@@ -4894,7 +4894,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1173924432}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2023027845}
+        m_TargetAssemblyTypeName: GameOverScreen, Assembly-CSharp
+        m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1173924432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5909,6 +5921,8 @@ MonoBehaviour:
   mainMenuGO: {fileID: 0}
   menuManager: {fileID: 0}
   timeManager: {fileID: 0}
+  score: {fileID: 0}
+  lives: {fileID: 0}
 --- !u!114 &1409852034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6150,6 +6164,8 @@ MonoBehaviour:
   mainMenuGO: {fileID: 1463098977}
   menuManager: {fileID: 321129536}
   timeManager: {fileID: 1629263767}
+  score: {fileID: 626739133}
+  lives: {fileID: 393626324}
 --- !u!1 &1485382036
 GameObject:
   m_ObjectHideFlags: 0
@@ -8496,6 +8512,8 @@ MonoBehaviour:
   gameOverScreenGO: {fileID: 2023027841}
   menuManager: {fileID: 321129536}
   timeManager: {fileID: 1629263767}
+  score: {fileID: 626739133}
+  lives: {fileID: 393626324}
 --- !u!1 &2023198544
 GameObject:
   m_ObjectHideFlags: 0

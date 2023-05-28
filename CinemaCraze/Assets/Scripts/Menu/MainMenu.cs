@@ -5,6 +5,8 @@ public class MainMenu : MonoBehaviour
     public GameObject mainMenuGO;
     public MenuManager menuManager;
     public TimeManager timeManager;
+    public Score score;
+    public Lives lives;
   
     public void Start() 
     {
@@ -14,6 +16,8 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         Debug.Log("Play");
+        score.ResetScore();
+        lives.ResetLives();
         menuManager.HideMainMenu();
         menuManager.HidePauseMenu();
         menuManager.EnablePauseMenu();

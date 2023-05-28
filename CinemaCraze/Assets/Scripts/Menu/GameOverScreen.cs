@@ -5,6 +5,8 @@ public class GameOverScreen : MonoBehaviour
     public GameObject gameOverScreenGO;
     public MenuManager menuManager;
     public TimeManager timeManager;
+    public Score score;
+    public Lives lives;
 
     public void Show()
     {
@@ -14,6 +16,18 @@ public class GameOverScreen : MonoBehaviour
     public void Hide()
     {
         gameOverScreenGO.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        Debug.Log("Restarting Game");
+        score.ResetScore();
+        lives.ResetLives();
+        Hide();
+        menuManager.ShowGameOverlay();
+        menuManager.HidePauseMenu();
+        menuManager.EnablePauseMenu();
+        timeManager.Resume();
     }
 
     public void ReturnToMainMenu()
