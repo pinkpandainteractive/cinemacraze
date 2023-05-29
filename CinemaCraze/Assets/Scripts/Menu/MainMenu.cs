@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    public CustomerManager customerManager;
     public GameObject mainMenuGO;
     public MenuManager menuManager;
     public TimeManager timeManager;
@@ -23,6 +24,7 @@ public class MainMenu : MonoBehaviour
         menuManager.EnablePauseMenu();
         menuManager.ShowGameOverlay();
         timeManager.Resume();
+        customerManager.StartLiveCycle();
     }
 
     public void Show()
