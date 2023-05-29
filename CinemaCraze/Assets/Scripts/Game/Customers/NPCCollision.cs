@@ -50,6 +50,6 @@ public class NPCCollision : MonoBehaviour
         }
             // Wenn kein anderer NPC in der Nähe ist, setze den NavMeshAgent fort
             navMeshAgent.isStopped = false;
-        
+       
     }
 }

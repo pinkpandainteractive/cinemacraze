@@ -11,7 +11,6 @@ public class CustomerManager : MonoBehaviour
     int customerCount = 0;
     float lastSpawnTime = 0f;
     bool active = true;
-    Vector3 spawnPoint;
 
     // * Waypoints
     public Transform _waypoint_start;
@@ -37,10 +36,12 @@ public class CustomerManager : MonoBehaviour
         GameObject customer = Instantiate(customerPrefab, _waypoint_start.position, Quaternion.identity);
         customer.name = "Customer_" + customerCount;
         customer.tag = "Customer";
+       
         customer.GetComponent<Customer>().orderStatus = OrderStatus.None;
         customer.GetComponent<Customer>().movementStatus = MovementStatus.Idle;
         customer.GetComponent<NavMeshAgent>().SetDestination(_waypoint_bar.position);
         customer.GetComponent<Customer>().customer = customer;
+        
 
         lastSpawnTime = Time.time;
         customerCount++;
