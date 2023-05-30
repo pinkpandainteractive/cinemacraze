@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -7,7 +8,10 @@ public class CustomerManager : MonoBehaviour
     const int MAX_CUSTOMERS = 3;
     [SerializeField]
     const float SPAWN_DELAY = 5f;
+    [SerializeField]
+    const string CUSTOMER_TAG = "Customer";
 
+    LinkedList<GameObject> customers = new LinkedList<GameObject>();
     int nCustomers;
     int nTotalCustomers;
     float tLastSpawn;
@@ -36,23 +40,20 @@ public class CustomerManager : MonoBehaviour
 
     void SpawnCustomer()
     {
+        GameObject customer = Instantiate(customerPrefab, waypointStart.position, Quaternion.identity);
+        customer.tag = CUSTOMER_TAG;
+        customer.name = "Customer_" + nTotalCustomers;
+        customer.GetComponent<Customer>().Init(customer);
+        customers.AddLast(customer);
+
         tLastSpawn = timeManager.CurrentTime();
         nTotalCustomers++;
         nCustomers++;
-
-        GameObject customer = Instantiate(customerPrefab, waypointStart.position, Quaternion.identity);
-        customer.name = "Customer_" + nTotalCustomers;
-        customer.tag = "Customer";
-
-        customer.GetComponent<Customer>().orderStatus = OrderStatus.None;
-        customer.GetComponent<Customer>().movementStatus = MovementStatus.Idle;
-        customer.GetComponent<NavMeshAgent>().SetDestination(waypointBar.position);
-        customer.GetComponent<Customer>().customer = customer;
-
         Debug.Log("Customer spawned");
     }
 
     public void Reset() {
+        customers.Clear();
         nCustomers = 0;
         nTotalCustomers = 0;
         tLastSpawn = -5f;
