@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2191,6 +2191,7 @@ GameObject:
   - component: {fileID: 669542830}
   - component: {fileID: 669542827}
   - component: {fileID: 669542831}
+  - component: {fileID: 669542832}
   m_Layer: 3
   m_Name: Customer
   m_TagString: Customer
@@ -2375,6 +2376,18 @@ MonoBehaviour:
   objectSelector: {fileID: 1409852034}
   orderClass: {fileID: 1813931984}
   npcSpawn: {fileID: 2097748156}
+--- !u!114 &669542832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669542819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8823bd695de8cb64aa333391c4f01ec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &673063201
 GameObject:
   m_ObjectHideFlags: 0
@@ -5948,7 +5961,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1391976101}
-  - component: {fileID: 1391976102}
   - component: {fileID: 1391976100}
   m_Layer: 0
   m_Name: CustomerManager
@@ -5969,10 +5981,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1a106cf3f1b154ab393814dc2c93b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeManager: {fileID: 1629263767}
   customerPrefab: {fileID: 669542819}
-  _waypoint_start: {fileID: 669542825}
-  _waypoint_bar: {fileID: 1074504569}
-  _waypoint_end: {fileID: 77919377}
+  waypointStart: {fileID: 669542825}
+  waypointBar: {fileID: 1074504569}
+  waypointEnd: {fileID: 77919377}
 --- !u!4 &1391976101
 Transform:
   m_ObjectHideFlags: 0
@@ -5988,18 +6001,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1391976102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1391976099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8823bd695de8cb64aa333391c4f01ec5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1409852027
 GameObject:
   m_ObjectHideFlags: 0
@@ -8963,7 +8964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcObject: {fileID: 669542819}
-  npc: {fileID: 0}
+  npc: {fileID: 669542831}
   zone: {fileID: 1106057639}
   canvasText: {fileID: 1539715709}
 --- !u!1 &2025751321
@@ -9328,7 +9329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2097748154
 Transform:
   m_ObjectHideFlags: 0

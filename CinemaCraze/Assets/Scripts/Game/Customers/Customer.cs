@@ -10,7 +10,7 @@ public class Customer : MonoBehaviour {
 public enum OrderStatus {
     None,
     InProgress,
-    Delivered
+    Completed
 }
 
 public enum MovementStatus {

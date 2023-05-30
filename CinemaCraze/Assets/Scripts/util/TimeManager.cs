@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour {
     
+    public const float MILLISECOND = 0.001f;
+    public const float SECOND = 1f;
+    public const float MINUTE = 60f;
+    public const float HOUR = 3600f;
+    public const float DAY = 86400f;
+
     public void Start()
     {
         Pause();
@@ -35,6 +41,11 @@ public class TimeManager : MonoBehaviour {
     {
         Debug.Log("Setting Time Scale to " + scale);
         Time.timeScale = scale;
+    }
+
+    public float CurrentTime()
+    {
+        return Time.time;
     }
 
     public void FixedUpdate()

@@ -9,11 +9,6 @@ public class MainMenu : MonoBehaviour
     public Score score;
     public Lives lives;
   
-    public void Start() 
-    {
-        
-    }
-
     public void Play()
     {
         Debug.Log("Play");
@@ -24,7 +19,7 @@ public class MainMenu : MonoBehaviour
         menuManager.EnablePauseMenu();
         menuManager.ShowGameOverlay();
         timeManager.Resume();
-        customerManager.StartLiveCycle();
+        customerManager.status = LiveCycleStatus.Active;
     }
 
     public void Show()
