@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Order : MonoBehaviour
 {
@@ -7,11 +8,14 @@ public class Order : MonoBehaviour
     public int nNachos;
     public int nSoda;
 
+    public TMP_Text orderText;
+
     void Init()
     {
         nPopcorn = 0;
         nNachos = 0;
         nSoda = 0;
+        orderText.text = "";
     }
 
     public void GenerateOrder(float seed)
@@ -19,10 +23,12 @@ public class Order : MonoBehaviour
         Init();
         if (seed < 0.5f) GenerateSimpleOrder(seed);
         else GenerateComplexOrder(seed);
+        UpdateOrderText();
     }
 
     void GenerateSimpleOrder(float seed)
     {
+        Debug.Log("Generating simple order");
         if (seed < 0.1f) GenerateSimpleOrder1();
         else if (seed < 0.2f) GenerateSimpleOrder2();
         else if (seed < 0.3f) GenerateSimpleOrder3();
@@ -65,6 +71,7 @@ public class Order : MonoBehaviour
 
     void GenerateComplexOrder(float seed)
     {
+        Debug.Log("Generating complex order");
         if (seed > 0.9f) GenerateComplexOrder1();
         else if (seed > 0.8f) GenerateComplexOrder2();
         else if (seed > 0.7f) GenerateComplexOrder3();
@@ -123,6 +130,21 @@ public class Order : MonoBehaviour
         }
     }
 
+    void UpdateOrderText()
+    {
+        string textPopcorn = "";
+        string textNachos = "";
+        string textSoda = "";
+
+        if (nPopcorn > 0) textPopcorn = "Popcorn:\t" + nPopcorn + "\n";
+        if (nNachos > 0) textNachos = "Nachos:\t" + nNachos + "\n";
+        if (nSoda > 0) textSoda = "Soda:\t" + nSoda + "\n";
+
+        orderText.text = textPopcorn + textNachos + textSoda;
+    }
+
+    // ! Deprecated
+    [System.Obsolete("XGenerateOrder is deprecated, please use GenerateOrder instead.")]
     public List<string> XGenerateOrder()
     {
         List<string> listOrder = new List<string>();

@@ -11,7 +11,7 @@ public class NPCCollision : MonoBehaviour
     void Start()
     {
         gameObject.GetComponent<CustomComponent>().OrderStatus = true;
-        gameObject.GetComponent<CustomComponent>().Order = orderClass.GenerateOrder();
+        gameObject.GetComponent<CustomComponent>().Order = orderClass.XGenerateOrder();
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class NPCCollision : MonoBehaviour
                     // Richtung zum Kollisionsobjekt berechnen
                     Vector3 directionToCollider = hitCollider.transform.position - npc.transform.position;
 
-                    // Überprüfen, ob die Kollision in positive Z-Richtung liegt
+                    // ï¿½berprï¿½fen, ob die Kollision in positive Z-Richtung liegt
                     if (Vector3.Dot(directionToCollider, npcForward) > 0)
                     {
                         // Stoppe den NavMeshAgent des aktuellen NPCs, wenn ein anderer NPC in der Umgebung ist
@@ -48,7 +48,7 @@ public class NPCCollision : MonoBehaviour
                 }
             }
         }
-            // Wenn kein anderer NPC in der Nähe ist, setze den NavMeshAgent fort
+            // Wenn kein anderer NPC in der Nï¿½he ist, setze den NavMeshAgent fort
             navMeshAgent.isStopped = false;
        
     }
