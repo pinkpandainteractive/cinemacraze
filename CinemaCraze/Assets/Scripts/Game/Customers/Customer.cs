@@ -1,10 +1,18 @@
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class Customer : MonoBehaviour
 {
     public CustomerManager customerManager;
+    public TMP_Text orderText;
+
+
     public Order order;
+
+    public Inventory inventory;
+    public Score score;
+    public Lives lives;
 
     NavMeshAgent navMeshAgent;
     OrderStatus orderStatus;
@@ -39,24 +47,23 @@ public class Customer : MonoBehaviour
         if (!customerManager.status.Equals(LiveCycleStatus.Active)) return;
         if (customer == null) return;
 
-        UpdateData();
+        UpdatePosition();
         CheckPosition();
     }
 
-    void UpdateData()
+    void UpdatePosition()
     {
         pos = customer.transform.position;
     }
 
     void CheckPosition()
     {
-        NavMeshAgent navMeshAgent = customer.GetComponent<NavMeshAgent>();
-        
+        if (movementStatus.Equals(MovementStatus.Moving))
+        {
+            if (ArrivedAtBar()) RoutineBar();
+            if (ArrivedAtEnd()) RoutineEnd();
+        }
 
-        if (movementStatus.Equals(MovementStatus.Idle)) return;
-
-        if (ArrivedAtBar()) RoutineBar();
-        if (ArrivedAtEnd()) RoutineEnd();
     }
 
     bool ArrivedAtBar()
@@ -67,12 +74,14 @@ public class Customer : MonoBehaviour
     void RoutineBar()
     {
         movementStatus = MovementStatus.Idle;
-        PlaceOrder();
         orderStatus = OrderStatus.Ordering;
+        PlaceOrder();
+        UpdateOrderText();
     }
 
     void PlaceOrder()
     {
+        orderStatus = OrderStatus.InProgress;
         float seed = Random.Range(0f, 1f);
         order.GenerateOrder(seed);
         Debug.Log("Order placed");
@@ -86,6 +95,39 @@ public class Customer : MonoBehaviour
     void RoutineEnd()
     {
         Debug.Log("RoutineEnd");
+    }
+
+    void UpdateOrderText()
+    {
+        string textPopcorn = "";
+        string textNachos = "";
+        string textSoda = "";
+
+        if (order.nPopcorn > 0) textPopcorn = "Popcorn:\t" + order.nPopcorn + "\n";
+        if (order.nNachos > 0) textNachos = "Nachos:\t" + order.nNachos + "\n";
+        if (order.nSoda > 0) textSoda = "Soda:\t" + order.nSoda + "\n";
+
+        orderText.text = textPopcorn + textNachos + textSoda;
+    }
+
+    public void HandInOrder()
+    {
+        if (CheckMatch(order, inventory))
+        {
+            Debug.Log("Order correct");
+        }
+        else
+        {
+            Debug.Log("Order incorrect");
+        }
+
+        orderStatus = OrderStatus.Completed;
+    }
+
+    bool CheckMatch(Order order, Inventory inventory)
+    {
+        Debug.Log(order.nNachos + " " + order.nPopcorn + " " + order.nSoda);
+        return order.nPopcorn == inventory.nPopcorn && order.nNachos == inventory.nNachos && order.nSoda == inventory.nSoda;
     }
 }
 

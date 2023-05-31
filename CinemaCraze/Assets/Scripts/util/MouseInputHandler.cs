@@ -7,8 +7,7 @@ public class MouseInputHandler : MonoBehaviour
     const int MIDDLE_CLICK = 2;
 
     public CameraSwitch cameraSwitch;
-    public NPC npc;
-
+    public Customer customer;
     Camera activeCamera;
     int layerMask;
     Ray ray;
@@ -66,7 +65,7 @@ public class MouseInputHandler : MonoBehaviour
 
         if (obj.name.Contains("Customer"))
         {
-            npc.Interact(obj);
+            customer.HandInOrder();
         }
     }
 

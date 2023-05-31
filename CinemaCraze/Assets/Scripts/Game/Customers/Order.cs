@@ -1,21 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
-public class Order : MonoBehaviour
+
+[CreateAssetMenu(fileName = "Order", menuName = "CinemaCraze/Order", order = 0)]
+public class Order : ScriptableObject
 {
     public int nPopcorn;
     public int nNachos;
     public int nSoda;
 
-    public TMP_Text orderText;
 
     void Init()
     {
         nPopcorn = 0;
         nNachos = 0;
         nSoda = 0;
-        orderText.text = "";
     }
 
     public void GenerateOrder(float seed)
@@ -23,7 +22,6 @@ public class Order : MonoBehaviour
         Init();
         if (seed < 0.5f) GenerateSimpleOrder(seed);
         else GenerateComplexOrder(seed);
-        UpdateOrderText();
     }
 
     void GenerateSimpleOrder(float seed)
@@ -78,7 +76,7 @@ public class Order : MonoBehaviour
         else if (seed > 0.6f) GenerateComplexOrder4();
         else GenerateComplexOrder5();
     }
-
+ 
     void GenerateComplexOrder1()
     {
         nPopcorn = Random.Range(2, 5);
@@ -130,18 +128,7 @@ public class Order : MonoBehaviour
         }
     }
 
-    void UpdateOrderText()
-    {
-        string textPopcorn = "";
-        string textNachos = "";
-        string textSoda = "";
-
-        if (nPopcorn > 0) textPopcorn = "Popcorn:\t" + nPopcorn + "\n";
-        if (nNachos > 0) textNachos = "Nachos:\t" + nNachos + "\n";
-        if (nSoda > 0) textSoda = "Soda:\t" + nSoda + "\n";
-
-        orderText.text = textPopcorn + textNachos + textSoda;
-    }
+    
 
     // ! Deprecated
     [System.Obsolete("XGenerateOrder is deprecated, please use GenerateOrder instead.")]

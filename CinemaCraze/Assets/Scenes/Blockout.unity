@@ -1632,7 +1632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSwitch: {fileID: 1558058125}
-  npc: {fileID: 669542831}
+  customer: {fileID: 669542832}
 --- !u!4 &542451566
 Transform:
   m_ObjectHideFlags: 0
@@ -2329,7 +2329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdef1ef5cd0cf5409084aa34e7f5064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orderClass: {fileID: 1813931984}
 --- !u!114 &669542829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2374,7 +2373,6 @@ MonoBehaviour:
   npcPrefab: {fileID: 669542819}
   spawnTime: 2
   objectSelector: {fileID: 1409852034}
-  orderClass: {fileID: 1813931984}
   npcSpawn: {fileID: 2097748156}
 --- !u!114 &669542832
 MonoBehaviour:
@@ -2389,7 +2387,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customerManager: {fileID: 1391976100}
-  order: {fileID: 944421933}
+  orderText: {fileID: 944421934}
+  inventory: {fileID: 1553683355}
+  score: {fileID: 626739133}
+  lives: {fileID: 393626324}
 --- !u!1 &673063201
 GameObject:
   m_ObjectHideFlags: 0
@@ -3570,7 +3571,6 @@ GameObject:
   - component: {fileID: 944421932}
   - component: {fileID: 944421935}
   - component: {fileID: 944421934}
-  - component: {fileID: 944421933}
   m_Layer: 5
   m_Name: Order
   m_TagString: Untagged
@@ -3598,22 +3598,6 @@ RectTransform:
   m_AnchoredPosition: {x: -3.15, y: -0.1732}
   m_SizeDelta: {x: 1.7468, y: 0.5816}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &944421933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 944421931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 404d185e236048540ac7017ab25c0e19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nPopcorn: 0
-  nNachos: 0
-  nSoda: 0
-  orderText: {fileID: 944421934}
 --- !u!114 &944421934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6856,6 +6840,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab250896383a9c4e9e43b179638cf6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nNachos: 0
+  nPopcorn: 0
+  nSoda: 0
 --- !u!114 &1553683356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7828,7 +7815,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1813931983}
-  - component: {fileID: 1813931984}
   - component: {fileID: 1813931985}
   m_Layer: 5
   m_Name: GameOverlay
@@ -7863,22 +7849,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1813931984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1813931982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 404d185e236048540ac7017ab25c0e19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nPopcorn: 0
-  nNachos: 0
-  nSoda: 0
-  orderText: {fileID: 0}
 --- !u!114 &1813931985
 MonoBehaviour:
   m_ObjectHideFlags: 0
