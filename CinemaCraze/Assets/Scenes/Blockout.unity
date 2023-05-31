@@ -2329,6 +2329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efdef1ef5cd0cf5409084aa34e7f5064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  orderClass: {fileID: 0}
 --- !u!114 &669542829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2373,6 +2374,7 @@ MonoBehaviour:
   npcPrefab: {fileID: 669542819}
   spawnTime: 2
   objectSelector: {fileID: 1409852034}
+  orderClass: {fileID: 0}
   npcSpawn: {fileID: 2097748156}
 --- !u!114 &669542832
 MonoBehaviour:
@@ -2388,6 +2390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customerManager: {fileID: 1391976100}
   orderText: {fileID: 944421934}
+  order: {fileID: 11400000, guid: 7689040139ba7874fb6966a88da4648d, type: 2}
   inventory: {fileID: 1553683355}
   score: {fileID: 626739133}
   lives: {fileID: 393626324}
