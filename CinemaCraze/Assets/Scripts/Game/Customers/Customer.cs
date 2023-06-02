@@ -7,7 +7,6 @@ public class Customer : MonoBehaviour
     public CustomerManager customerManager;
     public TMP_Text orderText;
 
-
     public Order order;
 
     public Inventory inventory;
@@ -56,10 +55,9 @@ public class Customer : MonoBehaviour
 
     void CheckPosition()
     {
-        if (movementStatus.Equals(MovementStatus.Moving))
+        if (movementStatus.Equals(MovementStatus.Moving) && !orderStatus.Equals(OrderStatus.Completed))
         {
             if (ArrivedAtBar()) RoutineBar();
-            if (ArrivedAtEnd()) RoutineEnd();
         }
         else if (movementStatus.Equals(MovementStatus.Idle))
         {
@@ -97,6 +95,11 @@ public class Customer : MonoBehaviour
     void RoutineEnd()
     {
         Debug.Log("RoutineEnd");
+        movementStatus = MovementStatus.Idle;
+        
+        // destroy customer
+        Destroy(customer);
+        Destroy(this);
     }
 
     void StayInLineWithOtherCustomers()
@@ -149,16 +152,27 @@ public class Customer : MonoBehaviour
 
     public void HandInOrder()
     {
+        orderStatus = OrderStatus.Completed;
+
         if (CheckMatch(order, inventory))
         {
             Debug.Log("Order correct");
+            inventory.Clear();
+            
+            // TODO score based on time and difficulty
+            score.AddScore(100);
         }
         else
         {
             Debug.Log("Order incorrect");
+            lives.LoseLife();
         }
 
-        orderStatus = OrderStatus.Completed;
+        // just in case
+        navMeshAgent.isStopped = false;
+
+        navMeshAgent.SetDestination(customerManager.waypointEnd.position);
+        movementStatus = MovementStatus.Moving;
     }
 
     bool CheckMatch(Order order, Inventory inventory)

@@ -8,6 +8,7 @@ public class MouseInputHandler : MonoBehaviour
 
     public CameraSwitch cameraSwitch;
     public Customer customer;
+    public Inventory inventory;
     Camera activeCamera;
     int layerMask;
     Ray ray;
@@ -65,14 +66,40 @@ public class MouseInputHandler : MonoBehaviour
 
         if (obj.name.Contains("Customer"))
         {
+            Customer customer = obj.GetComponent<Customer>();
             customer.HandInOrder();
         }
+        else if (obj.name.Contains("Popcorn"))
+        {
+            inventory.AddPopcorn(1);
+        }
+        else if (obj.name.Contains("Nacho"))
+        {
+            inventory.AddNachos(1);
+        }
+        else if (obj.name.Contains("Soda"))
+        {
+            inventory.AddSoda(1);
+        }
+
     }
 
     void HandleRightClick(GameObject obj)
     {
         if (obj == null) return;
 
+        if (obj.name.Contains("Popcorn"))
+        {
+            inventory.RemovePopcorn(1);
+        }
+        else if (obj.name.Contains("Nacho"))
+        {
+            inventory.RemoveNachos(1);
+        }
+        else if (obj.name.Contains("Soda"))
+        {
+            inventory.RemoveSoda(1);
+        }
     }
 
     void HandleMiddleClick(GameObject obj)
