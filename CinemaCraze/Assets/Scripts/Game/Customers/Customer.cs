@@ -14,33 +14,30 @@ public class Customer : MonoBehaviour
     public Score score;
     public Lives lives;
 
-    NavMeshAgent navMeshAgent;
     OrderStatus orderStatus;
-    MovementStatus movementStatus;
+    public MovementStatus movementStatus;
+
     GameObject customer;
-    Vector3 pos;
+    public NavMeshAgent navMeshAgent;
+
+    public Vector3 pos;
+    public Vector3 forward;
+
     Vector3 bar;
     Vector3 end;
-    string tag;
-    string name;
 
 
     public void Init(GameObject customer)
     {
         this.customer = customer;
-        this.customerManager = customerManager;
 
-        this.navMeshAgent = customer.GetComponent<NavMeshAgent>();
-        this.bar = customerManager.waypointBar.position;
-        this.end = customerManager.waypointEnd.position;
+        bar = customerManager.waypointBar.position;
+        end = customerManager.waypointEnd.position;
 
-        this.tag = customer.tag;
-        this.name = customer.name;
+        orderStatus = OrderStatus.None;
 
-        this.orderStatus = OrderStatus.None;
-
-        navMeshAgent.SetDestination(customerManager.waypointBar.position);
-        this.movementStatus = MovementStatus.Moving;
+        this.navMeshAgent.SetDestination(customerManager.waypointBar.position);
+        movementStatus = MovementStatus.Moving;
     }
     void Update()
     {
@@ -54,6 +51,7 @@ public class Customer : MonoBehaviour
     void UpdatePosition()
     {
         pos = customer.transform.position;
+        forward = customer.transform.forward;
     }
 
     void CheckPosition()
@@ -62,6 +60,10 @@ public class Customer : MonoBehaviour
         {
             if (ArrivedAtBar()) RoutineBar();
             if (ArrivedAtEnd()) RoutineEnd();
+        }
+        else if (movementStatus.Equals(MovementStatus.Idle))
+        {
+            if (ArrivedAtBar()) StayInLineWithOtherCustomers();
         }
 
     }
@@ -95,6 +97,41 @@ public class Customer : MonoBehaviour
     void RoutineEnd()
     {
         Debug.Log("RoutineEnd");
+    }
+
+    void StayInLineWithOtherCustomers()
+    {
+        if (Vector3.Distance(pos, bar) < 0.4f) return;
+
+        Collider[] colliders = Physics.OverlapBox(this.pos, this.customer.transform.localScale / 1.0f, Quaternion.identity, LayerMask.GetMask("Customer"));
+
+        // Debug.Log("Customer " + this.customer.name + " is checking for other customers");
+        // Debug.Log("Customer " + this.customer.name + " found " + colliders.Length + " colliders");
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.gameObject.tag != this.customer.tag) continue;
+
+            GameObject otherCustomer = collider.gameObject;
+            if (otherCustomer.name.Equals(this.customer.name)) continue;
+
+            Vector3 otherPos = otherCustomer.transform.position;
+            Vector3 directionToOtherCustomer = otherPos - this.pos;
+
+            if (Vector3.Dot(directionToOtherCustomer, this.forward) > 0)
+            {
+                if (!this.navMeshAgent.isStopped)
+                {
+                    Debug.Log("Customer " + this.customer.name + " is waiting for " + otherCustomer.name + " to move");
+                    this.navMeshAgent.isStopped = true;
+                    Debug.Log("navMeshAgent.isStopped = " + this.navMeshAgent.isStopped);
+                }
+
+                return;
+            }
+        }
+
+        this.navMeshAgent.isStopped = false;
     }
 
     void UpdateOrderText()

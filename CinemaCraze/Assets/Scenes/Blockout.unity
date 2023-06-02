@@ -2192,7 +2192,7 @@ GameObject:
   - component: {fileID: 669542827}
   - component: {fileID: 669542831}
   - component: {fileID: 669542832}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Customer
   m_TagString: Customer
   m_Icon: {fileID: 0}
@@ -2394,6 +2394,10 @@ MonoBehaviour:
   inventory: {fileID: 1553683355}
   score: {fileID: 626739133}
   lives: {fileID: 393626324}
+  movementStatus: 0
+  navMeshAgent: {fileID: 669542820}
+  pos: {x: 0, y: 0, z: 0}
+  forward: {x: 0, y: 0, z: 0}
 --- !u!1 &673063201
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,7 +3400,7 @@ GameObject:
   - component: {fileID: 802700171}
   - component: {fileID: 802700170}
   - component: {fileID: 802700169}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text_NPC_Time
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3574,7 +3578,7 @@ GameObject:
   - component: {fileID: 944421932}
   - component: {fileID: 944421935}
   - component: {fileID: 944421934}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Order
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3621,7 +3625,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: a
+  m_text: lorem
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -6710,7 +6714,7 @@ GameObject:
   - component: {fileID: 1539715708}
   - component: {fileID: 1539715710}
   - component: {fileID: 1539715709}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text_NPC_Order
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8910,7 +8914,7 @@ GameObject:
   - component: {fileID: 2023198547}
   - component: {fileID: 2023198546}
   - component: {fileID: 2023198549}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

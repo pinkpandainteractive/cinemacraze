@@ -11,7 +11,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField]
     const string CUSTOMER_TAG = "Customer";
 
-    LinkedList<GameObject> customers = new LinkedList<GameObject>();
+    public LinkedList<GameObject> customers = new LinkedList<GameObject>();
     int nCustomers;
     int nTotalCustomers;
     float tLastSpawn;
