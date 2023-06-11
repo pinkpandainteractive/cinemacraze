@@ -87,20 +87,6 @@ public class Customer : MonoBehaviour
         Debug.Log("Order placed");
     }
 
-    bool ArrivedAtEnd()
-    {
-        return Vector3.Distance(pos, end) < 0.5f;
-    }
-
-    void RoutineEnd()
-    {
-        Debug.Log("RoutineEnd");
-        movementStatus = MovementStatus.Idle;
-        
-        // destroy customer
-        Destroy(customer);
-        Destroy(this);
-    }
 
     void StayInLineWithOtherCustomers()
     {
