@@ -31,6 +31,20 @@ public class CustomerManager : MonoBehaviour
     }
     void Update()
     {
+        // * check if any customer is close to the endpoint and destroy it
+        foreach (GameObject customer in customers)
+        {
+            if (customer == null) continue;
+            if (Vector3.Distance(customer.transform.position, waypointEnd.position) < 1.5f)
+            {
+                Destroy(customer);
+                customers.Remove(customer);
+                nCustomers--;
+                Debug.Log("Customer destroyed");
+                break;
+            }
+        }
+
         if (!status.Equals(LiveCycleStatus.Active)) return;
         if (nCustomers >= MAX_CUSTOMERS) return;
         if (timeManager.CurrentTime() - tLastSpawn < SPAWN_DELAY) return;
