@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 public class CustomerManager : MonoBehaviour
 {
-    [SerializeField]
-    const int MAX_CUSTOMERS = 3;
-    [SerializeField]
-    const float SPAWN_DELAY = 5f;
-    [SerializeField]
+    [Header("Customer Settings")]
+    [Range(1, 10)]
+    public int MAX_CUSTOMERS = 3;
+    [Range(1, 10)]
+    public float SPAWN_DELAY = 5f;
+
     const string CUSTOMER_TAG = "Customer";
 
     public LinkedList<GameObject> customers = new LinkedList<GameObject>();
@@ -36,13 +37,7 @@ public class CustomerManager : MonoBehaviour
         {
             if (customer == null) continue;
             if (Vector3.Distance(customer.transform.position, waypointEnd.position) < 1.5f)
-            {
-                Destroy(customer);
-                customers.Remove(customer);
-                nCustomers--;
-                Debug.Log("Customer destroyed");
-                break;
-            }
+                DestroyCustomer(customer);
         }
 
         if (!status.Equals(LiveCycleStatus.Active)) return;
@@ -64,6 +59,14 @@ public class CustomerManager : MonoBehaviour
         nTotalCustomers++;
         nCustomers++;
         Debug.Log("Customer spawned");
+    }
+
+    void DestroyCustomer(GameObject customer)
+    {
+        customers.Remove(customer);
+        Destroy(customer);
+        nCustomers--;
+        Debug.Log("Customer destroyed");
     }
 
     public void Reset() {

@@ -4,6 +4,9 @@ using TMPro;
 
 public class Customer : MonoBehaviour
 {
+    public float CustomerDistance = 4.5f;
+
+
     public CustomerManager customerManager;
     public TMP_Text orderText;
 
@@ -94,19 +97,46 @@ public class Customer : MonoBehaviour
 
         Collider[] colliders = Physics.OverlapBox(this.pos, this.customer.transform.localScale / 1.0f, Quaternion.identity, LayerMask.GetMask("Customer"));
 
-        // Debug.Log("Customer " + this.customer.name + " is checking for other customers");
-        // Debug.Log("Customer " + this.customer.name + " found " + colliders.Length + " colliders");
+        //Debug.Log("Customer " + this.customer.name + " is checking for other customers");
+        //Debug.Log("Customer " + this.customer.name + " found " + colliders.Length + " colliders");
 
         foreach (Collider collider in colliders)
         {
+            // * check if collider is a customer
             if (collider.gameObject.tag != this.customer.tag) continue;
 
+            // * making sure that it is not its own collider
             GameObject otherCustomer = collider.gameObject;
             if (otherCustomer.name.Equals(this.customer.name)) continue;
 
             Vector3 otherPos = otherCustomer.transform.position;
-            Vector3 directionToOtherCustomer = otherPos - this.pos;
+            Vector3 directionToOtherCustomer = (otherPos - this.pos);
+            float distanceToOtherCustomer = directionToOtherCustomer.magnitude;
 
+            // * Check if other customer is too close in positive z direction
+            Debug.Log("Customer " + this.customer.name + " is checking for " + otherCustomer.name);
+            Debug.Log("Customer " + this.customer.name + " found " + distanceToOtherCustomer + " distance to " + otherCustomer.name);
+            Debug.Log("Customer " + this.customer.name + " found " + directionToOtherCustomer + " direction to " + otherCustomer.name);
+            Debug.Log("Customer " + this.customer.name + " found " + directionToOtherCustomer.normalized.z + " direction to " + otherCustomer.name);
+
+            if (distanceToOtherCustomer < CustomerDistance && directionToOtherCustomer.normalized.z > 0.8)
+            {
+                if (!this.navMeshAgent.isStopped)
+                {
+                Debug.Log("Customer " + this.customer.name + " is waiting for " + otherCustomer.name + " to move");
+                this.navMeshAgent.isStopped = true;
+                Debug.Log("navMeshAgent.isStopped = " + this.navMeshAgent.isStopped);
+                }
+                return;
+            }
+
+            /*
+
+
+            // * check if other customer is in front of this customer
+            Vector3 otherPos = otherCustomer.transform.position;
+            Vector3 directionToOtherCustomer = otherPos - this.pos;
+            Debug.Log(directionToOtherCustomer + ", " + this.forward + ", " + Vector3.Dot(directionToOtherCustomer, this.forward));
             if (Vector3.Dot(directionToOtherCustomer, this.forward) > 0)
             {
                 if (!this.navMeshAgent.isStopped)
@@ -118,6 +148,7 @@ public class Customer : MonoBehaviour
 
                 return;
             }
+            */
         }
 
         this.navMeshAgent.isStopped = false;
