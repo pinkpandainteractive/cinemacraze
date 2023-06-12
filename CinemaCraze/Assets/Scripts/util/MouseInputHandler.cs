@@ -64,20 +64,25 @@ public class MouseInputHandler : MonoBehaviour
     {
         if (obj == null) return;
 
-        if (obj.name.Contains("Customer"))
+        Debug.Log(obj.tag);
+        Debug.Log(obj.name);
+
+        string tag = obj.tag;
+
+        if (tag.Equals("Customer"))
         {
             Customer customer = obj.GetComponent<Customer>();
             customer.HandInOrder();
         }
-        else if (obj.name.Contains("Popcorn"))
+        else if (tag.Equals("Popcorn"))
         {
             inventory.AddPopcorn(1);
         }
-        else if (obj.name.Contains("Nacho"))
+        else if (tag.Equals("Nachos"))
         {
             inventory.AddNachos(1);
         }
-        else if (obj.name.Contains("Soda"))
+        else if (tag.Equals("Soda"))
         {
             inventory.AddSoda(1);
         }
@@ -88,15 +93,17 @@ public class MouseInputHandler : MonoBehaviour
     {
         if (obj == null) return;
 
-        if (obj.name.Contains("Popcorn"))
+        string tag = obj.tag;
+
+        if (tag.Equals("Popcorn"))
         {
             inventory.RemovePopcorn(1);
         }
-        else if (obj.name.Contains("Nacho"))
+        else if (tag.Equals("Nachos"))
         {
             inventory.RemoveNachos(1);
         }
-        else if (obj.name.Contains("Soda"))
+        else if (tag.Equals("Soda"))
         {
             inventory.RemoveSoda(1);
         }

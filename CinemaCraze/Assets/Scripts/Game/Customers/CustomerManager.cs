@@ -12,7 +12,7 @@ public class CustomerManager : MonoBehaviour
 
     const string CUSTOMER_TAG = "Customer";
 
-    public LinkedList<GameObject> customers = new LinkedList<GameObject>();
+    public List<GameObject> customers = new List<GameObject>();
     int nCustomers;
     int nTotalCustomers;
     float tLastSpawn;
@@ -53,7 +53,7 @@ public class CustomerManager : MonoBehaviour
         customer.tag = CUSTOMER_TAG;
         customer.name = "Customer_" + nTotalCustomers;
         customer.GetComponent<Customer>().Init(customer);
-        customers.AddLast(customer);
+        customers.Add(customer);
 
         tLastSpawn = timeManager.CurrentTime();
         nTotalCustomers++;
@@ -63,13 +63,22 @@ public class CustomerManager : MonoBehaviour
 
     void DestroyCustomer(GameObject customer)
     {
-        customers.Remove(customer);
-        Destroy(customer);
-        nCustomers--;
-        Debug.Log("Customer destroyed");
+        try
+        {
+            customers.Remove(customer);
+            Destroy(customer);
+            nCustomers--;
+            Debug.Log("Customer destroyed");
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e);
+        }
+
     }
 
-    public void Reset() {
+    public void Reset()
+    {
         customers.Clear();
         nCustomers = 0;
         nTotalCustomers = 0;

@@ -2,133 +2,130 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Order", menuName = "CinemaCraze/Order", order = 0)]
+
 public class Order : ScriptableObject
 {
-    public int nPopcorn;
-    public int nNachos;
-    public int nSoda;
 
+    public struct OrderInstance
+    {
+        public int nPopcorn;
+        public int nNachos;
+        public int nSoda;
 
-    void Init()
-    {
-        nPopcorn = 0;
-        nNachos = 0;
-        nSoda = 0;
-    }
-
-    public void GenerateOrder(float seed)
-    {
-        Init();
-        if (seed < 0.5f) GenerateSimpleOrder(seed);
-        else GenerateComplexOrder(seed);
-    }
-
-    void GenerateSimpleOrder(float seed)
-    {
-        Debug.Log("Generating simple order");
-        if (seed < 0.1f) GenerateSimpleOrder1();
-        else if (seed < 0.2f) GenerateSimpleOrder2();
-        else if (seed < 0.3f) GenerateSimpleOrder3();
-        else if (seed < 0.4f) GenerateSimpleOrder4();
-        else GenerateSimpleOrder5();
-    }
-
-    void GenerateSimpleOrder1()
-    {
-        nPopcorn = Random.Range(0, 1);
-        nSoda = Random.Range(1, 2);
-        nNachos = Random.Range(0, 1);
-    }
-
-    void GenerateSimpleOrder2()
-    {
-        nPopcorn = Random.Range(0, 1);
-        nSoda = Random.Range(0, 1);
-        nNachos = Random.Range(1, 2);
-    }
-
-    void GenerateSimpleOrder3()
-    {
-        nPopcorn = Random.Range(1, 2);
-        nSoda = Random.Range(0, 1);
-        nNachos = Random.Range(0, 1);
-    }
-
-    void GenerateSimpleOrder4()
-    {
-        nPopcorn = Random.Range(2, 3);
-        nSoda = Random.Range(0, 1);
-    }
-
-    void GenerateSimpleOrder5()
-    {
-        nNachos = Random.Range(2, 3);
-        nSoda = Random.Range(0, 1);
-    }
-
-    void GenerateComplexOrder(float seed)
-    {
-        Debug.Log("Generating complex order");
-        if (seed > 0.9f) GenerateComplexOrder1();
-        else if (seed > 0.8f) GenerateComplexOrder2();
-        else if (seed > 0.7f) GenerateComplexOrder3();
-        else if (seed > 0.6f) GenerateComplexOrder4();
-        else GenerateComplexOrder5();
-    }
- 
-    void GenerateComplexOrder1()
-    {
-        nPopcorn = Random.Range(2, 5);
-        nSoda = Random.Range(1, 3);
-        nNachos = Random.Range(1, 3);
-    }
-
-    void GenerateComplexOrder2()
-    {
-        nPopcorn = Random.Range(1, 3);
-        nSoda = Random.Range(1, 3);
-        nNachos = Random.Range(2, 5);
-    }
-
-    void GenerateComplexOrder3()
-    {
-        nPopcorn = Random.Range(1, 2);
-        nNachos = Random.Range(2, 4);
-        nSoda = Random.Range(4, 5);
-    }
-
-    void GenerateComplexOrder4()
-    {
-        nPopcorn = Random.Range(2, 4);
-        nNachos = Random.Range(1, 2);
-        nSoda = Random.Range(4, 5);
-    }
-
-    void GenerateComplexOrder5()
-    {
-        int random = Random.Range(1, 3);
-        if (random == 1)
+        public void GenerateOrder(float seed)
         {
-            nPopcorn = Random.Range(8, 10);
-            nNachos = Random.Range(0, 1);
-            nSoda = Random.Range(0, 1);
+            if (seed < 0.5f) GenerateSimpleOrder(seed);
+            else GenerateComplexOrder(seed);
         }
-        else if (random == 2)
+
+        void GenerateSimpleOrder(float seed)
+        {
+            Debug.Log("Generating simple order");
+            if (seed < 0.1f) GenerateSimpleOrder1();
+            else if (seed < 0.2f) GenerateSimpleOrder2();
+            else if (seed < 0.3f) GenerateSimpleOrder3();
+            else if (seed < 0.4f) GenerateSimpleOrder4();
+            else GenerateSimpleOrder5();
+        }
+
+        void GenerateSimpleOrder1()
         {
             nPopcorn = Random.Range(0, 1);
-            nNachos = Random.Range(8, 10);
-            nSoda = Random.Range(0, 1);
+            nSoda = Random.Range(1, 2);
+            nNachos = Random.Range(0, 1);
         }
-        else if (random == 3)
+
+        void GenerateSimpleOrder2()
         {
             nPopcorn = Random.Range(0, 1);
+            nSoda = Random.Range(0, 1);
+            nNachos = Random.Range(1, 2);
+        }
+
+        void GenerateSimpleOrder3()
+        {
+            nPopcorn = Random.Range(1, 2);
+            nSoda = Random.Range(0, 1);
             nNachos = Random.Range(0, 1);
-            nSoda = Random.Range(8, 10);
+        }
+
+        void GenerateSimpleOrder4()
+        {
+            nPopcorn = Random.Range(2, 3);
+            nSoda = Random.Range(0, 1);
+        }
+
+        void GenerateSimpleOrder5()
+        {
+            nNachos = Random.Range(2, 3);
+            nSoda = Random.Range(0, 1);
+        }
+
+        void GenerateComplexOrder(float seed)
+        {
+            Debug.Log("Generating complex order");
+            if (seed > 0.9f) GenerateComplexOrder1();
+            else if (seed > 0.8f) GenerateComplexOrder2();
+            else if (seed > 0.7f) GenerateComplexOrder3();
+            else if (seed > 0.6f) GenerateComplexOrder4();
+            else GenerateComplexOrder5();
+        }
+
+        void GenerateComplexOrder1()
+        {
+            nPopcorn = Random.Range(2, 5);
+            nSoda = Random.Range(1, 3);
+            nNachos = Random.Range(1, 3);
+        }
+
+        void GenerateComplexOrder2()
+        {
+            nPopcorn = Random.Range(1, 3);
+            nSoda = Random.Range(1, 3);
+            nNachos = Random.Range(2, 5);
+        }
+
+        void GenerateComplexOrder3()
+        {
+            nPopcorn = Random.Range(1, 2);
+            nNachos = Random.Range(2, 4);
+            nSoda = Random.Range(4, 5);
+        }
+
+        void GenerateComplexOrder4()
+        {
+            nPopcorn = Random.Range(2, 4);
+            nNachos = Random.Range(1, 2);
+            nSoda = Random.Range(4, 5);
+        }
+
+        void GenerateComplexOrder5()
+        {
+            int random = Random.Range(1, 3);
+            if (random == 1)
+            {
+                nPopcorn = Random.Range(8, 10);
+                nNachos = Random.Range(0, 1);
+                nSoda = Random.Range(0, 1);
+            }
+            else if (random == 2)
+            {
+                nPopcorn = Random.Range(0, 1);
+                nNachos = Random.Range(8, 10);
+                nSoda = Random.Range(0, 1);
+            }
+            else if (random == 3)
+            {
+                nPopcorn = Random.Range(0, 1);
+                nNachos = Random.Range(0, 1);
+                nSoda = Random.Range(8, 10);
+            }
         }
     }
 
-    
+
+
+
 
     // ! Deprecated
     [System.Obsolete("XGenerateOrder is deprecated, please use GenerateOrder instead.")]
@@ -237,7 +234,5 @@ public class Order : ScriptableObject
 
         return listOrder;
     }
-
-
-
 }
+

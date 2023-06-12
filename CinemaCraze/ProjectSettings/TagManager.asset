@@ -7,6 +7,11 @@ TagManager:
   - npc
   - WaitingZone
   - Customer
+  - Soda
+  - Popcorn
+  - Nachos
+  - Tablet
+  - Kasse
   layers:
   - Default
   - TransparentFX

@@ -5,13 +5,14 @@ using TMPro;
 public class Customer : MonoBehaviour
 {
     public float CustomerDistance = 4.5f;
+    public float BAR_RANGE = 5f;
 
 
     public CustomerManager customerManager;
     public TMP_Text orderText;
 
     public Order order;
-
+    private Order.OrderInstance orderInstance;
     public Inventory inventory;
     public Score score;
     public Lives lives;
@@ -37,6 +38,7 @@ public class Customer : MonoBehaviour
         end = customerManager.waypointEnd.position;
 
         orderStatus = OrderStatus.None;
+        orderInstance = new Order.OrderInstance();
 
         this.navMeshAgent.SetDestination(customerManager.waypointBar.position);
         movementStatus = MovementStatus.Moving;
@@ -71,7 +73,7 @@ public class Customer : MonoBehaviour
 
     bool ArrivedAtBar()
     {
-        return Vector3.Distance(pos, bar) < 4f;
+        return Vector3.Distance(pos, bar) < BAR_RANGE;
     }
 
     void RoutineBar()
@@ -86,7 +88,7 @@ public class Customer : MonoBehaviour
     {
         orderStatus = OrderStatus.InProgress;
         float seed = Random.Range(0f, 1f);
-        order.GenerateOrder(seed);
+        orderInstance.GenerateOrder(seed);
         Debug.Log("Order placed");
     }
 
@@ -114,10 +116,10 @@ public class Customer : MonoBehaviour
             float distanceToOtherCustomer = directionToOtherCustomer.magnitude;
 
             // * Check if other customer is too close in positive z direction
-            Debug.Log("Customer " + this.customer.name + " is checking for " + otherCustomer.name);
-            Debug.Log("Customer " + this.customer.name + " found " + distanceToOtherCustomer + " distance to " + otherCustomer.name);
-            Debug.Log("Customer " + this.customer.name + " found " + directionToOtherCustomer + " direction to " + otherCustomer.name);
-            Debug.Log("Customer " + this.customer.name + " found " + directionToOtherCustomer.normalized.z + " direction to " + otherCustomer.name);
+            //Debug.Log("Customer " + this.customer.name + " is checking for " + otherCustomer.name);
+            //Debug.Log("Customer " + this.customer.name + " found " + distanceToOtherCustomer + " distance to " + otherCustomer.name);
+            //Debug.Log("Customer " + this.customer.name + " found " + directionToOtherCustomer + " direction to " + otherCustomer.name);
+            //Debug.Log("Customer " + this.customer.name + " found " + directionToOtherCustomer.normalized.z + " direction to " + otherCustomer.name);
 
             if (distanceToOtherCustomer < CustomerDistance && directionToOtherCustomer.normalized.z > 0.8)
             {
@@ -125,30 +127,10 @@ public class Customer : MonoBehaviour
                 {
                 Debug.Log("Customer " + this.customer.name + " is waiting for " + otherCustomer.name + " to move");
                 this.navMeshAgent.isStopped = true;
-                Debug.Log("navMeshAgent.isStopped = " + this.navMeshAgent.isStopped);
+                //Debug.Log("navMeshAgent.isStopped = " + this.navMeshAgent.isStopped);
                 }
                 return;
             }
-
-            /*
-
-
-            // * check if other customer is in front of this customer
-            Vector3 otherPos = otherCustomer.transform.position;
-            Vector3 directionToOtherCustomer = otherPos - this.pos;
-            Debug.Log(directionToOtherCustomer + ", " + this.forward + ", " + Vector3.Dot(directionToOtherCustomer, this.forward));
-            if (Vector3.Dot(directionToOtherCustomer, this.forward) > 0)
-            {
-                if (!this.navMeshAgent.isStopped)
-                {
-                    Debug.Log("Customer " + this.customer.name + " is waiting for " + otherCustomer.name + " to move");
-                    this.navMeshAgent.isStopped = true;
-                    Debug.Log("navMeshAgent.isStopped = " + this.navMeshAgent.isStopped);
-                }
-
-                return;
-            }
-            */
         }
 
         this.navMeshAgent.isStopped = false;
@@ -160,43 +142,57 @@ public class Customer : MonoBehaviour
         string textNachos = "";
         string textSoda = "";
 
-        if (order.nPopcorn > 0) textPopcorn = "Popcorn:\t" + order.nPopcorn + "\n";
-        if (order.nNachos > 0) textNachos = "Nachos:\t" + order.nNachos + "\n";
-        if (order.nSoda > 0) textSoda = "Soda:\t" + order.nSoda + "\n";
+        if (orderInstance.nPopcorn > 0) textPopcorn = "Popcorn:\t" + orderInstance.nPopcorn + "\n";
+        if (orderInstance.nNachos > 0) textNachos = "Nachos:\t" + orderInstance.nNachos + "\n";
+        if (orderInstance.nSoda > 0) textSoda = "Soda:\t" + orderInstance.nSoda + "\n";
 
         orderText.text = textPopcorn + textNachos + textSoda;
     }
 
     public void HandInOrder()
     {
-        orderStatus = OrderStatus.Completed;
 
-        if (CheckMatch(order, inventory))
+        if (inventory.nPopcorn > 0 && orderInstance.nPopcorn > 0)
         {
-            Debug.Log("Order correct");
-            inventory.Clear();
-            
-            // TODO score based on time and difficulty
+            while (inventory.nPopcorn > 0 && orderInstance.nPopcorn > 0)
+            {
+                inventory.RemovePopcorn(1);
+                orderInstance.nPopcorn--;
+            }
+        }
+
+        if (inventory.nNachos > 0 && orderInstance.nNachos > 0)
+        {
+            while (inventory.nNachos > 0 && orderInstance.nNachos > 0)
+            {
+                inventory.RemoveNachos(1);
+                orderInstance.nNachos--;
+            }
+        }
+
+        if (inventory.nSoda > 0 && orderInstance.nSoda > 0)
+        {
+            while (inventory.nSoda > 0 && orderInstance.nSoda > 0)
+            {
+                inventory.RemoveSoda(1);
+                orderInstance.nSoda--;
+            }
+        }
+
+        UpdateOrderText();
+
+        if (orderInstance.nPopcorn == 0 && orderInstance.nNachos == 0 && orderInstance.nSoda == 0)
+        {
+            orderStatus = OrderStatus.Completed;
+            Debug.Log("Order completed");
             score.AddScore(100);
-        }
-        else
-        {
-            Debug.Log("Order incorrect");
-            lives.LoseLife();
-        }
 
-        // just in case
-        navMeshAgent.isStopped = false;
-
-        navMeshAgent.SetDestination(customerManager.waypointEnd.position);
-        movementStatus = MovementStatus.Moving;
+            navMeshAgent.isStopped = false;
+            navMeshAgent.SetDestination(customerManager.waypointEnd.position);
+            movementStatus = MovementStatus.Moving;
+        }
     }
 
-    bool CheckMatch(Order order, Inventory inventory)
-    {
-        Debug.Log(order.nNachos + " " + order.nPopcorn + " " + order.nSoda);
-        return order.nPopcorn == inventory.nPopcorn && order.nNachos == inventory.nNachos && order.nSoda == inventory.nSoda;
-    }
 }
 
 
