@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
@@ -7,6 +8,9 @@ public class Customer : MonoBehaviour
     public float CustomerDistance = 4.5f;
     public float BAR_RANGE = 5f;
 
+    public float rotationTime = 1f;
+    public float rotationDegree = 90.0f;
+    private float t;
 
     public CustomerManager customerManager;
     public TMP_Text orderText;
@@ -80,6 +84,7 @@ public class Customer : MonoBehaviour
     {
         movementStatus = MovementStatus.Idle;
         orderStatus = OrderStatus.Ordering;
+        StartCoroutine(RotateCustomer(this.transform.rotation, Quaternion.Euler(transform.eulerAngles + Vector3.up * rotationDegree)));
         PlaceOrder();
         UpdateOrderText();
     }
@@ -92,13 +97,38 @@ public class Customer : MonoBehaviour
         Debug.Log("Order placed");
     }
 
+    IEnumerator RotateCustomer(Quaternion startRotation, Quaternion targetRotation)
+    {
+        // Interpolation
+        while (t < 1f)
+        {
+            t += Time.deltaTime / rotationTime;
+            transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
+            // * Wait one frame before looping again
+            yield return null;
+        }
+        // * Stops the customer to turn further than the 90 degrees
+        navMeshAgent.angularSpeed = 0f;
+        
+    }
+
 
     void StayInLineWithOtherCustomers()
     {
         if (Vector3.Distance(pos, bar) < 0.4f) return;
 
-        Collider[] colliders = Physics.OverlapBox(this.pos, this.customer.transform.localScale / 1.0f, Quaternion.identity, LayerMask.GetMask("Customer"));
+        // * Required for OverlapCapsule
+        var direction = new Vector3 { [GetComponent<CapsuleCollider>().direction] = 1 };
+        var offset = GetComponent<CapsuleCollider>().height / 2 - GetComponent<CapsuleCollider>().radius;
+        var localPoint0 = GetComponent<CapsuleCollider>().center - direction * offset;
+        var localPoint1 = GetComponent<CapsuleCollider>().center + direction * offset;
+        var point0 = transform.TransformPoint(localPoint0);
+        var point1 = transform.TransformPoint(localPoint1);
 
+        //Collider[] colliders = Physics.OverlapBox(this.pos, this.customer.transform.localScale / 1.0f, Quaternion.identity, LayerMask.GetMask("Customer"));
+        
+        // * Changed OverlapBox collider to OverlapCapsule collider
+        Collider[] colliders = Physics.OverlapCapsule(point0, point1, GetComponent<CapsuleCollider>().radius, LayerMask.GetMask("Customer"));
         //Debug.Log("Customer " + this.customer.name + " is checking for other customers");
         //Debug.Log("Customer " + this.customer.name + " found " + colliders.Length + " colliders");
 
@@ -190,6 +220,7 @@ public class Customer : MonoBehaviour
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(customerManager.waypointEnd.position);
             movementStatus = MovementStatus.Moving;
+            navMeshAgent.angularSpeed = 120.0f;
         }
     }
 
