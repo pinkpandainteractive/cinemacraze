@@ -5,8 +5,10 @@ public class GameOverScreen : MonoBehaviour
     public GameObject gameOverScreenGO;
     public MenuManager menuManager;
     public TimeManager timeManager;
+    public CustomerManager customerManager;
     public Score score;
     public Lives lives;
+    public Inventory inventory;
 
     public void Show()
     {
@@ -21,19 +23,23 @@ public class GameOverScreen : MonoBehaviour
     public void Restart()
     {
         Debug.Log("Restarting Game");
+        customerManager.Reset();
         score.ResetScore();
         lives.ResetLives();
+        inventory.Clear();
         Hide();
-        menuManager.ShowGameOverlay();
-        menuManager.HidePauseMenu();
-        menuManager.EnablePauseMenu();
-        timeManager.Resume();
+        menuManager.Play();
     }
 
     public void ReturnToMainMenu()
     {
         Debug.Log("Returning to Main Menu");
         Hide();
+        customerManager.Reset();
+        inventory.Clear();
+        score.ResetScore();
+        lives.ResetLives();
+
         menuManager.HideGameOverlay();
         menuManager.HidePauseMenu();
         menuManager.DisablePauseMenu();

@@ -42,6 +42,7 @@ public class Inventory : MonoBehaviour {
     }
 
     public void Clear() {
+        Debug.Log("Clearing inventory");
         nNachos = 0;
         nPopcorn = 0;
         nSoda = 0;

@@ -8,12 +8,15 @@ public class MainMenu : MonoBehaviour
     public TimeManager timeManager;
     public Score score;
     public Lives lives;
+    public Inventory inventory;
   
     public void Play()
     {
         Debug.Log("Play");
         score.ResetScore();
         lives.ResetLives();
+        inventory.Clear();
+
         menuManager.HideMainMenu();
         menuManager.HidePauseMenu();
         menuManager.EnablePauseMenu();

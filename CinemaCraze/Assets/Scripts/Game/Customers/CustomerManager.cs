@@ -79,11 +79,18 @@ public class CustomerManager : MonoBehaviour
 
     public void Reset()
     {
+        foreach (GameObject customer in customers)
+        {
+            if (customer == null) continue;
+            Destroy(customer);
+        }
         customers.Clear();
         nCustomers = 0;
         nTotalCustomers = 0;
         tLastSpawn = -5f;
+
         status = LiveCycleStatus.Inactive;
+        
     }
 
 }

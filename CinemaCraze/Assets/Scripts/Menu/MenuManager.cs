@@ -7,6 +7,11 @@ public class MenuManager : MonoBehaviour {
     public GameOverlay gameOverlay;
     public GameOverScreen gameOverScreen;
 
+
+    public void Play()
+    {
+        mainMenu.Play();
+    }
     public void ShowMainMenu()
     {
         Debug.Log("Showing Main Menu");

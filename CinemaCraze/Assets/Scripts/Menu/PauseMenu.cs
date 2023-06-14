@@ -5,6 +5,10 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuGO;
     public MenuManager menuManager;
     public TimeManager timeManager;
+    public CustomerManager customerManager;
+    public Score score;
+    public Lives lives;
+    public Inventory inventory;
     public bool paused = false;
     public bool Enabled = true;
 
@@ -50,6 +54,10 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Returning to Main Menu");
         Hide();
         Disable();
+        customerManager.Reset();
+        inventory.Clear();
+        score.ResetScore();
+        lives.ResetLives();
         menuManager.HideGameOverlay();
         menuManager.ShowMainMenu();
         timeManager.Pause();

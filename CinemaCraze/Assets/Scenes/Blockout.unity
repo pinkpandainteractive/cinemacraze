@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7211,6 +7211,10 @@ MonoBehaviour:
   pauseMenuGO: {fileID: 1451971048}
   menuManager: {fileID: 321129536}
   timeManager: {fileID: 1629263767}
+  customerManager: {fileID: 1391976100}
+  score: {fileID: 626739133}
+  lives: {fileID: 393626324}
+  inventory: {fileID: 1553683355}
   paused: 0
   Enabled: 1
 --- !u!1 &1463098977
@@ -7312,6 +7316,7 @@ MonoBehaviour:
   timeManager: {fileID: 1629263767}
   score: {fileID: 626739133}
   lives: {fileID: 393626324}
+  inventory: {fileID: 1553683355}
 --- !u!1 &1478294117 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3959c2f3b751eca4ea020bce5db23184, type: 3}
@@ -9687,8 +9692,10 @@ MonoBehaviour:
   gameOverScreenGO: {fileID: 2023027841}
   menuManager: {fileID: 321129536}
   timeManager: {fileID: 1629263767}
+  customerManager: {fileID: 1391976100}
   score: {fileID: 626739133}
   lives: {fileID: 393626324}
+  inventory: {fileID: 1553683355}
 --- !u!1 &2025751321
 GameObject:
   m_ObjectHideFlags: 0
