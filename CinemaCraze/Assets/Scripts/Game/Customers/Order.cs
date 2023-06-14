@@ -11,7 +11,15 @@ public class Order : ScriptableObject
         public int nPopcorn;
         public int nNachos;
         public int nSoda;
+        public float forbearance;   // * in seconds
 
+
+        public void Reset() 
+        {
+            nPopcorn = 0;
+            nNachos = 0;
+            nSoda = 0;
+        }
         public void GenerateOrder(float seed)
         {
             if (seed < 0.5f) GenerateSimpleOrder(seed);
@@ -26,6 +34,8 @@ public class Order : ScriptableObject
             else if (seed < 0.3f) GenerateSimpleOrder3();
             else if (seed < 0.4f) GenerateSimpleOrder4();
             else GenerateSimpleOrder5();
+
+            forbearance = Random.Range(8f, 16f);
         }
 
         void GenerateSimpleOrder1()
@@ -69,6 +79,8 @@ public class Order : ScriptableObject
             else if (seed > 0.7f) GenerateComplexOrder3();
             else if (seed > 0.6f) GenerateComplexOrder4();
             else GenerateComplexOrder5();
+
+            forbearance = Random.Range(12f, 20f);
         }
 
         void GenerateComplexOrder1()

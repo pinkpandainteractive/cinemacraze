@@ -17,6 +17,8 @@ public class Customer : MonoBehaviour
 
     public Order order;
     private Order.OrderInstance orderInstance;
+    float tOrderStart;
+
     public Inventory inventory;
     public Score score;
     public Lives lives;
@@ -70,7 +72,11 @@ public class Customer : MonoBehaviour
         }
         else if (movementStatus.Equals(MovementStatus.Idle))
         {
-            if (ArrivedAtBar()) StayInLineWithOtherCustomers();
+            if (ArrivedAtBar()) 
+            {
+                StayInLineWithOtherCustomers();
+                CheckForbearance();
+            }
         }
 
     }
@@ -94,6 +100,7 @@ public class Customer : MonoBehaviour
         orderStatus = OrderStatus.InProgress;
         float seed = Random.Range(0f, 1f);
         orderInstance.GenerateOrder(seed);
+        tOrderStart = Time.time;
         Debug.Log("Order placed");
     }
 
@@ -166,21 +173,48 @@ public class Customer : MonoBehaviour
         this.navMeshAgent.isStopped = false;
     }
 
+    void CheckForbearance()
+    {
+        if (!orderStatus.Equals(OrderStatus.InProgress)) return;
+
+        if (Time.time - tOrderStart > orderInstance.forbearance)
+        {
+            orderStatus = OrderStatus.Completed;
+            score.SubtractScore(100);
+            lives.LoseLife();
+            Debug.Log("Customer " + this.customer.name + " has lost patience");
+            
+            //StartCoroutine(RotateCustomer(this.transform.rotation, Quaternion.Euler(transform.eulerAngles - Vector3.up * rotationDegree)));
+            
+            navMeshAgent.isStopped = false;
+            navMeshAgent.SetDestination(customerManager.waypointEnd.position);
+            movementStatus = MovementStatus.Moving;
+            navMeshAgent.angularSpeed = 120.0f;
+
+            orderInstance.Reset();
+        }
+
+        UpdateOrderText();
+    }
+
     void UpdateOrderText()
     {
         string textPopcorn = "";
         string textNachos = "";
         string textSoda = "";
+        string textForbearance = "";
 
         if (orderInstance.nPopcorn > 0) textPopcorn = "Popcorn:\t" + orderInstance.nPopcorn + "\n";
         if (orderInstance.nNachos > 0) textNachos = "Nachos:\t" + orderInstance.nNachos + "\n";
         if (orderInstance.nSoda > 0) textSoda = "Soda:\t" + orderInstance.nSoda + "\n";
+        if (orderStatus.Equals(OrderStatus.InProgress)) textForbearance = "Time:\t" + Mathf.CeilToInt(orderInstance.forbearance - (Time.time - tOrderStart)) + "\n";
 
-        orderText.text = textPopcorn + textNachos + textSoda;
+        orderText.text = textPopcorn + textNachos + textSoda + textForbearance;
     }
 
     public void HandInOrder()
     {
+        if(orderStatus.Equals(OrderStatus.Completed)) return;
 
         if (inventory.nPopcorn > 0 && orderInstance.nPopcorn > 0)
         {
