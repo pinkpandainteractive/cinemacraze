@@ -13,13 +13,16 @@ public class MachineManager : MonoBehaviour
 
     public void HandleBuyMachineProcess(GameObject gameObject)
     {
-       
+        Debug.Log("HandleBuyMachineProcess");
         if (gameObject == null) return;
         if (gameObject.GetComponent<Machine>().machineStatus.Equals(MachineStatus.Owned)) return;
 
         int price = gameObject.GetComponent<Machine>().price;
-        if (score.GetScore() < price) return;
-
+        if (score.GetScore() < price) 
+        {
+            Debug.Log("Not enough money to buy the machine");
+            return;
+        }
         gameObject.GetComponent<Machine>().machineStatus = MachineStatus.Owned;
         gameObject.GetComponent<Machine>().product.SetActive(true);
         gameObject.GetComponent<Renderer>().material = matl_colorPalette;

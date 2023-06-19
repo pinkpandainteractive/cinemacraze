@@ -20,7 +20,7 @@ public class Machine : MonoBehaviour
     {
         machineStatus = MachineStatus.None;
         buyScreenStatus = BuyScreenStatus.InActive;
-        priceText.text = $"Kaufe die Maschine für: {price} Score";
+        priceText.text = $"Kaufe die Maschine fÃ¼r: {price} Score";
 
         GetComponent<Renderer>().material = machineManager.mtl_locked;
         
