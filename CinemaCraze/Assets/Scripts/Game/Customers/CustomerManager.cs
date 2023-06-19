@@ -24,6 +24,7 @@ public class CustomerManager : MonoBehaviour
     // * Waypoints
     public Transform waypointStart;
     public Transform waypointBar;
+    public Transform waypointBeforeEnd;
     public Transform waypointEnd;
 
     void Start()

@@ -78,7 +78,10 @@ public class Customer : MonoBehaviour
                 CheckForbearance();
             }
         }
-
+        else if (movementStatus.Equals(MovementStatus.Moving) && orderStatus.Equals(OrderStatus.Completed))
+        {
+            if (CloseToBeforeEnd()) navMeshAgent.SetDestination(customerManager.waypointEnd.position);
+        }
     }
 
     bool ArrivedAtBar()
@@ -252,12 +255,17 @@ public class Customer : MonoBehaviour
             score.AddScore(100);
 
             navMeshAgent.isStopped = false;
-            navMeshAgent.SetDestination(customerManager.waypointEnd.position);
+            navMeshAgent.SetDestination(customerManager.waypointBeforeEnd.position);
             movementStatus = MovementStatus.Moving;
             navMeshAgent.angularSpeed = 120.0f;
         }
     }
 
+    bool CloseToBeforeEnd()
+    {
+        // Debug.Log("Distance to before end waypoint: " + Vector3.Distance(pos, customerManager.waypointBeforeEnd.position));
+        return Vector3.Distance(pos, customerManager.waypointBeforeEnd.position) < 2.5f;
+    }
 }
 
 
