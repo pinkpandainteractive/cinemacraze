@@ -117,7 +117,7 @@ public class Customer : MonoBehaviour
             // * Wait one frame before looping again
             yield return null;
         }
-        // * Stops the customer to turn further than the 90 degrees
+        // * Stops the customer to turn further than the rotationDegrees
         navMeshAgent.angularSpeed = 0f;
         
     }

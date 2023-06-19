@@ -12,6 +12,8 @@ TagManager:
   - Nachos
   - Tablet
   - Kasse
+  - Machine
+  - BuyScreen
   layers:
   - Default
   - TransparentFX

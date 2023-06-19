@@ -9,6 +9,8 @@ public class MouseInputHandler : MonoBehaviour
     public CameraSwitch cameraSwitch;
     public Customer customer;
     public Inventory inventory;
+    public MachineManager machineManager;
+
     Camera activeCamera;
     int layerMask;
     Ray ray;
@@ -19,6 +21,7 @@ public class MouseInputHandler : MonoBehaviour
     {
         //  Ignores WaitingZone
         layerMask = ~LayerMask.GetMask("WaitingZone");
+        
     }
     void Update()
     {
@@ -27,7 +30,7 @@ public class MouseInputHandler : MonoBehaviour
         if (Input.GetMouseButtonDown(LEFT_CLICK))
         {
             // Checks if the mouse is over an object
-            if (Physics.Raycast(computeRay(), out hit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(computeRay(), out hit))
             {
                 clickedObject = hit.collider.gameObject;
                 HandleLeftClick(clickedObject);
@@ -62,13 +65,17 @@ public class MouseInputHandler : MonoBehaviour
 
     void HandleLeftClick(GameObject obj)
     {
+        
         if (obj == null) return;
 
-        Debug.Log(obj.tag);
-        Debug.Log(obj.name);
-
+        
+        //Debug.Log(obj.tag);
+        //Debug.Log(obj.name);
+        
         string tag = obj.tag;
-
+        
+       
+        
         if (tag.Equals("Customer"))
         {
             Customer customer = obj.GetComponent<Customer>();
@@ -86,7 +93,12 @@ public class MouseInputHandler : MonoBehaviour
         {
             inventory.AddSoda(1);
         }
-
+        else if (tag.Equals("Machine"))
+        {
+            machineManager.HandleBuyScreen(obj);
+        }
+        
+        
     }
 
     void HandleRightClick(GameObject obj)
@@ -114,4 +126,6 @@ public class MouseInputHandler : MonoBehaviour
         if (obj == null) return;
 
     }
+   
+  
 }
