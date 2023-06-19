@@ -13,9 +13,9 @@ public class CustomerManager : MonoBehaviour
     const string CUSTOMER_TAG = "Customer";
 
     public List<GameObject> customers = new List<GameObject>();
-    int nCustomers;
-    int nTotalCustomers;
-    float tLastSpawn;
+    public int nCustomers;
+    public int nTotalCustomers;
+    public float tLastSpawn;
     public LiveCycleStatus status { get; set; }
 
     public TimeManager timeManager;

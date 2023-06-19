@@ -49,6 +49,13 @@ public class Inventory : MonoBehaviour {
         UpdateInventoryText();
     }
 
+    public void SetAll(int nachos, int popcorn, int soda) {
+        nNachos = nachos;
+        nPopcorn = popcorn;
+        nSoda = soda;
+        UpdateInventoryText();
+    }
+
     void UpdateInventoryText () {
         string nachosText = "";
         string popcornText = "";

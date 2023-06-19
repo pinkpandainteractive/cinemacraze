@@ -3,7 +3,7 @@ using TMPro;
 
 public class Score : MonoBehaviour {
     
-    private int score = 0;
+    public int score = 0;
     public TMP_Text scoreText;
 
     public void AddScore(int scoreToAdd)

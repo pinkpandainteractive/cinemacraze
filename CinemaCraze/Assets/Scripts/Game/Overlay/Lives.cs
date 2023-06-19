@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Lives : MonoBehaviour
 {
-    private int lives = 3;
+    public int lives = 3;
     public GameObject heart3;
     public GameObject heart2;
     public GameObject heart1;
@@ -64,6 +64,37 @@ public class Lives : MonoBehaviour
     public int GetLives()
     {
         return lives;
+    }
+
+    public void SetLives(int lives)
+    {
+        this.lives = lives;
+        if (lives == 3)
+        {
+            heart3.SetActive(true);
+            heart2.SetActive(true);
+            heart1.SetActive(true);
+        }
+        else if (lives == 2)
+        {
+            heart3.SetActive(false);
+            heart2.SetActive(true);
+            heart1.SetActive(true);
+        }
+        else if (lives == 1)
+        {
+            heart3.SetActive(false);
+            heart2.SetActive(false);
+            heart1.SetActive(true);
+        }
+        // ! should not be the case
+        else if (lives == 0)
+        {
+            heart3.SetActive(false);
+            heart2.SetActive(false);
+            heart1.SetActive(false);
+            Debug.LogError("Lives should not be 0 on load");
+        }
     }
 
 }
