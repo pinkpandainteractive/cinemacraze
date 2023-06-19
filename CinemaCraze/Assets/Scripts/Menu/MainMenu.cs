@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     public Score score;
     public Lives lives;
     public Inventory inventory;
-  
+    public SaveLoadAgent saveLoadAgent;
     public void Play()
     {
         Debug.Log("Play");
@@ -17,6 +17,17 @@ public class MainMenu : MonoBehaviour
         lives.ResetLives();
         inventory.Clear();
 
+        menuManager.HideMainMenu();
+        menuManager.HidePauseMenu();
+        menuManager.EnablePauseMenu();
+        menuManager.ShowGameOverlay();
+        timeManager.Resume();
+        customerManager.status = LiveCycleStatus.Active;
+    }
+
+    public void Load()
+    {
+        saveLoadAgent.Load();
         menuManager.HideMainMenu();
         menuManager.HidePauseMenu();
         menuManager.EnablePauseMenu();
