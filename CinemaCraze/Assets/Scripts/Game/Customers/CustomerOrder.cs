@@ -5,15 +5,26 @@ public class CustomerOrder
     const int NUMBER_OF_ORDER_TYPES = 2;
     const int NUMBER_OF_ORDER_VARIATIONS = 5;
 
+    public OrderStatus status { get; set; }
+
     public int popcorn { get; set;}
     public int nachos { get; set; }
     public int soda { get; set; }
 
+    public float time { get; set; }
+    public float timeRemaining { get; set; }
+
     public CustomerOrder()
     {
+        status = OrderStatus.Undefined;
+
         popcorn = 0;
         nachos = 0;
         soda = 0;
+
+        time = 0f;
+        timeRemaining = 0f;
+
         GenerateOrder();
     }
 
@@ -30,6 +41,9 @@ public class CustomerOrder
                 GenerateComplexOrder();
                 break;
         }
+
+        status = OrderStatus.Ordering;
+
     }
 
     void GenerateSimpleOrder()
@@ -63,6 +77,9 @@ public class CustomerOrder
                 nachos = Random.Range(0, 1);
                 break;
         }
+
+        time = timeRemaining = Random.Range(7.5f, 12.5f);
+
     }
 
     void GenerateComplexOrder()
@@ -113,6 +130,9 @@ public class CustomerOrder
                 }
                 break;
         }
+
+        time = timeRemaining = Random.Range(12.5f, 17.5f);
+
     }
 
 }

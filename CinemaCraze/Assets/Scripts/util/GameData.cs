@@ -10,9 +10,9 @@ public class GameData
     public int invPopcorn;
     public int invSoda;
     //public List<GameObject> customers;
-    public int nCustomers;
-    public int nTotalCustomers;
-    public float tLastSpawn;
+    public int customerCount;
+    public int totalCustomerCount;
+    public float timeOfLastSpawn;
 
     public GameData(Lives lives, Score score, Inventory inventory, CustomerManager customerManager)
     {
@@ -23,9 +23,9 @@ public class GameData
         this.invSoda = inventory.nSoda;
 
         //this.customers = customerManager.customers;
-        this.nCustomers = customerManager.nCustomers;
-        this.nTotalCustomers = customerManager.nTotalCustomers;
-        this.tLastSpawn = customerManager.tLastSpawn;
+        this.customerCount = customerManager.customerCount;
+        this.totalCustomerCount = customerManager.totalCustomerCount;
+        this.timeOfLastSpawn = customerManager.timeOfLastSpawn;
     }
 
 }

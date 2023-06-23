@@ -23,7 +23,7 @@ public class Customer : MonoBehaviour
     public Score score;
     public Lives lives;
 
-    OrderStatus orderStatus;
+    XOrderStatus orderStatus;
     public MovementStatus movementStatus;
 
     GameObject customer;
@@ -43,7 +43,7 @@ public class Customer : MonoBehaviour
         bar = customerManager.waypointBar.position;
         end = customerManager.waypointEnd.position;
 
-        orderStatus = OrderStatus.None;
+        orderStatus = XOrderStatus.None;
         orderInstance = new Order.OrderInstance();
 
         this.navMeshAgent.SetDestination(customerManager.waypointBar.position);
@@ -66,7 +66,7 @@ public class Customer : MonoBehaviour
 
     void CheckPosition()
     {
-        if (movementStatus.Equals(MovementStatus.Moving) && !orderStatus.Equals(OrderStatus.Completed))
+        if (movementStatus.Equals(MovementStatus.Moving) && !orderStatus.Equals(XOrderStatus.Completed))
         {
             if (ArrivedAtBar()) RoutineBar();
         }
@@ -78,7 +78,7 @@ public class Customer : MonoBehaviour
                 CheckForbearance();
             }
         }
-        else if (movementStatus.Equals(MovementStatus.Moving) && orderStatus.Equals(OrderStatus.Completed))
+        else if (movementStatus.Equals(MovementStatus.Moving) && orderStatus.Equals(XOrderStatus.Completed))
         {
             if (CloseToBeforeEnd()) navMeshAgent.SetDestination(customerManager.waypointEnd.position);
         }
@@ -92,7 +92,7 @@ public class Customer : MonoBehaviour
     void RoutineBar()
     {
         movementStatus = MovementStatus.Idle;
-        orderStatus = OrderStatus.Ordering;
+        orderStatus = XOrderStatus.Ordering;
         StartCoroutine(RotateCustomer(this.transform.rotation, Quaternion.Euler(transform.eulerAngles + Vector3.up * rotationDegree)));
         PlaceOrder();
         UpdateOrderText();
@@ -100,7 +100,7 @@ public class Customer : MonoBehaviour
 
     void PlaceOrder()
     {
-        orderStatus = OrderStatus.InProgress;
+        orderStatus = XOrderStatus.InProgress;
         float seed = Random.Range(0f, 1f);
         orderInstance.GenerateOrder(seed);
         tOrderStart = Time.time;
@@ -178,11 +178,11 @@ public class Customer : MonoBehaviour
 
     void CheckForbearance()
     {
-        if (!orderStatus.Equals(OrderStatus.InProgress)) return;
+        if (!orderStatus.Equals(XOrderStatus.InProgress)) return;
 
         if (Time.time - tOrderStart > orderInstance.forbearance)
         {
-            orderStatus = OrderStatus.Completed;
+            orderStatus = XOrderStatus.Completed;
             score.SubtractScore(100);
             lives.LoseLife();
             Debug.Log("Customer " + this.customer.name + " has lost patience");
@@ -210,14 +210,14 @@ public class Customer : MonoBehaviour
         if (orderInstance.nPopcorn > 0) textPopcorn = "Popcorn:\t" + orderInstance.nPopcorn + "\n";
         if (orderInstance.nNachos > 0) textNachos = "Nachos:\t" + orderInstance.nNachos + "\n";
         if (orderInstance.nSoda > 0) textSoda = "Soda:\t" + orderInstance.nSoda + "\n";
-        if (orderStatus.Equals(OrderStatus.InProgress)) textForbearance = "Time:\t" + Mathf.CeilToInt(orderInstance.forbearance - (Time.time - tOrderStart)) + "\n";
+        if (orderStatus.Equals(XOrderStatus.InProgress)) textForbearance = "Time:\t" + Mathf.CeilToInt(orderInstance.forbearance - (Time.time - tOrderStart)) + "\n";
 
         orderText.text = textPopcorn + textNachos + textSoda + textForbearance;
     }
 
     public void HandInOrder()
     {
-        if(orderStatus.Equals(OrderStatus.Completed)) return;
+        if(orderStatus.Equals(XOrderStatus.Completed)) return;
 
         if (inventory.nPopcorn > 0 && orderInstance.nPopcorn > 0)
         {
@@ -250,7 +250,7 @@ public class Customer : MonoBehaviour
 
         if (orderInstance.nPopcorn == 0 && orderInstance.nNachos == 0 && orderInstance.nSoda == 0)
         {
-            orderStatus = OrderStatus.Completed;
+            orderStatus = XOrderStatus.Completed;
             Debug.Log("Order completed");
             score.AddScore(100);
 
@@ -269,7 +269,7 @@ public class Customer : MonoBehaviour
 }
 
 
-public enum OrderStatus
+public enum XOrderStatus
 {
     None,
     Ordering,

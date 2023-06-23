@@ -44,9 +44,9 @@ public class SaveLoadAgent : MonoBehaviour {
             inventory.SetAll(gameData.invNachos, gameData.invPopcorn, gameData.invSoda);
 
             //customerManager.customers = gameData.customers;
-            customerManager.nCustomers = gameData.nCustomers;
-            customerManager.nTotalCustomers = gameData.nTotalCustomers;
-            customerManager.tLastSpawn = gameData.tLastSpawn;
+            customerManager.customerCount = gameData.customerCount;
+            customerManager.totalCustomerCount = gameData.totalCustomerCount;
+            customerManager.timeOfLastSpawn = gameData.timeOfLastSpawn;
 
         }
         else

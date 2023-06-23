@@ -6,16 +6,16 @@ public class CustomerManager : MonoBehaviour
 {
     [Header("Customer Settings")]
     [Range(1, 10)]
-    public int MAX_CUSTOMERS = 3;
+    public int MAX_NUMBER_OF_CUSTOMERS = 3;
     [Range(1, 10)]
     public float SPAWN_DELAY = 5f;
 
     const string CUSTOMER_TAG = "Customer";
 
     public List<GameObject> customers = new List<GameObject>();
-    public int nCustomers;
-    public int nTotalCustomers;
-    public float tLastSpawn;
+    public int customerCount;
+    public int totalCustomerCount;
+    public float timeOfLastSpawn;
     public LiveCycleStatus status { get; set; }
 
     public TimeManager timeManager;
@@ -33,6 +33,13 @@ public class CustomerManager : MonoBehaviour
     }
     void Update()
     {
+
+        SpawnRoutine();
+
+        CustomerRoutine();
+
+
+
         // * check if any customer is close to the endpoint and destroy it
         foreach (GameObject customer in customers)
         {
@@ -41,9 +48,12 @@ public class CustomerManager : MonoBehaviour
                 DestroyCustomer(customer);
         }
 
-        if (!status.Equals(LiveCycleStatus.Active)) return;
-        if (nCustomers >= MAX_CUSTOMERS) return;
-        if (timeManager.CurrentTime() - tLastSpawn < SPAWN_DELAY) return;
+    }
+
+    void SpawnRoutine()
+    {
+        if (customerCount >= MAX_NUMBER_OF_CUSTOMERS) return;
+        if ((Time.time - timeOfLastSpawn) < SPAWN_DELAY) return;
 
         SpawnCustomer();
     }
@@ -51,15 +61,28 @@ public class CustomerManager : MonoBehaviour
     void SpawnCustomer()
     {
         GameObject customer = Instantiate(customerPrefab, waypointStart.position, Quaternion.identity);
-        customer.tag = CUSTOMER_TAG;
-        customer.name = "Customer_" + nTotalCustomers;
+        long id = totalCustomerCount;
+
+        customer.tag = "Customer";
+        customer.name = "Customer_" + id;
+
+
+
         customer.GetComponent<Customer>().Init(customer);
         customers.Add(customer);
 
-        tLastSpawn = timeManager.CurrentTime();
-        nTotalCustomers++;
-        nCustomers++;
+        timeOfLastSpawn = timeManager.CurrentTime();
+        totalCustomerCount++;
+        customerCount++;
         Debug.Log("Customer spawned");
+    }
+
+    void CustomerRoutine()
+    {
+        foreach (GameObject customer in customers)
+        {
+            
+        }
     }
 
     void DestroyCustomer(GameObject customer)
@@ -68,7 +91,7 @@ public class CustomerManager : MonoBehaviour
         {
             customers.Remove(customer);
             Destroy(customer);
-            nCustomers--;
+            customerCount--;
             Debug.Log("Customer destroyed");
         }
         catch (System.Exception e)
@@ -86,9 +109,9 @@ public class CustomerManager : MonoBehaviour
             Destroy(customer);
         }
         customers.Clear();
-        nCustomers = 0;
-        nTotalCustomers = 0;
-        tLastSpawn = -5f;
+        customerCount = 0;
+        totalCustomerCount = 0;
+        timeOfLastSpawn = -5f;
 
         status = LiveCycleStatus.Inactive;
         
