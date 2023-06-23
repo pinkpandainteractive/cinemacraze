@@ -18,9 +18,9 @@ public class GameData
     {
         this.lives = lives.lives;
         this.score = score.score;
-        this.invNachos = inventory.nNachos;
-        this.invPopcorn = inventory.nPopcorn;
-        this.invSoda = inventory.nSoda;
+        this.invNachos = inventory.nachos;
+        this.invPopcorn = inventory.popcorn;
+        this.invSoda = inventory.soda;
 
         //this.customers = customerManager.customers;
         this.customerCount = customerManager.customerCount;

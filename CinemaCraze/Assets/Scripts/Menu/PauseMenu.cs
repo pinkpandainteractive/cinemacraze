@@ -55,6 +55,7 @@ public class PauseMenu : MonoBehaviour
         Hide();
         Disable();
         customerManager.Reset();
+        customerManager.gameRunning = false;
         inventory.Clear();
         score.ResetScore();
         lives.ResetLives();

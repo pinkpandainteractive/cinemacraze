@@ -1,16 +1,19 @@
 using UnityEngine;
+using TMPro;
 
 public class GameOverlay : MonoBehaviour
 {
-    public GameObject gameOverlayGO;
+
+    public TextMeshPro orderText;
 
     public void Show()
     {
-        gameOverlayGO.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        gameOverlayGO.SetActive(false);
+        gameObject.SetActive(false);
     }
+
 }

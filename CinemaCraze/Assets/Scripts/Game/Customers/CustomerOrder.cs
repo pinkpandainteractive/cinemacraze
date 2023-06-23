@@ -24,11 +24,9 @@ public class CustomerOrder
 
         time = 0f;
         timeRemaining = 0f;
-
-        GenerateOrder();
     }
 
-    void GenerateOrder()
+    public void GenerateOrder()
     {
         int random = Random.Range(1, NUMBER_OF_ORDER_TYPES);
 
@@ -132,7 +130,40 @@ public class CustomerOrder
         }
 
         time = timeRemaining = Random.Range(12.5f, 17.5f);
+    }
 
+    public override string ToString()
+    {
+        string order = "";
+
+        if (timeRemaining <= 0) return "";
+
+        if (popcorn > 0)
+        {
+            order += popcorn + " popcorn";
+        }
+
+        if (soda > 0)
+        {
+            if (order.Length > 0)
+            {
+                order += "\n";
+            }
+            order += soda + " soda";
+        }
+
+        if (nachos > 0)
+        {
+            if (order.Length > 0)
+            {
+                order += "\n";
+            }
+            order += nachos + " nachos";
+        }
+
+        order += "\n" + timeRemaining.ToString("0.0") + "s";
+
+        return order;
     }
 
 }

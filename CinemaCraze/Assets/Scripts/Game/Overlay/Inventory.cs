@@ -3,56 +3,56 @@ using TMPro;
 
 public class Inventory : MonoBehaviour {
     
-    public int nNachos = 0;
-    public int nPopcorn = 0;
-    public int nSoda = 0;
+    public int nachos = 0;
+    public int popcorn = 0;
+    public int soda = 0;
 
     public TMP_Text inventoryText;
 
     public void AddNachos(int amount) {
-        nNachos += amount;
+        nachos += amount;
         UpdateInventoryText();
-        Debug.Log("Nachos: " + nNachos);
+        Debug.Log("Nachos: " + nachos);
     }
     public void AddPopcorn(int amount) {
-        nPopcorn += amount;
+        popcorn += amount;
         UpdateInventoryText();
-        Debug.Log("Popcorn: " + nPopcorn);
+        Debug.Log("Popcorn: " + popcorn);
     }
     public void AddSoda(int amount) {
-        nSoda += amount;
+        soda += amount;
         UpdateInventoryText();
-        Debug.Log("Soda: " + nSoda);
+        Debug.Log("Soda: " + soda);
     }
 
     public void RemoveNachos(int amount) {
-        nNachos -= amount;
+        nachos -= amount;
         UpdateInventoryText();
-        Debug.Log("Nachos: " + nNachos);
+        Debug.Log("Nachos: " + nachos);
     }
     public void RemovePopcorn(int amount) {
-        nPopcorn -= amount;
+        popcorn -= amount;
         UpdateInventoryText();
-        Debug.Log("Popcorn: " + nPopcorn);
+        Debug.Log("Popcorn: " + popcorn);
     }
     public void RemoveSoda(int amount) {
-        nSoda -= amount;
+        soda -= amount;
         UpdateInventoryText();
-        Debug.Log("Soda: " + nSoda);
+        Debug.Log("Soda: " + soda);
     }
 
     public void Clear() {
         Debug.Log("Clearing inventory");
-        nNachos = 0;
-        nPopcorn = 0;
-        nSoda = 0;
+        nachos = 0;
+        popcorn = 0;
+        soda = 0;
         UpdateInventoryText();
     }
 
     public void SetAll(int nachos, int popcorn, int soda) {
-        nNachos = nachos;
-        nPopcorn = popcorn;
-        nSoda = soda;
+        this.nachos = nachos;
+        this.popcorn = popcorn;
+        this.soda = soda;
         UpdateInventoryText();
     }
 
@@ -61,9 +61,9 @@ public class Inventory : MonoBehaviour {
         string popcornText = "";
         string sodaText = "";
 
-        if (nNachos > 0) nachosText = "Nachos:\t" + nNachos + "\n";
-        if (nPopcorn > 0) popcornText = "Popcorn:\t" + nPopcorn + "\n";
-        if (nSoda > 0) sodaText = "Soda:\t" + nSoda + "\n";
+        if (nachos > 0) nachosText = "Nachos:\t" + nachos + "\n";
+        if (popcorn > 0) popcornText = "Popcorn:\t" + popcorn + "\n";
+        if (soda > 0) sodaText = "Soda:\t" + soda + "\n";
 
         inventoryText.text = nachosText + popcornText + sodaText;
     }

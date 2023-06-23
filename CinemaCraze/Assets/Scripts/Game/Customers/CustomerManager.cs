@@ -27,12 +27,15 @@ public class CustomerManager : MonoBehaviour
     public Transform waypointBeforeEnd;
     public Transform waypointEnd;
 
+    public bool gameRunning = false;
+
     void Start()
     {
         Reset();
     }
     void Update()
     {
+        if (!gameRunning) return;
 
         SpawnRoutine();
 
@@ -55,33 +58,109 @@ public class CustomerManager : MonoBehaviour
         if (customerCount >= MAX_NUMBER_OF_CUSTOMERS) return;
         if ((Time.time - timeOfLastSpawn) < SPAWN_DELAY) return;
 
-        SpawnCustomer();
+        customers.Add(SpawnCustomer());
     }
 
-    void SpawnCustomer()
+    GameObject SpawnCustomer()
     {
         GameObject customer = Instantiate(customerPrefab, waypointStart.position, Quaternion.identity);
+
         long id = totalCustomerCount;
+        string name = "Customer_" + id;
 
         customer.tag = "Customer";
-        customer.name = "Customer_" + id;
+        customer.name = name;
+        customer.GetComponent<CustomerLogic>().Initialize(name, id, waypointStart.position, waypointStart.forward, waypointBar.position);
 
-
-
+        // !old line
         customer.GetComponent<Customer>().Init(customer);
-        customers.Add(customer);
 
-        timeOfLastSpawn = timeManager.CurrentTime();
+        timeOfLastSpawn = Time.time;
         totalCustomerCount++;
         customerCount++;
+
         Debug.Log("Customer spawned");
+
+        return customer;
     }
 
+    // TODO sachen auslagern is eigene Methoden
     void CustomerRoutine()
     {
         foreach (GameObject customer in customers)
         {
-            
+            CustomerLogic logic = customer.GetComponent<CustomerLogic>();
+            logic.UpdatePosition(customer.transform);
+
+            OrderStatus orderStatus = logic.GetOrderStatus();
+            MovementStatus movementStatus = logic.GetMovementStatus();
+
+            if (orderStatus.Equals(OrderStatus.Undefined))
+            {
+                logic.GenerateOrder();
+            }
+            else if (orderStatus.Equals(OrderStatus.Ordering))
+            {
+                logic.UpdateOrderText();
+                if (movementStatus.Equals(MovementStatus.MovingToBar))
+                {
+                    if (logic.GetDistanceToDestination() < 0.5f)
+                    {
+                        logic.SetMovementStatus(MovementStatus.IdleAtBar);
+                    }
+                    else
+                    {
+                        logic.KeepDistanceToOtherCustomers();
+                    }
+                }
+                else if (movementStatus.Equals(MovementStatus.IdleAtBar))
+                {
+                    if (logic.GetDistanceToDestination() < 0.5f)
+                    {
+                        // TODO Rotation towards the bar
+                    }
+                    else
+                    {
+                        logic.KeepDistanceToOtherCustomers();
+                    }
+                }
+            }
+            else if (orderStatus.Equals(OrderStatus.Completed) || orderStatus.Equals(OrderStatus.Failed))
+            {
+                if (movementStatus.Equals(MovementStatus.IdleAtBar))
+                {
+                    Debug.Log(logic.data.name + " is moving to before end");
+
+                    // TODO Rotation towards the before end waypoint
+                    logic.SetDestination(waypointBeforeEnd.position);
+                    logic.SetMovementStatus(MovementStatus.MovingToBeforeEnd);
+                }
+                else if (movementStatus.Equals(MovementStatus.MovingToBeforeEnd))
+                {
+                    if (logic.GetDistanceToDestination() < 0.5f)
+                    {
+                        logic.SetMovementStatus(MovementStatus.IdleAtBeforeEnd);
+                    }
+                }
+                else if (movementStatus.Equals(MovementStatus.IdleAtBeforeEnd))
+                {
+                    // TODO Rotation towards the end waypoint
+                    logic.SetDestination(waypointEnd.position);
+                    logic.SetMovementStatus(MovementStatus.MovingToEnd);
+                }
+                else if (movementStatus.Equals(MovementStatus.MovingToEnd))
+                {
+                    if (logic.GetDistanceToDestination() < 0.5f)
+                    {
+                        logic.SetMovementStatus(MovementStatus.IdleAtEnd);
+                    }
+                }
+                else if (movementStatus.Equals(MovementStatus.IdleAtEnd))
+                {
+                    DestroyCustomer(customer);
+                }
+                
+            }
         }
     }
 
@@ -96,6 +175,7 @@ public class CustomerManager : MonoBehaviour
         }
         catch (System.Exception e)
         {
+            Debug.Log("Customer could not be destroyed");
             Debug.Log(e);
         }
 

@@ -36,6 +36,7 @@ public class GameOverScreen : MonoBehaviour
         Debug.Log("Returning to Main Menu");
         Hide();
         customerManager.Reset();
+        customerManager.gameRunning = false;
         inventory.Clear();
         score.ResetScore();
         lives.ResetLives();

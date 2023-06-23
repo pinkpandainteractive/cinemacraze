@@ -24,7 +24,7 @@ public class Customer : MonoBehaviour
     public Lives lives;
 
     XOrderStatus orderStatus;
-    public MovementStatus movementStatus;
+    public XMovementStatus movementStatus;
 
     GameObject customer;
     public NavMeshAgent navMeshAgent;
@@ -47,7 +47,7 @@ public class Customer : MonoBehaviour
         orderInstance = new Order.OrderInstance();
 
         this.navMeshAgent.SetDestination(customerManager.waypointBar.position);
-        movementStatus = MovementStatus.Moving;
+        movementStatus = XMovementStatus.Moving;
     }
     void Update()
     {
@@ -66,11 +66,11 @@ public class Customer : MonoBehaviour
 
     void CheckPosition()
     {
-        if (movementStatus.Equals(MovementStatus.Moving) && !orderStatus.Equals(XOrderStatus.Completed))
+        if (movementStatus.Equals(XMovementStatus.Moving) && !orderStatus.Equals(XOrderStatus.Completed))
         {
             if (ArrivedAtBar()) RoutineBar();
         }
-        else if (movementStatus.Equals(MovementStatus.Idle))
+        else if (movementStatus.Equals(XMovementStatus.Idle))
         {
             if (ArrivedAtBar()) 
             {
@@ -78,7 +78,7 @@ public class Customer : MonoBehaviour
                 CheckForbearance();
             }
         }
-        else if (movementStatus.Equals(MovementStatus.Moving) && orderStatus.Equals(XOrderStatus.Completed))
+        else if (movementStatus.Equals(XMovementStatus.Moving) && orderStatus.Equals(XOrderStatus.Completed))
         {
             if (CloseToBeforeEnd()) navMeshAgent.SetDestination(customerManager.waypointEnd.position);
         }
@@ -91,7 +91,7 @@ public class Customer : MonoBehaviour
 
     void RoutineBar()
     {
-        movementStatus = MovementStatus.Idle;
+        movementStatus = XMovementStatus.Idle;
         orderStatus = XOrderStatus.Ordering;
         StartCoroutine(RotateCustomer(this.transform.rotation, Quaternion.Euler(transform.eulerAngles + Vector3.up * rotationDegree)));
         PlaceOrder();
@@ -191,7 +191,7 @@ public class Customer : MonoBehaviour
             
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(customerManager.waypointEnd.position);
-            movementStatus = MovementStatus.Moving;
+            movementStatus = XMovementStatus.Moving;
             navMeshAgent.angularSpeed = 120.0f;
 
             orderInstance.Reset();
@@ -219,27 +219,27 @@ public class Customer : MonoBehaviour
     {
         if(orderStatus.Equals(XOrderStatus.Completed)) return;
 
-        if (inventory.nPopcorn > 0 && orderInstance.nPopcorn > 0)
+        if (inventory.popcorn > 0 && orderInstance.nPopcorn > 0)
         {
-            while (inventory.nPopcorn > 0 && orderInstance.nPopcorn > 0)
+            while (inventory.popcorn > 0 && orderInstance.nPopcorn > 0)
             {
                 inventory.RemovePopcorn(1);
                 orderInstance.nPopcorn--;
             }
         }
 
-        if (inventory.nNachos > 0 && orderInstance.nNachos > 0)
+        if (inventory.nachos > 0 && orderInstance.nNachos > 0)
         {
-            while (inventory.nNachos > 0 && orderInstance.nNachos > 0)
+            while (inventory.nachos > 0 && orderInstance.nNachos > 0)
             {
                 inventory.RemoveNachos(1);
                 orderInstance.nNachos--;
             }
         }
 
-        if (inventory.nSoda > 0 && orderInstance.nSoda > 0)
+        if (inventory.soda > 0 && orderInstance.nSoda > 0)
         {
-            while (inventory.nSoda > 0 && orderInstance.nSoda > 0)
+            while (inventory.soda > 0 && orderInstance.nSoda > 0)
             {
                 inventory.RemoveSoda(1);
                 orderInstance.nSoda--;
@@ -256,7 +256,7 @@ public class Customer : MonoBehaviour
 
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(customerManager.waypointBeforeEnd.position);
-            movementStatus = MovementStatus.Moving;
+            movementStatus = XMovementStatus.Moving;
             navMeshAgent.angularSpeed = 120.0f;
         }
     }
@@ -277,7 +277,7 @@ public enum XOrderStatus
     Completed
 }
 
-public enum MovementStatus
+public enum XMovementStatus
 {
     None,
     Idle,
