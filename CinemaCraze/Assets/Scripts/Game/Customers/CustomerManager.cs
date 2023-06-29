@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 using System.Collections.Generic;
 
 public class CustomerManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class CustomerManager : MonoBehaviour
     public float SPAWN_DELAY = 5f;
 
     const string CUSTOMER_TAG = "Customer";
+    const float ROTATION_TIME = 1.0f;
+
 
     public List<GameObject> customers = new List<GameObject>();
     public int customerCount;
@@ -20,6 +23,7 @@ public class CustomerManager : MonoBehaviour
 
     public TimeManager timeManager;
     public GameObject customerPrefab;
+    public Camera player;
 
     // * Waypoints
     public Transform waypointStart;
@@ -110,16 +114,14 @@ public class CustomerManager : MonoBehaviour
                     }
                     else
                     {
+                        if(logic.GetDistanceToDestination() < 6.0f)
+                            StartCoroutine(RotateCustomer(customer, RotationStatus.RotatedTowardsPlayer));
                         logic.KeepDistanceToOtherCustomers();
                     }
                 }
                 else if (movementStatus.Equals(MovementStatus.IdleAtBar))
                 {
-                    if (logic.GetDistanceToDestination() < 0.5f)
-                    {
-                        // TODO Rotation towards the bar
-                    }
-                    else
+                    if (logic.GetDistanceToDestination() > 0.5f)
                     {
                         logic.KeepDistanceToOtherCustomers();
                     }
@@ -134,6 +136,7 @@ public class CustomerManager : MonoBehaviour
                     // TODO Rotation towards the before end waypoint
                     logic.SetDestination(waypointBeforeEnd.position);
                     logic.SetMovementStatus(MovementStatus.MovingToBeforeEnd);
+
                 }
                 else if (movementStatus.Equals(MovementStatus.MovingToBeforeEnd))
                 {
@@ -162,6 +165,47 @@ public class CustomerManager : MonoBehaviour
                 
             }
         }
+    }
+
+    IEnumerator RotateCustomer(GameObject customer, RotationStatus targetRotationStatus)
+    {
+        if (customer == null) yield break;
+
+        CustomerData data = customer.GetComponent<CustomerLogic>().data;
+        Quaternion startRotation = data.rotation;
+
+        Transform target = customer.transform;
+        Quaternion targetRotationQuaternion = Quaternion.identity;
+
+        float rotationDegrees = 0f;
+        float t = 0f;
+        
+        if(data.rotationStatus.Equals(targetRotationStatus)) yield break;
+        
+        switch(targetRotationStatus)
+        {
+            case RotationStatus.RotatedTowardsPlayer:
+                if (data.rotationStatus.Equals(RotationStatus.RotatingTowardsPlayer)) yield break;
+                data.rotationStatus = RotationStatus.RotatingTowardsPlayer;
+
+                rotationDegrees = Vector2.Angle(VectorTransform.ToVec2XZ(data.direction), VectorTransform.ToVec2XZ(player.transform.position));
+                Debug.Log("Rotation degrees: " + rotationDegrees);
+
+                targetRotationQuaternion = Quaternion.Euler(target.eulerAngles + Vector3.up * rotationDegrees);
+                break;
+        }
+
+        // Interpolation
+        while (t < 1.0f)
+        {
+            t += Time.deltaTime / ROTATION_TIME;
+            target.transform.rotation = Quaternion.Lerp(startRotation, targetRotationQuaternion, t);
+            // * Wait one frame before looping again
+            yield return null;
+        }
+        // * Stops the customer to turn further than the rotationDegrees
+        customer.GetComponent<NavMeshAgent>().angularSpeed = 0f;
+        data.rotationStatus = targetRotationStatus;
     }
 
     void DestroyCustomer(GameObject customer)

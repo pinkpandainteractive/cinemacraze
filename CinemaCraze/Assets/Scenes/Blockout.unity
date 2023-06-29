@@ -9339,6 +9339,7 @@ MonoBehaviour:
   timeOfLastSpawn: 0
   timeManager: {fileID: 1629263767}
   customerPrefab: {fileID: 919132147875540591}
+  player: {fileID: 963194227}
   waypointStart: {fileID: 467444263488425105}
   waypointBar: {fileID: 1074504569}
   waypointBeforeEnd: {fileID: 2015537346}
@@ -14191,7 +14192,7 @@ PrefabInstance:
       objectReference: {fileID: 1553683355}
     - target: {fileID: 123111963848615592, guid: 70800c64ab0dce941aa861d1de2c4241, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 123111963848615592, guid: 70800c64ab0dce941aa861d1de2c4241, type: 3}
       propertyPath: rotationTime

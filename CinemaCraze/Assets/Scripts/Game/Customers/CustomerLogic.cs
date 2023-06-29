@@ -7,8 +7,6 @@ using System.Collections;
 public class CustomerLogic : MonoBehaviour {
 
     const float DISTANCE_BETWEEN_CUSTOMERS = 4.5f;
-    const float ROTATION_TIME = 1f;
-    const float ROTATION_DEGREE = 90.0f;
     
     public CustomerData data;
     public TMP_Text orderText;
@@ -86,6 +84,7 @@ public class CustomerLogic : MonoBehaviour {
     {
         data.pos = transform.position;
         data.direction = transform.forward;
+        data.rotation = transform.rotation;
     }
 
     public void KeepDistanceToOtherCustomers()

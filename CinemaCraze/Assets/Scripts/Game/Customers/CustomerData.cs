@@ -3,12 +3,14 @@ using UnityEngine;
 public class CustomerData
 {
     public MovementStatus movementStatus { get; set; }
+    public RotationStatus rotationStatus { get; set; }
 
     public string name { get; set; }
     public long id { get; set; }
 
     public Vector3 pos { get; set; }
     public Vector3 direction { get; set; }
+    public Quaternion rotation { get; set; }
     public Vector3 destination { get; set; }
 
     public CustomerOrder order { get; set; }
@@ -16,6 +18,7 @@ public class CustomerData
     public CustomerData(string name, long id, Vector3 pos, Vector3 direction, Vector3 destination)
     {
         movementStatus = MovementStatus.Undefined;
+        rotationStatus = RotationStatus.Undefined;
         this.name = name;
         this.id = id;
         this.pos = pos;
