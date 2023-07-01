@@ -24,7 +24,9 @@ public class MachineManager : MonoBehaviour
             return;
         }
         gameObject.GetComponent<Machine>().machineStatus = MachineStatus.Owned;
+
         gameObject.GetComponent<Machine>().product.SetActive(true);
+
         gameObject.GetComponent<Renderer>().material = matl_colorPalette;
         score.SubtractScore(price);
         HandleBuyScreen(gameObject);

@@ -63,8 +63,8 @@ public class Inventory : MonoBehaviour {
 
         if (nachos > 0) nachosText = "Nachos:\t" + nachos + "\n";
         if (popcorn > 0) popcornText = "Popcorn:\t" + popcorn + "\n";
-        if (soda > 0) sodaText = "Soda:\t" + soda + "\n";
-
+        if (soda > 0) sodaText = "Soda:\t\t" + soda + "\n";
+        
         inventoryText.text = nachosText + popcornText + sodaText;
     }
 }

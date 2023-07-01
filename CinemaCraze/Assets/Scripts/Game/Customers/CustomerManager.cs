@@ -21,7 +21,7 @@ public class CustomerManager : MonoBehaviour
     public float timeOfLastSpawn;
     public LiveCycleStatus status { get; set; }
 
-    public TimeManager timeManager;
+   // public TimeManager timeManager;
     public GameObject customerPrefab;
     public Camera player;
 

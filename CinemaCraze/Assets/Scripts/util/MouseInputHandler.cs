@@ -9,6 +9,7 @@ public class MouseInputHandler : MonoBehaviour
     public CameraSwitch cameraSwitch;
     public Customer customer;
     public Inventory inventory;
+    public ProductManager productManager;
     public MachineManager machineManager;
 
     Camera activeCamera;
@@ -86,15 +87,17 @@ public class MouseInputHandler : MonoBehaviour
         }
         else if (tag.Equals("Popcorn"))
         {
-            inventory.AddPopcorn(1);
+            //inventory.AddPopcorn(1);
+            productManager.StartTimer(tag,obj);
         }
         else if (tag.Equals("Nachos"))
         {
-            inventory.AddNachos(1);
+            //inventory.AddNachos(1);
+            productManager.StartTimer(tag, obj);
         }
         else if (tag.Equals("Soda"))
         {
-            inventory.AddSoda(1);
+            productManager.StartTimer(tag, obj);
         }
         else if (tag.Equals("Machine"))
         {

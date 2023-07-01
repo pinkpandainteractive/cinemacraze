@@ -8,9 +8,9 @@ public class Customer : MonoBehaviour
     public float CustomerDistance = 4.5f;
     public float BAR_RANGE = 5f;
 
-    public float rotationTime = 1f;
-    public float rotationDegree = 90.0f;
-    private float t;
+    //public float rotationTime = 1f;
+    //public float rotationDegree = 90.0f;
+    //private float t;
 
     public CustomerManager customerManager;
     public TMP_Text orderText;
@@ -93,7 +93,7 @@ public class Customer : MonoBehaviour
     {
         movementStatus = XMovementStatus.Idle;
         orderStatus = XOrderStatus.Ordering;
-        StartCoroutine(RotateCustomer(this.transform.rotation, Quaternion.Euler(transform.eulerAngles + Vector3.up * rotationDegree)));
+       // StartCoroutine(RotateCustomer(this.transform.rotation, Quaternion.Euler(transform.eulerAngles + Vector3.up * rotationDegree)));
         PlaceOrder();
         UpdateOrderText();
     }
@@ -107,7 +107,7 @@ public class Customer : MonoBehaviour
         Debug.Log("Order placed");
     }
 
-    IEnumerator RotateCustomer(Quaternion startRotation, Quaternion targetRotation)
+    /*IEnumerator RotateCustomer(Quaternion startRotation, Quaternion targetRotation)
     {
         // Interpolation
         while (t < 1f)
@@ -120,7 +120,7 @@ public class Customer : MonoBehaviour
         // * Stops the customer to turn further than the rotationDegrees
         navMeshAgent.angularSpeed = 0f;
         
-    }
+    }*/
 
 
     void StayInLineWithOtherCustomers()
