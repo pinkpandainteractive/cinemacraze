@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static Product;
 
 public class ProductManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class ProductManager : MonoBehaviour
     public void StartTimer(string tag, GameObject gameObject)
     {
         if (gameObject.GetComponent<Product>().productionStatus == ProductionStatus.Waiting) return;
+        if (gameObject.GetComponent<Product>().capacityStatus == CapacityStatus.Empty) return;
+
 
         gameObject.GetComponent<Renderer>().material = mtl_glow;
         // * First GetChild(0) for Canvas second GetChild(0) for progessbar
@@ -19,5 +22,6 @@ public class ProductManager : MonoBehaviour
         gameObject.transform.GetChild(0).GetComponent<Progressbar>().IncrementProgress(1.0f);
         // * Start production
         StartCoroutine(gameObject.GetComponent<Product>().ProductionTimer(tag));
+        
     }
 }

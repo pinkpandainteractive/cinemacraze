@@ -50,6 +50,9 @@ public class Machine : MonoBehaviour
     {
         machineManager.HandleBuyMachineProcess(gameObject);
     }
+
+
+
   
     private void OnMouseOver()
     {
@@ -66,6 +69,7 @@ public class Machine : MonoBehaviour
         None,
         Owned
     }
+    
     public enum BuyScreenStatus
     {
         InActive,

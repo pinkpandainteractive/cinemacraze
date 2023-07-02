@@ -35,7 +35,7 @@ public class Order : ScriptableObject
             else if (seed < 0.4f) GenerateSimpleOrder4();
             else GenerateSimpleOrder5();
 
-            forbearance = Random.Range(8f, 16f);
+            forbearance = Random.Range(30f, 50f);
         }
 
         void GenerateSimpleOrder1()
@@ -80,7 +80,7 @@ public class Order : ScriptableObject
             else if (seed > 0.6f) GenerateComplexOrder4();
             else GenerateComplexOrder5();
 
-            forbearance = Random.Range(12f, 20f);
+            forbearance = Random.Range(120f, 150f);
         }
 
         void GenerateComplexOrder1()
