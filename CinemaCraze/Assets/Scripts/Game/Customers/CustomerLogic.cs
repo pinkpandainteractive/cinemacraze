@@ -4,10 +4,11 @@ using TMPro;
 using UnityEngine.AI;
 using System.Collections;
 
-public class CustomerLogic : MonoBehaviour {
+public class CustomerLogic : MonoBehaviour
+{
 
     const float DISTANCE_BETWEEN_CUSTOMERS = 4.5f;
-    
+
     public CustomerData data;
     public TMP_Text orderText;
     public Inventory inventory;
@@ -24,12 +25,20 @@ public class CustomerLogic : MonoBehaviour {
         Debug.Log("Initialize Customer");
         this.data = new CustomerData(name, id, pos, direction, destination);
         navMeshAgent.SetDestination(destination);
-        this.movementStatus = this.data.movementStatus = MovementStatus.MovingToBar;
+        SetMovementStatus(MovementStatus.MovingToBar);
+    }
+
+    public void Initialize(CustomerData data)
+    {
+        Debug.Log("Initialize Customer");
+        this.data = data;
+        navMeshAgent.SetDestination(data.getDestination());
+        SetMovementStatus(MovementStatus.MovingToBar);
     }
 
     public void GenerateOrder()
     {
-        data.order.GenerateOrder();
+        data.getOrder().GenerateOrder();
         UpdateOrderText();
     }
 
@@ -37,37 +46,37 @@ public class CustomerLogic : MonoBehaviour {
     {
         Debug.Log("HandInOrder");
 
-        if (!data.order.status.Equals(OrderStatus.Ordering)) return;
+        if (!data.getOrder().status.Equals(OrderStatus.Ordering)) return;
 
-        if (data.order.popcorn > 0 && inventory.popcorn > 0)
+        if (data.getOrder().popcorn > 0 && inventory.popcorn > 0)
         {
-            while (data.order.popcorn > 0 && inventory.popcorn > 0)
+            while (data.getOrder().popcorn > 0 && inventory.popcorn > 0)
             {
-                data.order.popcorn--;
+                data.getOrder().popcorn--;
                 inventory.RemovePopcorn(1);
             }
         }
-        if (data.order.soda > 0 && inventory.soda > 0)
+        if (data.getOrder().soda > 0 && inventory.soda > 0)
         {
-            while (data.order.soda > 0 && inventory.soda > 0)
+            while (data.getOrder().soda > 0 && inventory.soda > 0)
             {
-                data.order.soda--;
+                data.getOrder().soda--;
                 inventory.RemoveSoda(1);
             }
         }
-        if (data.order.nachos > 0 && inventory.nachos > 0)
+        if (data.getOrder().nachos > 0 && inventory.nachos > 0)
         {
-            while (data.order.nachos > 0 && inventory.nachos > 0)
+            while (data.getOrder().nachos > 0 && inventory.nachos > 0)
             {
-                data.order.nachos--;
+                data.getOrder().nachos--;
                 inventory.RemoveNachos(1);
             }
         }
 
-        if (data.order.popcorn == 0 && data.order.soda == 0 && data.order.nachos == 0)
+        if (data.getOrder().popcorn == 0 && data.getOrder().soda == 0 && data.getOrder().nachos == 0)
         {
             Debug.Log("Order completed");
-            data.order.status = OrderStatus.Completed;
+            data.getOrder().status = OrderStatus.Completed;
             score.AddScore(100);
             navMeshAgent.isStopped = false;
         }
@@ -77,19 +86,19 @@ public class CustomerLogic : MonoBehaviour {
 
     public float GetDistanceToDestination()
     {
-        return Vector3.Distance(data.pos, data.destination);
+        return Vector3.Distance(data.getPos(), data.getDestination());
     }
 
     public void UpdatePosition(Transform transform)
     {
-        data.pos = transform.position;
-        data.direction = transform.forward;
-        data.rotation = transform.rotation;
+        data.setPos(transform.position);
+        data.setDirection(transform.forward);
+        data.setRotation(transform.rotation);
     }
 
     public void KeepDistanceToOtherCustomers()
     {
-        if (!data.order.status.Equals(OrderStatus.Ordering)) return;
+        if (!data.getOrder().status.Equals(OrderStatus.Ordering)) return;
 
         // * Required for OverlapCapsule
         var direction = new Vector3 { [GetComponent<CapsuleCollider>().direction] = 1 };
@@ -101,82 +110,92 @@ public class CustomerLogic : MonoBehaviour {
 
         // * Changed OverlapBox collider to OverlapCapsule collider
         Collider[] colliders = Physics.OverlapCapsule(point0, point1, GetComponent<CapsuleCollider>().radius, LayerMask.GetMask("Customer"));
-    
-        foreach(Collider collider in colliders)
+
+        foreach (Collider collider in colliders)
         {
 
-            GameObject otherCustomer = collider.gameObject;
-
             // * check if collider is a customer
-            if (otherCustomer.tag != "Customer") continue;
+            if (collider.gameObject.tag != "Customer") continue;
+
+            CustomerLogic otherCustomerLogic = collider.gameObject.GetComponent<CustomerLogic>();
+            if (otherCustomerLogic == null) continue;
 
             // * check if collider is not this customer
-            if (!otherCustomer == gameObject) continue;
-
-            Vector3 otherPos = otherCustomer.GetComponent<CustomerLogic>().data.pos;
-            Vector3 directionToOtherCustomer = (otherPos - data.pos);
-            float distanceToOtherCustomer = directionToOtherCustomer.magnitude;
-
-            // * Check if other customer is too close in positive z direction
-            if (distanceToOtherCustomer <= DISTANCE_BETWEEN_CUSTOMERS && directionToOtherCustomer.normalized.z > 0.8)
+            try
             {
-                if (!navMeshAgent.isStopped)
+                if (otherCustomerLogic.data.getId() == data.getId()) continue;
+                Vector3 otherPos = otherCustomerLogic.data.getPos();
+                Vector3 directionToOtherCustomer = (otherPos - data.getPos());
+                float distanceToOtherCustomer = directionToOtherCustomer.magnitude;
+
+                // * Check if other customer is too close in positive z direction
+                if (distanceToOtherCustomer <= DISTANCE_BETWEEN_CUSTOMERS && directionToOtherCustomer.normalized.z > 0.8)
                 {
-                    navMeshAgent.isStopped = true;
+                    if (!navMeshAgent.isStopped)
+                    {
+                        navMeshAgent.isStopped = true;
+                    }
+                    SetMovementStatus(MovementStatus.IdleAtBar);
+                    return;
                 }
-                SetMovementStatus(MovementStatus.IdleAtBar);
-                return;
+            }
+            catch (NullReferenceException e)
+            {
+                // ! idk why this happens but it does before the customer is initialized
+                //Debug.Log("NullReferenceException: " + e);
+                continue;
             }
         }
-
-        // * Activate NavMeshAgent if no other customer is too close infront
+        
+        // * Activate NavMeshAgent if no other customer is too close in front
         navMeshAgent.isStopped = false;
         SetMovementStatus(MovementStatus.MovingToBar);
+
     }
 
     public void UpdateOrderText()
     {
-        orderText.text = data.order.ToString();
+        orderText.text = data.getOrder().ToString();
         distanceToDestination = GetDistanceToDestination();
     }
     public void SetDestination(Vector3 destination)
     {
-        Debug.Log(data.name + "SetDestination to: " + destination);
+        Debug.Log(data.getName() + "SetDestination to: " + destination);
         navMeshAgent.SetDestination(destination);
-        data.destination = destination;
+        data.setDestination(destination);
     }
 
     public void SetMovementStatus(MovementStatus movementStatus)
     {
         if (this.movementStatus == movementStatus) return;
-        Debug.Log(data.name + "SetMovementStatus to:" + movementStatus);
-        data.movementStatus = movementStatus;
+        Debug.Log(data.getName() + "SetMovementStatus to:" + movementStatus);
+        data.setMovementStatus(movementStatus);
         this.movementStatus = movementStatus;
     }
 
     public Vector3 getPosition()
     {
-        return data.pos;
+        return data.getPos();
     }
 
     public Vector3 getDirection()
     {
-        return data.direction;
+        return data.getDirection();
     }
 
     public Vector3 GetDestination()
     {
-        return data.destination;
+        return data.getDestination();
     }
 
     public OrderStatus GetOrderStatus()
     {
-        return data.order.status;
+        return data.getOrder().status;
     }
 
     public MovementStatus GetMovementStatus()
     {
-        return data.movementStatus;
+        return data.getMovementStatus();
     }
 
 

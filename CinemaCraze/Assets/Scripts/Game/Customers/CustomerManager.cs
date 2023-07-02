@@ -131,7 +131,7 @@ public class CustomerManager : MonoBehaviour
             {
                 if (movementStatus.Equals(MovementStatus.IdleAtBar))
                 {
-                    Debug.Log(logic.data.name + " is moving to before end");
+                    Debug.Log(logic.data.getName() + " is moving to before end");
 
                     // TODO Rotation towards the before end waypoint
                     logic.SetDestination(waypointBeforeEnd.position);
@@ -172,7 +172,7 @@ public class CustomerManager : MonoBehaviour
         if (customer == null) yield break;
 
         CustomerData data = customer.GetComponent<CustomerLogic>().data;
-        Quaternion startRotation = data.rotation;
+        Quaternion startRotation = data.getRotation();
 
         Transform target = customer.transform;
         Quaternion targetRotationQuaternion = Quaternion.identity;
@@ -180,15 +180,15 @@ public class CustomerManager : MonoBehaviour
         float rotationDegrees = 0f;
         float t = 0f;
         
-        if(data.rotationStatus.Equals(targetRotationStatus)) yield break;
+        if(data.getRotationStatus().Equals(targetRotationStatus)) yield break;
         
         switch(targetRotationStatus)
         {
             case RotationStatus.RotatedTowardsPlayer:
-                if (data.rotationStatus.Equals(RotationStatus.RotatingTowardsPlayer)) yield break;
-                data.rotationStatus = RotationStatus.RotatingTowardsPlayer;
+                if (data.getRotationStatus().Equals(RotationStatus.RotatingTowardsPlayer)) yield break;
+                data.setRotationStatus(RotationStatus.RotatingTowardsPlayer);
 
-                rotationDegrees = Vector2.Angle(VectorTransform.ToVec2XZ(data.direction), VectorTransform.ToVec2XZ(player.transform.position));
+                rotationDegrees = Vector2.Angle(VectorTransform.ToVec2XZ(data.getDirection()), VectorTransform.ToVec2XZ(player.transform.position));
                 Debug.Log("Rotation degrees: " + rotationDegrees);
 
                 targetRotationQuaternion = Quaternion.Euler(target.eulerAngles + Vector3.up * rotationDegrees);
@@ -205,7 +205,7 @@ public class CustomerManager : MonoBehaviour
         }
         // * Stops the customer to turn further than the rotationDegrees
         customer.GetComponent<NavMeshAgent>().angularSpeed = 0f;
-        data.rotationStatus = targetRotationStatus;
+        data.setRotationStatus(targetRotationStatus);
     }
 
     void DestroyCustomer(GameObject customer)
@@ -223,6 +223,16 @@ public class CustomerManager : MonoBehaviour
             Debug.Log(e);
         }
 
+    }
+
+    public void loadCustomers(List<CustomerData> customerDataList)
+    {
+        foreach (CustomerData customerData in customerDataList)
+        {
+            GameObject customer = Instantiate(customerPrefab, customerData.getPos(), customerData.getRotation());
+            customer.GetComponent<CustomerLogic>().Initialize(customerData);
+            customers.Add(customer);
+        }
     }
 
     public void Reset()

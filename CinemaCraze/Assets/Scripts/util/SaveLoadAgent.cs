@@ -43,7 +43,7 @@ public class SaveLoadAgent : MonoBehaviour {
             score.SetScore(gameData.score);
             inventory.SetAll(gameData.invNachos, gameData.invPopcorn, gameData.invSoda);
 
-            //customerManager.customers = gameData.customers;
+            customerManager.loadCustomers(gameData.customers);
             customerManager.customerCount = gameData.customerCount;
             customerManager.totalCustomerCount = gameData.totalCustomerCount;
             customerManager.timeOfLastSpawn = gameData.timeOfLastSpawn;

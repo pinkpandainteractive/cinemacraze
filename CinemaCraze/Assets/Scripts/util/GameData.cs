@@ -9,7 +9,7 @@ public class GameData
     public int invNachos;
     public int invPopcorn;
     public int invSoda;
-    //public List<GameObject> customers;
+    public List<CustomerData> customers;
     public int customerCount;
     public int totalCustomerCount;
     public float timeOfLastSpawn;
@@ -22,10 +22,16 @@ public class GameData
         this.invPopcorn = inventory.popcorn;
         this.invSoda = inventory.soda;
 
-        //this.customers = customerManager.customers;
         this.customerCount = customerManager.customerCount;
         this.totalCustomerCount = customerManager.totalCustomerCount;
         this.timeOfLastSpawn = customerManager.timeOfLastSpawn;
+
+        this.customers = new List<CustomerData>();
+        foreach (GameObject customer in customerManager.customers)
+        {
+            if (customer == null) continue;
+            this.customers.Add(customer.GetComponent<CustomerLogic>().data);
+        }
     }
 
 }
