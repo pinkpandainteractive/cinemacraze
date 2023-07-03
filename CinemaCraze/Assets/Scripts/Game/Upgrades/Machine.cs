@@ -12,16 +12,17 @@ public class Machine : MonoBehaviour
     public GameObject product;
     public int price = 100;
     public Score score;
-
     public TextMeshProUGUI priceText;
+    public TextMeshProUGUI scoreText;
     public Button button;
    
     void Start()
     {
+        
         machineStatus = MachineStatus.None;
         buyScreenStatus = BuyScreenStatus.InActive;
-        priceText.text = $"Kaufe die Maschine für: {price} Score";
-
+        priceText.text = $"Kaufe die Maschine für:";
+        scoreText.text = $"{price}";
         GetComponent<Renderer>().material = machineManager.mtl_locked;
         
         product.SetActive(false);
