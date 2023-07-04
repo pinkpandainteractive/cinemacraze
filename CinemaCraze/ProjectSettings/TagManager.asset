@@ -14,6 +14,7 @@ TagManager:
   - Kasse
   - Machine
   - BuyScreen
+  - UI_Upgrades
   layers:
   - Default
   - TransparentFX

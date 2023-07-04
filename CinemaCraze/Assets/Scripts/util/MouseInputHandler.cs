@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 public class MouseInputHandler : MonoBehaviour
 {
     const int LEFT_CLICK = 0;
@@ -11,7 +13,7 @@ public class MouseInputHandler : MonoBehaviour
     public Inventory inventory;
     public ProductManager productManager;
     public MachineManager machineManager;
-
+    public UpgradesManager upgradesManager;
     Camera activeCamera;
     int layerMask;
     Ray ray;
@@ -30,12 +32,33 @@ public class MouseInputHandler : MonoBehaviour
 
         if (Input.GetMouseButtonDown(LEFT_CLICK))
         {
+            var pointerEventData = new PointerEventData(EventSystem.current);
+            pointerEventData.position = Input.mousePosition;
+            var raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+            if(raycastResults.Count > 0)
+            {
+                foreach(var ray in raycastResults)
+                {
+                    HandleLeftClick(ray.gameObject);
+                    //Debug.Log("RAY: "+ray.gameObject.name);
+                }
+            }
+            else
+            {
+                if (Physics.Raycast(computeRay(), out hit))
+                {
+                    clickedObject = hit.collider.gameObject;
+                    HandleLeftClick(clickedObject);
+                }
+            }
+
             // Checks if the mouse is over an object
-            if (Physics.Raycast(computeRay(), out hit))
+            /*if (Physics.Raycast(computeRay(), out hit))
             {
                 clickedObject = hit.collider.gameObject;
                 HandleLeftClick(clickedObject);
-            }
+            }*/
         }
         else if (Input.GetMouseButtonDown(RIGHT_CLICK))
         {
@@ -102,6 +125,9 @@ public class MouseInputHandler : MonoBehaviour
         else if (tag.Equals("Machine"))
         {
             machineManager.HandleBuyScreen(obj);
+        }else if (!tag.Equals("UI_Upgrades"))
+        {
+            upgradesManager.CloseUpgradesMenu();
         }
         
         
