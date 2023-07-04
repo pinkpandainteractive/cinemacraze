@@ -66,9 +66,6 @@ public class CustomerManager : MonoBehaviour
         customer.name = name;
         customer.GetComponent<CustomerLogic>().Initialize(name, id, waypointStart.position, waypointStart.forward, waypointBar.position);
 
-        // !old line
-        //customer.GetComponent<Customer>().Init(customer);
-
         lastSpawnTime = Time.time;
         totalCustomersCount++;
         currentCustomersCount++;
@@ -121,12 +118,8 @@ public class CustomerManager : MonoBehaviour
             {
                 if (movementStatus.Equals(MovementStatus.IdleAtBar))
                 {
-                    Debug.Log(logic.data.getName() + " is moving to before end");
-
-                    // TODO Rotation towards the before end waypoint
                     logic.SetDestination(waypointBeforeEnd.position);
                     logic.SetMovementStatus(MovementStatus.MovingToBeforeEnd);
-
                 }
                 else if (movementStatus.Equals(MovementStatus.MovingToBeforeEnd))
                 {
@@ -137,7 +130,6 @@ public class CustomerManager : MonoBehaviour
                 }
                 else if (movementStatus.Equals(MovementStatus.IdleAtBeforeEnd))
                 {
-                    // TODO Rotation towards the end waypoint
                     logic.SetDestination(waypointEnd.position);
                     logic.SetMovementStatus(MovementStatus.MovingToEnd);
                 }

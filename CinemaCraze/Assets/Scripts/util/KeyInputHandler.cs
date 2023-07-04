@@ -4,8 +4,6 @@ public class KeyInputHandler : MonoBehaviour
 {
     public MenuManager menuManager;
     public CameraSwitch cameraSwitch;
-    public TimeManager timeManager;
-
     void Update()
     {
         // ! Bitte alle Tastenbelegungen hier eintragen
@@ -19,8 +17,7 @@ public class KeyInputHandler : MonoBehaviour
         // * Toggles if the time is paused
         else if(Input.GetKeyDown(KeyCode.P))
         {
-            
-            timeManager.Toggle();
+            Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         }
 
         // * Toggles the CameraSwitcher

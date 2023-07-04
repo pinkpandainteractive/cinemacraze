@@ -5,7 +5,6 @@ public class MainMenu : MonoBehaviour
     public CustomerManager customerManager;
     public GameObject mainMenuGO;
     public MenuManager menuManager;
-    public TimeManager timeManager;
     public Score score;
     public Lives lives;
     public Inventory inventory;
@@ -21,7 +20,7 @@ public class MainMenu : MonoBehaviour
         menuManager.HidePauseMenu();
         menuManager.EnablePauseMenu();
         menuManager.ShowGameOverlay();
-        timeManager.Resume();
+        Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
     }
@@ -33,7 +32,7 @@ public class MainMenu : MonoBehaviour
         menuManager.HidePauseMenu();
         menuManager.EnablePauseMenu();
         menuManager.ShowGameOverlay();
-        timeManager.Resume();
+        Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
     }

@@ -4,7 +4,6 @@ public class GameOverScreen : MonoBehaviour
 {
     public GameObject gameOverScreenGO;
     public MenuManager menuManager;
-    public TimeManager timeManager;
     public CustomerManager customerManager;
     public Score score;
     public Lives lives;
@@ -45,6 +44,6 @@ public class GameOverScreen : MonoBehaviour
         menuManager.HidePauseMenu();
         menuManager.DisablePauseMenu();
         menuManager.ShowMainMenu();
-        timeManager.Pause();
+        Time.timeScale = 0f;
     }
 }

@@ -8,7 +8,6 @@ public class Lives : MonoBehaviour
     public GameObject heart1;
     
     public MenuManager menuManager;
-    public TimeManager timeManager;
 
     public void AddLife()
     {
@@ -48,7 +47,7 @@ public class Lives : MonoBehaviour
             menuManager.ShowGameOverScreen();
             menuManager.HideGameOverlay();
             menuManager.DisablePauseMenu();
-            timeManager.Pause();
+            Time.timeScale = 0f;
         }
     }
 

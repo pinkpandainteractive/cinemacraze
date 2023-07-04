@@ -4,7 +4,6 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuGO;
     public MenuManager menuManager;
-    public TimeManager timeManager;
     public CustomerManager customerManager;
     public Score score;
     public Lives lives;
@@ -36,7 +35,7 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Resumed Game");
         Hide();
         menuManager.ShowGameOverlay();
-        timeManager.Resume();
+        Time.timeScale = 1f;
         paused = false;
     }
 
@@ -45,7 +44,7 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Paused Game");
         Show();
         menuManager.HideGameOverlay();
-        timeManager.Pause();
+        Time.timeScale = 0f;
         paused = true;
     }
 
@@ -61,7 +60,7 @@ public class PauseMenu : MonoBehaviour
         lives.ResetLives();
         menuManager.HideGameOverlay();
         menuManager.ShowMainMenu();
-        timeManager.Pause();
+        Time.timeScale = 0f;
         paused = false;
     }
 

@@ -9,7 +9,6 @@ public class MouseInputHandler : MonoBehaviour
     const int MIDDLE_CLICK = 2;
 
     public CameraSwitch cameraSwitch;
-    public Customer customer;
     public Inventory inventory;
     public ProductManager productManager;
     public MachineManager machineManager;
@@ -22,7 +21,7 @@ public class MouseInputHandler : MonoBehaviour
 
     void Start()
     {
-        //  Ignores WaitingZone
+        // * Ignores WaitingZone
         layerMask = ~LayerMask.GetMask("WaitingZone");
         
     }
@@ -36,47 +35,25 @@ public class MouseInputHandler : MonoBehaviour
             pointerEventData.position = Input.mousePosition;
             var raycastResults = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);
-            if(raycastResults.Count > 0)
-            {
-                foreach(var ray in raycastResults)
-                {
-                    HandleLeftClick(ray.gameObject);
-                    //Debug.Log("RAY: "+ray.gameObject.name);
-                }
-            }
-            else
-            {
-                if (Physics.Raycast(computeRay(), out hit))
-                {
-                    clickedObject = hit.collider.gameObject;
-                    HandleLeftClick(clickedObject);
-                }
-            }
 
-            // Checks if the mouse is over an object
-            /*if (Physics.Raycast(computeRay(), out hit))
-            {
-                clickedObject = hit.collider.gameObject;
-                HandleLeftClick(clickedObject);
-            }*/
+            if(raycastResults.Count > 0)
+                foreach(var ray in raycastResults)
+                    HandleLeftClick(ray.gameObject);
+            else
+                if (Physics.Raycast(computeRay(), out hit))
+                    HandleLeftClick(hit.collider.gameObject);
         }
         else if (Input.GetMouseButtonDown(RIGHT_CLICK))
         {
-            // Checks if the mouse is over an object
+            // * Checks if the mouse is over an object
             if (Physics.Raycast(computeRay(), out hit, Mathf.Infinity, layerMask))
-            {
-                clickedObject = hit.collider.gameObject;
-                HandleRightClick(clickedObject);
-            }
+                HandleRightClick(hit.collider.gameObject);
         }
         else if (Input.GetMouseButtonDown(MIDDLE_CLICK))
         {
-            // Checks if the mouse is over an object
+            // * Checks if the mouse is over an object
             if (Physics.Raycast(computeRay(), out hit, Mathf.Infinity, layerMask))
-            {
-                clickedObject = hit.collider.gameObject;
-                HandleMiddleClick(clickedObject);
-            }
+                HandleMiddleClick(hit.collider.gameObject);
         }
     }
 
@@ -93,18 +70,11 @@ public class MouseInputHandler : MonoBehaviour
         if (obj == null) return;
 
         
-        //Debug.Log(obj.tag);
-        //Debug.Log(obj.name);
-        
         string tag = obj.tag;
         
         
         if (tag.Equals("Customer"))
         {
-            /*
-            Customer customer = obj.GetComponent<Customer>();
-            customer.HandInOrder();
-            */
 
             CustomerLogic customerLogic = obj.GetComponent<CustomerLogic>();
             customerLogic.HandInOrder();
@@ -112,12 +82,10 @@ public class MouseInputHandler : MonoBehaviour
         }
         else if (tag.Equals("Popcorn"))
         {
-            //inventory.AddPopcorn(1);
             productManager.StartTimer(tag,obj);
         }
         else if (tag.Equals("Nachos"))
         {
-            //inventory.AddNachos(1);
             productManager.StartTimer(tag, obj);
         }
         else if (tag.Equals("Soda"))
@@ -158,8 +126,5 @@ public class MouseInputHandler : MonoBehaviour
     void HandleMiddleClick(GameObject obj)
     {
         if (obj == null) return;
-
     }
-   
-  
 }
