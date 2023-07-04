@@ -40,7 +40,8 @@ public class CustomerOrder
                 break;
         }
 
-        status = OrderStatus.Ordering;
+        this.status = OrderStatus.Ordering;
+        Debug.Log("Order generated: " + popcorn + " popcorn, " + soda + " soda, " + nachos + " nachos");
 
     }
 

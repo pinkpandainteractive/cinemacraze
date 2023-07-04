@@ -101,8 +101,10 @@ public class MouseInputHandler : MonoBehaviour
         
         if (tag.Equals("Customer"))
         {
+            /*
             Customer customer = obj.GetComponent<Customer>();
             customer.HandInOrder();
+            */
 
             CustomerLogic customerLogic = obj.GetComponent<CustomerLogic>();
             customerLogic.HandInOrder();

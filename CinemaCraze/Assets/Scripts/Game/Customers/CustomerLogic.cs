@@ -28,12 +28,13 @@ public class CustomerLogic : MonoBehaviour
         SetMovementStatus(MovementStatus.MovingToBar);
     }
 
+    // * Use this for initialization after loading from save
     public void Initialize(CustomerData data)
     {
         Debug.Log("Initialize Customer");
         this.data = data;
         navMeshAgent.SetDestination(data.getDestination());
-        SetMovementStatus(MovementStatus.MovingToBar);
+        SetMovementStatus(data.getMovementStatus());
     }
 
     public void GenerateOrder()
