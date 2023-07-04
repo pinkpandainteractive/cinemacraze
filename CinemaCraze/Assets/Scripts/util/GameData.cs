@@ -22,12 +22,12 @@ public class GameData
         this.invPopcorn = inventory.popcorn;
         this.invSoda = inventory.soda;
 
-        this.customerCount = customerManager.customerCount;
-        this.totalCustomerCount = customerManager.totalCustomerCount;
-        this.timeOfLastSpawn = customerManager.timeOfLastSpawn;
+        this.customerCount = customerManager.currentCustomersCount;
+        this.totalCustomerCount = customerManager.totalCustomersCount;
+        this.timeOfLastSpawn = customerManager.lastSpawnTime;
 
         this.customers = new List<CustomerData>();
-        foreach (GameObject customer in customerManager.customers)
+        foreach (GameObject customer in customerManager.customersList)
         {
             if (customer == null) continue;
             this.customers.Add(customer.GetComponent<CustomerLogic>().data);

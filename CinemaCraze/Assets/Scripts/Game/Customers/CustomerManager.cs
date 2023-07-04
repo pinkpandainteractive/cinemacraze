@@ -7,23 +7,21 @@ public class CustomerManager : MonoBehaviour
 {
     [Header("Customer Settings")]
     [Range(1, 10)]
-    public int MAX_NUMBER_OF_CUSTOMERS = 3;
+    public int MAX_CURRENT_CUSTOMERS_COUNT = 3;
     [Range(1, 10)]
-    public float SPAWN_DELAY = 5f;
+    public float SPAWN_DELAY_SECONDS = 5f;
+    [Range(1, 10)]
+    public float ROTATION_TIME_SECONDS = 1f;
 
-    const string CUSTOMER_TAG = "Customer";
-    const float ROTATION_TIME = 1.0f;
 
-
-    public List<GameObject> customers = new List<GameObject>();
-    public int customerCount;
-    public int totalCustomerCount;
-    public float timeOfLastSpawn;
+    public List<GameObject> customersList = new List<GameObject>();
+    public int currentCustomersCount;
+    public int totalCustomersCount;
+    public float lastSpawnTime;
     public LiveCycleStatus status { get; set; }
 
-   // public TimeManager timeManager;
     public GameObject customerPrefab;
-    public Camera player;
+    public Camera playerCamera;
 
     // * Waypoints
     public Transform waypointStart;
@@ -31,7 +29,10 @@ public class CustomerManager : MonoBehaviour
     public Transform waypointBeforeEnd;
     public Transform waypointEnd;
 
-    public bool gameRunning = false;
+    public bool isGameRunning = false;
+
+    public Queue<GameObject> toDestroyQueue = new Queue<GameObject>();
+
 
     void Start()
     {
@@ -39,37 +40,26 @@ public class CustomerManager : MonoBehaviour
     }
     void Update()
     {
-        if (!gameRunning) return;
+        if (!isGameRunning) return;
 
         SpawnRoutine();
-
         CustomerRoutine();
-
-
-
-        // * check if any customer is close to the endpoint and destroy it
-        foreach (GameObject customer in customers)
-        {
-            if (customer == null) continue;
-            if (Vector3.Distance(customer.transform.position, waypointEnd.position) < 1.5f)
-                DestroyCustomer(customer);
-        }
-
+        DestroyRoutine();
     }
 
     void SpawnRoutine()
     {
-        if (customerCount >= MAX_NUMBER_OF_CUSTOMERS) return;
-        if ((Time.time - timeOfLastSpawn) < SPAWN_DELAY) return;
+        if (currentCustomersCount >= MAX_CURRENT_CUSTOMERS_COUNT) return;
+        if ((Time.time - lastSpawnTime) < SPAWN_DELAY_SECONDS) return;
 
-        customers.Add(SpawnCustomer());
+        customersList.Add(SpawnCustomer());
     }
 
     GameObject SpawnCustomer()
     {
         GameObject customer = Instantiate(customerPrefab, waypointStart.position, Quaternion.identity);
 
-        long id = totalCustomerCount;
+        long id = totalCustomersCount;
         string name = "Customer_" + id;
 
         customer.tag = "Customer";
@@ -77,11 +67,11 @@ public class CustomerManager : MonoBehaviour
         customer.GetComponent<CustomerLogic>().Initialize(name, id, waypointStart.position, waypointStart.forward, waypointBar.position);
 
         // !old line
-        customer.GetComponent<Customer>().Init(customer);
+        //customer.GetComponent<Customer>().Init(customer);
 
-        timeOfLastSpawn = Time.time;
-        totalCustomerCount++;
-        customerCount++;
+        lastSpawnTime = Time.time;
+        totalCustomersCount++;
+        currentCustomersCount++;
 
         Debug.Log("Customer spawned");
 
@@ -91,7 +81,7 @@ public class CustomerManager : MonoBehaviour
     // TODO sachen auslagern is eigene Methoden
     void CustomerRoutine()
     {
-        foreach (GameObject customer in customers)
+        foreach (GameObject customer in customersList)
         {
             CustomerLogic logic = customer.GetComponent<CustomerLogic>();
             logic.UpdatePosition(customer.transform);
@@ -114,8 +104,8 @@ public class CustomerManager : MonoBehaviour
                     }
                     else
                     {
-                        if(logic.GetDistanceToDestination() < 6.0f)
-                            StartCoroutine(RotateCustomer(customer, RotationStatus.RotatedTowardsPlayer));
+                        if (logic.GetDistanceToDestination() < 6.0f)
+                            StartCoroutine(RotateCustomer(customer));
                         logic.KeepDistanceToOtherCustomers();
                     }
                 }
@@ -160,95 +150,86 @@ public class CustomerManager : MonoBehaviour
                 }
                 else if (movementStatus.Equals(MovementStatus.IdleAtEnd))
                 {
-                    DestroyCustomer(customer);
+                    toDestroyQueue.Enqueue(customer);
                 }
-                
+
             }
         }
     }
 
-    IEnumerator RotateCustomer(GameObject customer, RotationStatus targetRotationStatus)
+    IEnumerator RotateCustomer(GameObject customerGameObject, bool onLoad = false)
     {
-        if (customer == null) yield break;
+        CustomerData data = customerGameObject.GetComponent<CustomerLogic>().data;
+        if (data.getRotationStatus().Equals(RotationStatus.RotatedTowardsPlayer)) yield break;
+        if (data.getRotationStatus().Equals(RotationStatus.RotatingTowardsPlayer) && !onLoad) yield break;
 
-        CustomerData data = customer.GetComponent<CustomerLogic>().data;
-        Quaternion startRotation = data.getRotation();
+        data.setRotationStatus(RotationStatus.RotatingTowardsPlayer);
 
-        Transform target = customer.transform;
-        Quaternion targetRotationQuaternion = Quaternion.identity;
+        Quaternion startRotationQuaternion = data.getRotation();
+        Transform targetTransform = customerGameObject.transform;
 
         float rotationDegrees = 0f;
-        float t = 0f;
-        
-        if(data.getRotationStatus().Equals(targetRotationStatus)) yield break;
-        
-        switch(targetRotationStatus)
-        {
-            case RotationStatus.RotatedTowardsPlayer:
-                if (data.getRotationStatus().Equals(RotationStatus.RotatingTowardsPlayer)) yield break;
-                data.setRotationStatus(RotationStatus.RotatingTowardsPlayer);
 
-                rotationDegrees = Vector2.Angle(VectorTransform.ToVec2XZ(data.getDirection()), VectorTransform.ToVec2XZ(player.transform.position));
-                Debug.Log("Rotation degrees: " + rotationDegrees);
+        // TODO plan is to save the rotationPercent in the customerData so it can continue rotating after loading a save file
+        float rotationPercent = data.getRotationPercent();
 
-                targetRotationQuaternion = Quaternion.Euler(target.eulerAngles + Vector3.up * rotationDegrees);
-                break;
-        }
+        rotationDegrees = Vector2.Angle(VectorTransformer.ToVec2xz(data.getDirection()), VectorTransformer.ToVec2xz(playerCamera.transform.position));
+
+        Debug.Log("Rotation degrees: " + rotationDegrees);
+        Quaternion rotationQuaternion = Quaternion.Euler(targetTransform.eulerAngles + Vector3.up * rotationDegrees);
 
         // Interpolation
-        while (t < 1.0f)
+        while (rotationPercent < 1.0f)
         {
-            t += Time.deltaTime / ROTATION_TIME;
-            target.transform.rotation = Quaternion.Lerp(startRotation, targetRotationQuaternion, t);
+            rotationPercent += Time.deltaTime / ROTATION_TIME_SECONDS;
+            targetTransform.transform.rotation = Quaternion.Lerp(startRotationQuaternion, rotationQuaternion, rotationPercent);
+
             // * Wait one frame before looping again
             yield return null;
         }
+
         // * Stops the customer to turn further than the rotationDegrees
-        customer.GetComponent<NavMeshAgent>().angularSpeed = 0f;
-        data.setRotationStatus(targetRotationStatus);
+        customerGameObject.GetComponent<NavMeshAgent>().angularSpeed = 0f;
+        data.setRotationStatus(RotationStatus.RotatedTowardsPlayer);
     }
 
-    void DestroyCustomer(GameObject customer)
+    void DestroyRoutine()
     {
-        try
+        while (toDestroyQueue.Count > 0)
         {
-            customers.Remove(customer);
+            GameObject customer = toDestroyQueue.Dequeue();
+            customersList.Remove(customer);
             Destroy(customer);
-            customerCount--;
+            currentCustomersCount--;
             Debug.Log("Customer destroyed");
         }
-        catch (System.Exception e)
-        {
-            Debug.Log("Customer could not be destroyed");
-            Debug.Log(e);
-        }
-
     }
 
-    public void loadCustomers(List<CustomerData> customerDataList)
+    public void LoadCustomers(List<CustomerData> customerDataList)
     {
         foreach (CustomerData customerData in customerDataList)
         {
             GameObject customer = Instantiate(customerPrefab, customerData.getPos(), customerData.getRotation());
             customer.GetComponent<CustomerLogic>().Initialize(customerData);
-            customers.Add(customer);
+            StartCoroutine(RotateCustomer(customer, true));
+            customersList.Add(customer);
         }
     }
 
     public void Reset()
     {
-        foreach (GameObject customer in customers)
+        foreach (GameObject customer in customersList)
         {
             if (customer == null) continue;
             Destroy(customer);
         }
-        customers.Clear();
-        customerCount = 0;
-        totalCustomerCount = 0;
-        timeOfLastSpawn = -5f;
+        customersList.Clear();
+        currentCustomersCount = 0;
+        totalCustomersCount = 0;
+        lastSpawnTime = -5f;
 
         status = LiveCycleStatus.Inactive;
-        
+
     }
 
 }

@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
         menuManager.ShowGameOverlay();
         timeManager.Resume();
         customerManager.status = LiveCycleStatus.Active;
-        customerManager.gameRunning = true;
+        customerManager.isGameRunning = true;
     }
 
     public void Load()
@@ -35,7 +35,7 @@ public class MainMenu : MonoBehaviour
         menuManager.ShowGameOverlay();
         timeManager.Resume();
         customerManager.status = LiveCycleStatus.Active;
-        customerManager.gameRunning = true;
+        customerManager.isGameRunning = true;
     }
 
     public void Show()

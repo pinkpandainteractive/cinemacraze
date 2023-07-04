@@ -4,6 +4,7 @@ public class CustomerData
 {
     MovementStatus movementStatus;
     RotationStatus rotationStatus;
+    float rotationPercent;
 
     string name;
     long id;
@@ -19,6 +20,7 @@ public class CustomerData
     {
         movementStatus = MovementStatus.Undefined;
         rotationStatus = RotationStatus.Undefined;
+        rotationPercent = 0f;
 
         this.name = name;
         this.id = id;
@@ -77,6 +79,11 @@ public class CustomerData
         this.rotationStatus = rotationStatus;
     }
 
+    public void setRotationPercent(float rotationPercent)
+    {
+        this.rotationPercent = rotationPercent;
+    }
+
     public void setOrder(CustomerOrder order)
     {
         this.order = order;
@@ -120,6 +127,11 @@ public class CustomerData
     public RotationStatus getRotationStatus()
     {
         return rotationStatus;
+    }
+
+    public float getRotationPercent()
+    {
+        return rotationPercent;
     }
 
     public string getName()

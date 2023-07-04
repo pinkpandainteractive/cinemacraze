@@ -80,6 +80,8 @@ public class CustomerLogic : MonoBehaviour
             data.getOrder().status = OrderStatus.Completed;
             score.AddScore(100);
             navMeshAgent.isStopped = false;
+            navMeshAgent.angularSpeed = 120f;
+
         }
 
         UpdateOrderText();

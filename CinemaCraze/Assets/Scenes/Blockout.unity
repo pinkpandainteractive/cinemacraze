@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17901,19 +17901,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1a106cf3f1b154ab393814dc2c93b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_NUMBER_OF_CUSTOMERS: 3
-  SPAWN_DELAY: 5
-  customers: []
-  customerCount: 0
-  totalCustomerCount: 0
-  timeOfLastSpawn: 0
+  MAX_CURRENT_CUSTOMERS_COUNT: 3
+  SPAWN_DELAY_SECONDS: 5
+  ROTATION_TIME_SECONDS: 1
+  customersList: []
+  currentCustomersCount: 0
+  totalCustomersCount: 0
+  lastSpawnTime: 0
   customerPrefab: {fileID: 919132147875540591}
-  player: {fileID: 963194227}
+  playerCamera: {fileID: 963194227}
   waypointStart: {fileID: 467444263488425105}
   waypointBar: {fileID: 1074504569}
   waypointBeforeEnd: {fileID: 2015537346}
   waypointEnd: {fileID: 77919377}
-  gameRunning: 0
+  isGameRunning: 0
 --- !u!4 &1391976101
 Transform:
   m_ObjectHideFlags: 0
