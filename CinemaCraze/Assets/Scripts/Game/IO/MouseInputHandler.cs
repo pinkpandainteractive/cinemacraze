@@ -98,7 +98,7 @@ public class MouseInputHandler : MonoBehaviour
         }
         else if (!tag.Equals("UI_Upgrades"))
         {
-            upgradesManager.CloseUpgradesMenu();
+           // upgradesManager.CloseUpgradesMenu();
         }
         
         

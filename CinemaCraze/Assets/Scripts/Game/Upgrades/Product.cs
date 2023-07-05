@@ -8,10 +8,7 @@ public class Product : MonoBehaviour
     public ProductionStatus productionStatus;
     public CapacityStatus capacityStatus;
     public RefillStatus refillStatus;
-    public ProductionUpgradeStatus productionUpgradeStatus; 
-    public RefillUpgradeStatus refillUpgradeStatus;
-    public Capacity1UpgradeStatus capacity1UpgradeStatus;
-
+    
     public Button btn_refill;
     public float productionTime = 3.0f;
     public float refillTime = 3.0f;
@@ -24,7 +21,6 @@ public class Product : MonoBehaviour
     public Progressbar progressbar;
     private Material mtl_default;
 
-    // Start is called before the first frame update
     void Start()
     {
         capacity = maxCapacity;
@@ -114,24 +110,6 @@ public class Product : MonoBehaviour
         refillStatus = RefillStatus.Done;
         HandleEmptyVisibilty();
     }
-
-    /*void UpgradeCapacity()
-    {
-        
-        Debug.Log("SCORE: " + score.GetScore());
-        MAX_CAPACITY = capacityLevel_1;
-    }
-    void UpgradeProductionSpeed()
-    {
-        Debug.Log("SCORE2: " + score.GetScore());
-        productionTime /= productionSpeedUpgrade;
-    }
-    void UpgradeRefillSpeed()
-    {
-        Debug.Log("SCORE3: " + score.GetScore());
-        refillTime /= refillSpeedUpgrade;
-
-    }*/
    
     public enum ProductionStatus
     {
@@ -151,22 +129,4 @@ public class Product : MonoBehaviour
         Available,
         Full
     }
-
-    // * Upgrade enums
-    public enum ProductionUpgradeStatus
-    {
-        None,
-        Done
-    }
-    public enum RefillUpgradeStatus
-    {
-        None,
-        Done
-    }
-    public enum Capacity1UpgradeStatus
-    {
-        None,
-        Done
-    }
-
 }
