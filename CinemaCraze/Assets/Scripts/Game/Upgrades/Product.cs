@@ -8,14 +8,18 @@ public class Product : MonoBehaviour
     public ProductionStatus productionStatus;
     public CapacityStatus capacityStatus;
     public RefillStatus refillStatus;
-
-    public float productionTime = 3.0f;
-    public float refillTime = 3.0f;
-    public int MAX_CAPACITY = 10;
-    private int capacity;
+    public ProductionUpgradeStatus productionUpgradeStatus; 
+    public RefillUpgradeStatus refillUpgradeStatus;
+    public Capacity1UpgradeStatus capacity1UpgradeStatus;
 
     public Button btn_refill;
+    public float productionTime = 3.0f;
+    public float refillTime = 3.0f;
+    public int maxCapacity = 10;
+    public int capacity;
+
     public TMP_Text txt_machineEmpty;
+    public TMP_Text txt_cap;
     public Inventory inventory;
     public Progressbar progressbar;
     private Material mtl_default;
@@ -23,9 +27,11 @@ public class Product : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        capacity = MAX_CAPACITY;
+        capacity = maxCapacity;
         mtl_default = gameObject.GetComponent<Renderer>().material;
         btn_refill.onClick.AddListener(StartRefill);
+
+        txt_cap.text = capacity.ToString()+" / "+maxCapacity;
 
         HandleEmptyVisibilty();
         productionStatus = ProductionStatus.None;
@@ -52,6 +58,7 @@ public class Product : MonoBehaviour
         }
 
         ReduceCapacity(1);
+        txt_cap.text = capacity.ToString() + " / " + maxCapacity;
         // * Reset button material to default
         gameObject.GetComponent<Renderer>().material = mtl_default;
         // * Reset progress bar
@@ -102,11 +109,30 @@ public class Product : MonoBehaviour
         yield return new WaitForSeconds(refillTime);
 
         progressbar.ResetProgressbar();
-        capacity = MAX_CAPACITY;
+        capacity = maxCapacity;
         capacityStatus = CapacityStatus.Full;
         refillStatus = RefillStatus.Done;
         HandleEmptyVisibilty();
     }
+
+    /*void UpgradeCapacity()
+    {
+        
+        Debug.Log("SCORE: " + score.GetScore());
+        MAX_CAPACITY = capacityLevel_1;
+    }
+    void UpgradeProductionSpeed()
+    {
+        Debug.Log("SCORE2: " + score.GetScore());
+        productionTime /= productionSpeedUpgrade;
+    }
+    void UpgradeRefillSpeed()
+    {
+        Debug.Log("SCORE3: " + score.GetScore());
+        refillTime /= refillSpeedUpgrade;
+
+    }*/
+   
     public enum ProductionStatus
     {
         None,
@@ -125,4 +151,22 @@ public class Product : MonoBehaviour
         Available,
         Full
     }
+
+    // * Upgrade enums
+    public enum ProductionUpgradeStatus
+    {
+        None,
+        Done
+    }
+    public enum RefillUpgradeStatus
+    {
+        None,
+        Done
+    }
+    public enum Capacity1UpgradeStatus
+    {
+        None,
+        Done
+    }
+
 }

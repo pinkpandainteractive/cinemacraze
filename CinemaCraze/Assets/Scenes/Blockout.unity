@@ -1216,7 +1216,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &65084065
 GameObject:
@@ -2266,6 +2266,141 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161834460}
   m_CullTransparentMesh: 1
+--- !u!1 &180446658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180446659}
+  - component: {fileID: 180446661}
+  - component: {fileID: 180446660}
+  m_Layer: 5
+  m_Name: Text_Cap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &180446659
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180446658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 172}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1580971851}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 213.8, y: 51}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &180446660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180446658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &180446661
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180446658}
+  m_CullTransparentMesh: 1
 --- !u!1 &185390175
 GameObject:
   m_ObjectHideFlags: 0
@@ -2787,7 +2922,7 @@ GameObject:
   - component: {fileID: 226384236}
   - component: {fileID: 226384235}
   m_Layer: 5
-  m_Name: btn_upgrades
+  m_Name: Btn_upgrades
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2909,7 +3044,7 @@ GameObject:
   - component: {fileID: 238963294}
   - component: {fileID: 238963293}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SodaButtonRefill
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3723,7 +3858,7 @@ GameObject:
   - component: {fileID: 299122283}
   - component: {fileID: 299122282}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PopButtonRefill
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4494,8 +4629,143 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &322549233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 322549234}
+  - component: {fileID: 322549236}
+  - component: {fileID: 322549235}
+  m_Layer: 5
+  m_Name: Text_Cap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &322549234
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322549233}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 579545214}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -21, y: -145}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &322549235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322549233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0.89225775, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &322549236
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322549233}
+  m_CullTransparentMesh: 1
 --- !u!1 &357218478
 GameObject:
   m_ObjectHideFlags: 0
@@ -6745,7 +7015,7 @@ GameObject:
   - component: {fileID: 531375047}
   - component: {fileID: 531375046}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SodaButtonProd
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7311,6 +7581,141 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 697617fe3802550419842ea4293fb97a, type: 3}
   m_PrefabInstance: {fileID: 551529637}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &554313593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 554313594}
+  - component: {fileID: 554313596}
+  - component: {fileID: 554313595}
+  m_Layer: 5
+  m_Name: Text_Cap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &554313594
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554313593}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -56}
+  m_LocalScale: {x: 0.9980334, y: 0.9980329, z: 0.9980335}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2141797546}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -7, y: -230}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &554313595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554313593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &554313596
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554313593}
+  m_CullTransparentMesh: 1
 --- !u!1001 &556197902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7851,6 +8256,7 @@ RectTransform:
   m_Children:
   - {fileID: 1226546364}
   - {fileID: 759703802}
+  - {fileID: 322549234}
   m_Father: {fileID: 1629237543}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10188,7 +10594,7 @@ GameObject:
   - component: {fileID: 721416641}
   - component: {fileID: 721416640}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PopButtonProd
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10890,11 +11296,16 @@ MonoBehaviour:
   productionStatus: 0
   capacityStatus: 0
   refillStatus: 0
+  productionUpgradeStatus: 0
+  refillUpgradeStatus: 0
+  capacity1UpgradeStatus: 0
+  btn_refill: {fileID: 0}
   productionTime: 3
   refillTime: 3
-  MAX_CAPACITY: 10
-  btn_refill: {fileID: 0}
+  maxCapacity: 10
+  capacity: 0
   txt_machineEmpty: {fileID: 0}
+  txt_cap: {fileID: 0}
   inventory: {fileID: 1553683355}
   progressbar: {fileID: 101560028}
 --- !u!65 &746488350
@@ -11011,11 +11422,16 @@ MonoBehaviour:
   productionStatus: 0
   capacityStatus: 0
   refillStatus: 0
+  productionUpgradeStatus: 0
+  refillUpgradeStatus: 0
+  capacity1UpgradeStatus: 0
+  btn_refill: {fileID: 0}
   productionTime: 3
   refillTime: 3
-  MAX_CAPACITY: 10
-  btn_refill: {fileID: 0}
+  maxCapacity: 10
+  capacity: 0
   txt_machineEmpty: {fileID: 0}
+  txt_cap: {fileID: 0}
   inventory: {fileID: 1553683355}
   progressbar: {fileID: 393063979}
 --- !u!65 &751385898
@@ -12001,7 +12417,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &819775714
 GameObject:
@@ -15761,7 +16177,7 @@ GameObject:
   - component: {fileID: 1193538742}
   - component: {fileID: 1193538741}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PopButtonCap
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17322,6 +17738,40 @@ MonoBehaviour:
   btn_upgrades: {fileID: 226384235}
   btn_close: {fileID: 1996996212}
   upgradesMenu: {fileID: 1017702666}
+  score: {fileID: 626739133}
+  popcorn: {fileID: 1576282288}
+  nachos: {fileID: 1959156918}
+  soda: {fileID: 1629237544}
+  btn_popcornRefillSpeed: {fileID: 299122282}
+  btn_popcornProductionSpeed: {fileID: 721416640}
+  btn_popcornCapacity: {fileID: 1193538741}
+  popcornCapacityText: {fileID: 1406151488}
+  popcornCapacityLevel: 30
+  pricePopcornCapacityLevel: 0
+  popcornProductionSpeed: 2
+  pricePopcornProductionSpeed: 0
+  popcornRefillSpeed: 2
+  pricePopcornRefillSpeed: 25000
+  btn_nachoRefillSpeed: {fileID: 1664313749}
+  btn_nachoProductionSpeed: {fileID: 1790693732}
+  btn_nachoCapacity: {fileID: 1869859615}
+  nachoCapacityText: {fileID: 1944227111}
+  nachoCapacityLevel: 15
+  priceNachoCapacityLevel: 10000
+  nachoProductionSpeed: 2
+  priceNachoProductionSpeed: 25000
+  nachoRefillSpeed: 2
+  priceNachoRefillSpeed: 25000
+  btn_sodaRefillSpeed: {fileID: 238963293}
+  btn_sodaProductionSpeed: {fileID: 531375046}
+  btn_sodaCapacity: {fileID: 1485096648}
+  sodaCapacityText: {fileID: 1926106198}
+  sodaCapacityLevel: 20
+  priceSodaCapacityLevel: 10000
+  sodaProductionSpeed: 2
+  priceSodaProductionSpeed: 25000
+  sodaRefillSpeed: 2
+  priceSodaRefillSpeed: 25000
 --- !u!4 &1341111893
 Transform:
   m_ObjectHideFlags: 0
@@ -17330,12 +17780,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341111891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -394.28296, y: -3.1344333, z: 18.401823}
+  m_LocalPosition: {x: -394.28296, y: -3.1344147, z: 18.401823}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345104262
 GameObject:
@@ -18060,7 +18510,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1396371839
 GameObject:
@@ -19232,7 +19682,7 @@ GameObject:
   - component: {fileID: 1485096649}
   - component: {fileID: 1485096648}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SodaButtonCap
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20586,7 +21036,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576282288
 GameObject:
@@ -20640,11 +21090,16 @@ MonoBehaviour:
   productionStatus: 0
   capacityStatus: 0
   refillStatus: 0
+  productionUpgradeStatus: 0
+  refillUpgradeStatus: 0
+  capacity1UpgradeStatus: 0
+  btn_refill: {fileID: 1602119656}
   productionTime: 1.5
   refillTime: 3
-  MAX_CAPACITY: 5
-  btn_refill: {fileID: 1602119656}
+  maxCapacity: 10
+  capacity: 0
   txt_machineEmpty: {fileID: 2069616140}
+  txt_cap: {fileID: 554313595}
   inventory: {fileID: 1553683355}
   progressbar: {fileID: 2141797547}
 --- !u!65 &1576282291
@@ -20777,6 +21232,7 @@ RectTransform:
   m_Children:
   - {fileID: 1489916455}
   - {fileID: 1707578235}
+  - {fileID: 180446659}
   m_Father: {fileID: 1959156917}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -21461,11 +21917,16 @@ MonoBehaviour:
   productionStatus: 0
   capacityStatus: 0
   refillStatus: 0
+  productionUpgradeStatus: 0
+  refillUpgradeStatus: 0
+  capacity1UpgradeStatus: 0
+  btn_refill: {fileID: 2118804734}
   productionTime: 1
   refillTime: 3
-  MAX_CAPACITY: 5
-  btn_refill: {fileID: 2118804734}
+  maxCapacity: 10
+  capacity: 0
   txt_machineEmpty: {fileID: 1526992548}
+  txt_cap: {fileID: 322549235}
   inventory: {fileID: 1553683355}
   progressbar: {fileID: 579545215}
 --- !u!65 &1629237546
@@ -21798,7 +22259,7 @@ GameObject:
   - component: {fileID: 1664313750}
   - component: {fileID: 1664313749}
   m_Layer: 5
-  m_Name: Button
+  m_Name: NachoButtonRefill
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22859,7 +23320,7 @@ GameObject:
   - component: {fileID: 1790693733}
   - component: {fileID: 1790693732}
   m_Layer: 5
-  m_Name: Button
+  m_Name: NachoButtonProd
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24124,7 +24585,7 @@ GameObject:
   - component: {fileID: 1869859616}
   - component: {fileID: 1869859615}
   m_Layer: 5
-  m_Name: Button
+  m_Name: NachoButtonCap
   m_TagString: UI_Upgrades
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25776,11 +26237,16 @@ MonoBehaviour:
   productionStatus: 0
   capacityStatus: 0
   refillStatus: 0
+  productionUpgradeStatus: 0
+  refillUpgradeStatus: 0
+  capacity1UpgradeStatus: 0
+  btn_refill: {fileID: 1375007819}
   productionTime: 1
   refillTime: 3
-  MAX_CAPACITY: 5
-  btn_refill: {fileID: 1375007819}
+  maxCapacity: 10
+  capacity: 0
   txt_machineEmpty: {fileID: 214978888}
+  txt_cap: {fileID: 180446660}
   inventory: {fileID: 1553683355}
   progressbar: {fileID: 1580971852}
 --- !u!65 &1959156920
@@ -27815,6 +28281,7 @@ RectTransform:
   m_Children:
   - {fileID: 357218479}
   - {fileID: 1837332269}
+  - {fileID: 554313594}
   m_Father: {fileID: 1576282289}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
