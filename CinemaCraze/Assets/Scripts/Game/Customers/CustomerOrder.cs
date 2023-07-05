@@ -6,6 +6,8 @@ public class CustomerOrder
 
     public OrderStatus status { get; set; }
 
+    public int value { get; set; }
+
     public int popcorn { get; set; }
     public int nachos { get; set; }
     public int soda { get; set; }
@@ -15,6 +17,8 @@ public class CustomerOrder
     public CustomerOrder()
     {
         status = OrderStatus.Undefined;
+
+        value = 0;
 
         popcorn = 0;
         nachos = 0;
@@ -30,10 +34,12 @@ public class CustomerOrder
         if (random < 0.85f)
         {
             GenerateSimpleOrder();
+            value = 5 * Random.Range(1, 4);
         }
         else
         {
             GenerateComplexOrder();
+            value = 5 * Random.Range(4, 10);
         }
 
         this.status = OrderStatus.Ordering;

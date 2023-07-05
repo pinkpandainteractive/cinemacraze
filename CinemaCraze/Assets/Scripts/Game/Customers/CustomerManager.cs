@@ -123,11 +123,10 @@ public class CustomerManager : MonoBehaviour
                     if (orderStatus.Equals(OrderStatus.Failed))
                     {
                         logic.lives.LoseLife();
-                        logic.score.SubtractScore(100);
                     }
                     else
                     {
-                        logic.score.AddScore(100);
+                        logic.score.AddScore(logic.data.getOrder().value);
                     }
 
                     customer.GetComponent<NavMeshAgent>().angularSpeed = 120f;
