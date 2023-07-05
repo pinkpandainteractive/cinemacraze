@@ -1310,6 +1310,9 @@ MonoBehaviour:
   popcornMachineUnlocked: 0
   nachosMachineUnlocked: 0
   sodaMachineUnlocked: 0
+  popcornMachine: {fileID: 1874691947}
+  nachosMachine: {fileID: 1844936607}
+  sodaMachine: {fileID: 578317151}
 --- !u!4 &64107691
 Transform:
   m_ObjectHideFlags: 0
@@ -14489,6 +14492,7 @@ MonoBehaviour:
   score: {fileID: 626739133}
   inventory: {fileID: 1553683355}
   customerManager: {fileID: 1391976100}
+  machineManager: {fileID: 64107690}
 --- !u!4 &991033977
 Transform:
   m_ObjectHideFlags: 0
@@ -20954,6 +20958,7 @@ MonoBehaviour:
   lives: {fileID: 393626324}
   inventory: {fileID: 1553683355}
   saveLoadAgent: {fileID: 991033976}
+  machineManager: {fileID: 64107690}
 --- !u!82 &1463098982
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23651,7 +23656,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5276e53597bd0b64bb236ead8b7dc0b5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.015
+  m_Volume: 0.03
   m_Pitch: 1
   Loop: 0
   Mute: 0

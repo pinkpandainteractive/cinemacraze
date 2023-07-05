@@ -13,8 +13,11 @@ public class GameData
     public int customerCount;
     public int totalCustomerCount;
     public float timeOfLastSpawn;
+    public bool popcornUnlocked;
+    public bool sodaUnlocked;
+    public bool nachosUnlocked;
 
-    public GameData(Lives lives, Score score, Inventory inventory, CustomerManager customerManager)
+    public GameData(Lives lives, Score score, Inventory inventory, CustomerManager customerManager, MachineManager machineManager)
     {
         this.lives = lives.lives;
         this.score = score.score;
@@ -32,6 +35,10 @@ public class GameData
             if (customer == null) continue;
             this.customers.Add(customer.GetComponent<CustomerLogic>().data);
         }
+
+        this.popcornUnlocked = machineManager.popcornMachineUnlocked;
+        this.sodaUnlocked = machineManager.sodaMachineUnlocked;
+        this.nachosUnlocked = machineManager.nachosMachineUnlocked;
     }
 
 }

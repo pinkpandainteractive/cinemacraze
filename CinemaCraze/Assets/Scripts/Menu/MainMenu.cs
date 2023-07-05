@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
     public Lives lives;
     public Inventory inventory;
     public SaveLoadAgent saveLoadAgent;
-
+    public MachineManager machineManager;
 
     public void Play()
     {
@@ -29,14 +29,14 @@ public class MainMenu : MonoBehaviour
         Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
-
-
+        machineManager.Reset();
     }
 
     public void Load()
     {
         source.PlayOneShot(buttonsound,1f);
 
+        machineManager.Reset();
         saveLoadAgent.Load();
         menuManager.HideMainMenu();
         menuManager.HidePauseMenu();
