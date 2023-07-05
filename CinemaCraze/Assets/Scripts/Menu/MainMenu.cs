@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
+    public AudioClip buttonsound;
+    public AudioSource source; 
     public CustomerManager customerManager;
     public GameObject mainMenuGO;
     public MenuManager menuManager;
@@ -9,8 +11,12 @@ public class MainMenu : MonoBehaviour
     public Lives lives;
     public Inventory inventory;
     public SaveLoadAgent saveLoadAgent;
+
+
     public void Play()
     {
+        source.PlayOneShot(buttonsound,1f);
+        
         Debug.Log("Play");
         score.ResetScore();
         lives.ResetLives();
@@ -23,10 +29,14 @@ public class MainMenu : MonoBehaviour
         Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
+
+
     }
 
     public void Load()
     {
+        source.PlayOneShot(buttonsound,1f);
+
         saveLoadAgent.Load();
         menuManager.HideMainMenu();
         menuManager.HidePauseMenu();

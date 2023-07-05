@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
+    public AudioClip buttonsound;
+    public AudioSource source; 
     public GameObject pauseMenuGO;
     public MenuManager menuManager;
     public CustomerManager customerManager;
@@ -32,6 +34,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        source.PlayOneShot(buttonsound,1f);
+
         Debug.Log("Resumed Game");
         Hide();
         menuManager.ShowGameOverlay();
@@ -50,6 +54,8 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+        source.PlayOneShot(buttonsound,1f);
+        
         Debug.Log("Returning to Main Menu");
         Hide();
         Disable();

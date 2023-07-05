@@ -4,6 +4,8 @@ using System.IO;
 
 public class SaveLoadAgent : MonoBehaviour {
 
+    public AudioClip buttonsound;
+    public AudioSource source;
     public Lives lives;
     public Score score;
     public Inventory inventory;
@@ -11,7 +13,9 @@ public class SaveLoadAgent : MonoBehaviour {
 
 
     public void Save()
-    {
+    {   
+        source.PlayOneShot(buttonsound,1f);
+
         Debug.Log("Saving game...");
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/Game.save";

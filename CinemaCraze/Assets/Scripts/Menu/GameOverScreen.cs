@@ -3,6 +3,8 @@ using TMPro;
 
 public class GameOverScreen : MonoBehaviour
 {
+    public AudioClip buttonsound;
+    public AudioSource source; 
     public MenuManager menuManager;
     public CustomerManager customerManager;
     public Score score;
@@ -23,6 +25,8 @@ public class GameOverScreen : MonoBehaviour
 
     public void Restart()
     {
+        source.PlayOneShot(buttonsound,1f);
+
         Debug.Log("Restarting Game");
         customerManager.Reset();
         score.ResetScore();
@@ -34,6 +38,8 @@ public class GameOverScreen : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+        source.PlayOneShot(buttonsound,1f);
+        
         Debug.Log("Returning to Main Menu");
         Hide();
         customerManager.Reset();

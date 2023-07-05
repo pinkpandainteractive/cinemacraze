@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-
+    public AudioClip buttonsound;
+    public AudioSource source; 
     public MainMenu mainMenu;
     public PauseMenu pauseMenu;
     public GameOverlay gameOverlay;
@@ -75,6 +76,8 @@ public class MenuManager : MonoBehaviour
 
     public void Quit()
     {
+        source.PlayOneShot(buttonsound,1f);
+
         Debug.Log("Quitting Game");
 
         // * Stop playing in Unity Editor
