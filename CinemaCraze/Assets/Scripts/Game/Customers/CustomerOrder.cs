@@ -29,9 +29,10 @@ public class CustomerOrder
 
     public void GenerateOrder()
     {
-        float random = Random.Range(0, 1);
+        float random = Random.Range(0, 1f);
+        Debug.Log("Random: " + random);
 
-        if (random < 0.85f)
+        if (random < 0.80f)
         {
             GenerateSimpleOrder();
             value = 5 * Random.Range(1, 4);
@@ -50,7 +51,7 @@ public class CustomerOrder
     void GenerateSimpleOrder()
     {
         int random = Random.Range(1, NUMBER_OF_ORDER_VARIATIONS + 1);
-        Debug.Log("Order variation: " + random);
+        Debug.Log("Simple order: " + random);
         switch (random)
         {
             case 1:
@@ -85,8 +86,8 @@ public class CustomerOrder
 
     void GenerateComplexOrder()
     {
-        int random = Random.Range(0, NUMBER_OF_ORDER_VARIATIONS + 1);
-
+        int random = Random.Range(1, NUMBER_OF_ORDER_VARIATIONS + 1);
+        Debug.Log("Complex order variation: " + random);
         switch (random)
         {
             case 1:

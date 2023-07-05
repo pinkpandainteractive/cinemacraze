@@ -63,5 +63,5 @@ public class MachineManager : MonoBehaviour
         gameObject.GetComponent<Machine>().buyScreenStatus = BuyScreenStatus.InActive;
 
     }
-   
+
 }
