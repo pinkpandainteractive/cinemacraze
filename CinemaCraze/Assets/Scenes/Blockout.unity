@@ -5933,8 +5933,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc9d84195fdc554ca030f787cc86a92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartLoseSound: {fileID: 0}
-  source: {fileID: 0}
+  heartLoseSound: {fileID: 8300000, guid: 57f7347ad341c6b44bcb0ea853da84ea, type: 3}
+  source: {fileID: 1283748763}
   lives: 3
   heart3: {fileID: 1338903765}
   heart2: {fileID: 563748039}
@@ -18416,7 +18416,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.683
   m_Pitch: 1
   Loop: 0
   Mute: 0
