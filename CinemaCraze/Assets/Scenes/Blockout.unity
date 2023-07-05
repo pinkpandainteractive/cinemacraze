@@ -1313,6 +1313,8 @@ MonoBehaviour:
   popcornMachine: {fileID: 1874691947}
   nachosMachine: {fileID: 1844936607}
   sodaMachine: {fileID: 578317151}
+  machines: []
+  price: 0
 --- !u!4 &64107691
 Transform:
   m_ObjectHideFlags: 0
@@ -8599,7 +8601,6 @@ MonoBehaviour:
   buyScreenStatus: 0
   machineManager: {fileID: 64107690}
   product: {fileID: 1629237544}
-  price: 0
   score: {fileID: 626739133}
   priceText: {fileID: 1357477438}
   scoreText: {fileID: 1894188461}
@@ -22501,7 +22502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 524, y: 323}
+  m_AnchoredPosition: {x: 400, y: 310}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1553683355
@@ -26471,7 +26472,6 @@ MonoBehaviour:
   buyScreenStatus: 0
   machineManager: {fileID: 64107690}
   product: {fileID: 1959156918}
-  price: 0
   score: {fileID: 626739133}
   priceText: {fileID: 609524970}
   scoreText: {fileID: 1769840702}
@@ -27061,7 +27061,6 @@ MonoBehaviour:
   buyScreenStatus: 0
   machineManager: {fileID: 64107690}
   product: {fileID: 1576282288}
-  price: 0
   score: {fileID: 626739133}
   priceText: {fileID: 430157168}
   scoreText: {fileID: 1018785194}
