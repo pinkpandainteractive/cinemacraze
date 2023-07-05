@@ -38,9 +38,9 @@ public class CustomerLogic : MonoBehaviour
         SetMovementStatus(data.getMovementStatus());
     }
 
-    public void GenerateOrder()
+    public void GenerateOrder(bool popcornUnlocked, bool sodaUnlocked, bool nachosUnlocked)
     {
-        data.getOrder().GenerateOrder();
+        data.getOrder().GenerateOrder(popcornUnlocked, sodaUnlocked, nachosUnlocked);
         UpdateOrderText();
     }
 

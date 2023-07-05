@@ -10,6 +10,10 @@ public class MachineManager : MonoBehaviour
     public Material mtl_locked;
     public Material mtl_hover;
 
+    public bool popcornMachineUnlocked;
+    public bool nachosMachineUnlocked;
+    public bool sodaMachineUnlocked;
+
     public void HandleBuyMachineProcess(GameObject gameObject)
     {
         Debug.Log("HandleBuyMachineProcess");
@@ -17,7 +21,7 @@ public class MachineManager : MonoBehaviour
         if (gameObject.GetComponent<Machine>().machineStatus.Equals(MachineStatus.Owned)) return;
 
         int price = gameObject.GetComponent<Machine>().price;
-        if (score.GetScore() < price) 
+        if (score.GetScore() < price)
         {
             Debug.Log("Not enough money to buy the machine");
             return;
@@ -29,6 +33,20 @@ public class MachineManager : MonoBehaviour
 
         gameObject.GetComponent<Renderer>().material = matl_colorPalette;
         score.SubtractScore(price);
+
+        if (gameObject.name.Equals("Popcornmachine"))
+        {
+            popcornMachineUnlocked = true;
+        }
+        else if (gameObject.name.Equals("Nachomachine"))
+        {
+            nachosMachineUnlocked = true;
+        }
+        else if (gameObject.name.Equals("Sodamachine"))
+        {
+            sodaMachineUnlocked = true;
+        }
+
         HandleBuyScreen(gameObject);
     }
 
@@ -36,7 +54,7 @@ public class MachineManager : MonoBehaviour
     {
         if (gameObject.GetComponent<Machine>().machineStatus.Equals(MachineStatus.Owned))
         {
-            
+
             CloseBuyScreen(gameObject);
             return;
         }
@@ -54,7 +72,7 @@ public class MachineManager : MonoBehaviour
 
     public void ShowBuyScreen(GameObject gameObject)
     {
-        if(gameObject.GetComponent<Machine>().buyScreenStatus.Equals(BuyScreenStatus.Active)) return;
+        if (gameObject.GetComponent<Machine>().buyScreenStatus.Equals(BuyScreenStatus.Active)) return;
         // * Accessing the Canvas with GetChild(0)
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         gameObject.GetComponent<Machine>().buyScreenStatus = BuyScreenStatus.Active;
@@ -66,6 +84,13 @@ public class MachineManager : MonoBehaviour
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
         gameObject.GetComponent<Machine>().buyScreenStatus = BuyScreenStatus.InActive;
 
+    }
+
+    public void Reset()
+    {
+        popcornMachineUnlocked = false;
+        nachosMachineUnlocked = false;
+        sodaMachineUnlocked = false;
     }
 
 }

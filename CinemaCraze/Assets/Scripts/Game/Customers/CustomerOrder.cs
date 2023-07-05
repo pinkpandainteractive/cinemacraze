@@ -12,6 +12,10 @@ public class CustomerOrder
     public int nachos { get; set; }
     public int soda { get; set; }
 
+    bool popcornUnlocked;
+    bool sodaUnlocked;
+    bool nachosUnlocked;
+
     public float timeRemaining { get; set; }
 
     public CustomerOrder()
@@ -24,11 +28,20 @@ public class CustomerOrder
         nachos = 0;
         soda = 0;
 
+        this.popcornUnlocked = false;
+        this.sodaUnlocked = false;
+        this.nachosUnlocked = false;
+
         timeRemaining = 0f;
     }
 
-    public void GenerateOrder()
+    public void GenerateOrder(bool popcornUnlocked, bool sodaUnlocked, bool nachosUnlocked)
     {
+
+        this.popcornUnlocked = popcornUnlocked;
+        this.sodaUnlocked = sodaUnlocked;
+        this.nachosUnlocked = nachosUnlocked;
+
         float random = Random.Range(0, 1f);
         Debug.Log("Random: " + random);
 
@@ -79,6 +92,12 @@ public class CustomerOrder
                 nachos = Random.Range(1, 2);
                 break;
         }
+        if (!popcornUnlocked && popcorn > 0)
+            GenerateSimpleOrder();
+        if (!sodaUnlocked && soda > 0)
+            GenerateSimpleOrder();
+        if (!nachosUnlocked && nachos > 0)
+            GenerateSimpleOrder();
 
         timeRemaining = Random.Range(10f, 15f);
 
@@ -133,7 +152,14 @@ public class CustomerOrder
                 break;
         }
 
-        timeRemaining = Random.Range(15f, 25f);
+        if (!popcornUnlocked && popcorn > 0)
+            GenerateComplexOrder();
+        if (!sodaUnlocked && soda > 0)
+            GenerateComplexOrder();
+        if (!nachosUnlocked && nachos > 0)
+            GenerateComplexOrder();
+
+        timeRemaining = Random.Range(22f, 35f);
     }
 
     public override string ToString()

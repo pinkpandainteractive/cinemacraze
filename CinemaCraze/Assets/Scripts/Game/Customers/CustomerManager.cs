@@ -31,6 +31,8 @@ public class CustomerManager : MonoBehaviour
     public GameObject customerPrefab;
     public Camera playerCamera;
 
+    public MachineManager machineManager;
+
     // * Waypoints
     public Transform waypointStart;
     public Transform waypointBar;
@@ -49,6 +51,7 @@ public class CustomerManager : MonoBehaviour
     void Update()
     {
         if (!isGameRunning) return;
+        if (!machineManager.popcornMachineUnlocked && !machineManager.nachosMachineUnlocked && !machineManager.sodaMachineUnlocked) return;
 
         SpawnRoutine();
         CustomerRoutine();
@@ -86,9 +89,9 @@ public class CustomerManager : MonoBehaviour
     {
         List<Material> materials = customer.transform.GetChild(0).gameObject.GetComponent<Renderer>().materials.ToList();
 
-        var augenbrauen = materials[0];
-        var körper = materials[1];
-        var auge = materials[2]; // * wrong eyes
+        var brows = materials[0];
+        var body = materials[1];
+        var eye = materials[2]; // * wrong eyes
 
         // * right eyes
         List<Material> materialsEyes1 = customer.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Renderer>().materials.ToList();
@@ -97,7 +100,7 @@ public class CustomerManager : MonoBehaviour
         var eye2 = materialsEyes2[0];
         List<Material> materialsEyes3 = customer.transform.GetChild(0).gameObject.transform.GetChild(2).GetComponent<Renderer>().materials.ToList();
         var eye3 = materialsEyes3[0];
-        
+
         float random = Random.Range(0, 10);
 
         if (random > 2 && random <= 3)
@@ -105,8 +108,8 @@ public class CustomerManager : MonoBehaviour
             eye1.color = mtl_red.color;
             eye2.color = mtl_red.color;
             eye3.color = mtl_red.color;
-            augenbrauen.color = mtl_orange.color;
-            körper.color = mtl_blue.color;
+            brows.color = mtl_orange.color;
+            body.color = mtl_blue.color;
         }
         //Orange Guy
         else if (random > 3 && random <= 4)
@@ -114,8 +117,8 @@ public class CustomerManager : MonoBehaviour
             //eye1.color = mtl_cyan.color;
             //eye2.color = mtl_cyan.color;
             //eye3.color = mtl_cyan.color;
-            augenbrauen.color = mtl_orange.color;
-            körper.color = mtl_orange.color;
+            brows.color = mtl_orange.color;
+            body.color = mtl_orange.color;
         }
         // Cyan Red eyes Guy (stoned)
         else if (random > 4 && random <= 5)
@@ -123,8 +126,8 @@ public class CustomerManager : MonoBehaviour
             eye1.color = mtl_red.color;
             eye2.color = mtl_red.color;
             eye3.color = mtl_red.color;
-            augenbrauen.color = mtl_cyan.color;
-            körper.color = mtl_cyan.color;
+            brows.color = mtl_cyan.color;
+            body.color = mtl_cyan.color;
         }
         // Red Blue Guy
         else if (random > 5 && random <= 6)
@@ -132,47 +135,47 @@ public class CustomerManager : MonoBehaviour
             eye1.color = mtl_blue.color;
             eye2.color = mtl_blue.color;
             eye3.color = mtl_blue.color;
-            augenbrauen.color = mtl_blue.color;
-            körper.color = mtl_red.color;
+            brows.color = mtl_blue.color;
+            body.color = mtl_red.color;
         }// Lila Guy
         else if (random > 6 && random <= 7)
         {
             eye1.color = mtl_cyan.color;
             eye2.color = mtl_cyan.color;
             eye3.color = mtl_cyan.color;
-            augenbrauen.color = mtl_blue.color;
-            körper.color = mtl_lila.color;
+            brows.color = mtl_blue.color;
+            body.color = mtl_lila.color;
         }// Again orange guy but with no eyes
         else if (random > 8 && random <= 9)
         {
             eye1.color = mtl_orange.color;
             eye2.color = mtl_orange.color;
             eye3.color = mtl_orange.color;
-            augenbrauen.color = mtl_cyan.color;
-            körper.color = mtl_orange.color;
+            brows.color = mtl_cyan.color;
+            body.color = mtl_orange.color;
         }// Epic
         else if (random > 9 && random <= 9.5)
         {
             eye1.color = mtl_legendary.color;
             eye2.color = mtl_legendary.color;
             eye3.color = mtl_legendary.color;
-            augenbrauen.color = mtl_legendary.color;
-            körper.color = mtl_black.color;
+            brows.color = mtl_legendary.color;
+            body.color = mtl_black.color;
         }
         // Albino
-        else if (random >9.5 && random <= 9.9)
+        else if (random > 9.5 && random <= 9.9)
         {
-            auge.color = Color.white;
-            augenbrauen.color = Color.white;
-            körper.color = Color.white;
+            eye.color = Color.white;
+            brows.color = Color.white;
+            body.color = Color.white;
         }// Legendary 
         else if (random >= 9.9)
         {
             eye1.color = mtl_legendary.color;
             eye2.color = mtl_legendary.color;
             eye3.color = mtl_legendary.color;
-            augenbrauen.color = mtl_legendary.color;
-            körper.color = mtl_legendary.color;
+            brows.color = mtl_legendary.color;
+            body.color = mtl_legendary.color;
         }
     }
     // TODO sachen auslagern is eigene Methoden
@@ -191,7 +194,7 @@ public class CustomerManager : MonoBehaviour
             {
                 if (logic.GetDistanceToDestination() < 6.0f)
                 {
-                    logic.GenerateOrder();
+                    logic.GenerateOrder(machineManager.popcornMachineUnlocked, machineManager.sodaMachineUnlocked, machineManager.nachosMachineUnlocked);
                     StartCoroutine(RotateCustomer(customer));
                 }
             }
@@ -279,7 +282,7 @@ public class CustomerManager : MonoBehaviour
         float rotationPercent = data.getRotationPercent();
 
         rotationDegrees = Vector2.Angle(
-            new Vector2(data.getDirection().x, data.getDirection().z), 
+            new Vector2(data.getDirection().x, data.getDirection().z),
             new Vector2(playerCamera.transform.position.x, playerCamera.transform.position.z));
 
         Quaternion rotationQuaternion = Quaternion.Euler(targetTransform.eulerAngles + Vector3.up * rotationDegrees);
