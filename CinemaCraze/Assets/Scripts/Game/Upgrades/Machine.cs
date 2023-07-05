@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 public class Machine : MonoBehaviour
 {
@@ -10,19 +12,19 @@ public class Machine : MonoBehaviour
     public MachineManager machineManager;
 
     public GameObject product;
-    public int price = 100;
+   // public int price = 100;
     public Score score;
     public TextMeshProUGUI priceText;
     public TextMeshProUGUI scoreText;
     public Button button;
-   
+    
     void Start()
     {
-        
+        machineManager.machines.Add(gameObject);
         machineStatus = MachineStatus.None;
         buyScreenStatus = BuyScreenStatus.InActive;
         priceText.text = $"Kaufe die Maschine für:";
-        scoreText.text = $"{price}";
+        scoreText.text = $"{machineManager.price}";
         GetComponent<Renderer>().material = machineManager.mtl_locked;
         
         product.SetActive(false);
@@ -33,11 +35,16 @@ public class Machine : MonoBehaviour
     void Update()
     {
         HandleButtonColor();
+        UpdatePrice();
     }
-
+    public void UpdatePrice()
+    {
+        scoreText.text = $"{machineManager.price}";
+        
+    }
     void HandleButtonColor()
     {
-        if (score.GetScore() >= price)
+        if (score.GetScore() >= machineManager.price)
         {
             button.GetComponent<Image>().color = Color.green;
         }

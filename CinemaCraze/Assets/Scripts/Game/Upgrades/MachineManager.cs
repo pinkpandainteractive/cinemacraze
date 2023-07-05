@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Machine;
@@ -18,13 +19,17 @@ public class MachineManager : MonoBehaviour
     public GameObject nachosMachine;
     public GameObject sodaMachine;
 
+    public List<GameObject> machines;
+    public int price;
+   
     public void HandleBuyMachineProcess(GameObject gameObject)
     {
         Debug.Log("HandleBuyMachineProcess");
         if (gameObject == null) return;
         if (gameObject.GetComponent<Machine>().machineStatus.Equals(MachineStatus.Owned)) return;
 
-        int price = gameObject.GetComponent<Machine>().price;
+
+        UpdatePrice();
         if (score.GetScore() < price)
         {
             Debug.Log("Not enough money to buy the machine");
@@ -73,18 +78,44 @@ public class MachineManager : MonoBehaviour
             CloseBuyScreen(gameObject);
         }
     }
+    private void UpdatePrice()
+    {
+        int count = 0;
+        foreach (GameObject machine in machines)
+        {
+            if (machine.GetComponent<Machine>().machineStatus.Equals(MachineStatus.Owned))
+            {
+                count++;
+            }
+        }
 
+        //int price = gameObject.GetComponent<Machine>().price;
+
+        if (count == 0)
+        {
+            price = 0;
+        }
+        else if (count == 1)
+        {
+            price = 100;
+        }
+        else if (count >=2)
+        {
+            price = 250;
+        }
+    }
     public void ShowBuyScreen(GameObject gameObject)
     {
         if (gameObject.GetComponent<Machine>().buyScreenStatus.Equals(BuyScreenStatus.Active)) return;
         // * Accessing the Canvas with GetChild(0)
+        UpdatePrice();
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         gameObject.GetComponent<Machine>().buyScreenStatus = BuyScreenStatus.Active;
     }
     public void CloseBuyScreen(GameObject gameObject)
     {
         if (gameObject.GetComponent<Machine>().buyScreenStatus.Equals(BuyScreenStatus.InActive)) return;
-
+        UpdatePrice();
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
         gameObject.GetComponent<Machine>().buyScreenStatus = BuyScreenStatus.InActive;
 

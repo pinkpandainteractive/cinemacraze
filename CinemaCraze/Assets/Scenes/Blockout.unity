@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00080954505, g: 0.004162026, b: 0.020064274, a: 1}
+  m_IndirectSpecularColor: {r: 0.0008095468, g: 0.004161891, b: 0.02006406, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5357,23 +5357,23 @@ MonoBehaviour:
   refillText: {fileID: 473279325}
   productionText: {fileID: 455207115}
   capacityLevel1: 20
-  priceCapacityLevel1: 0
+  priceCapacityLevel1: 10
   capacityLevel2: 45
-  priceCapacityLevel2: 0
+  priceCapacityLevel2: 100
   capacityLevel3: 100
-  priceCapacityLevel3: 50000
+  priceCapacityLevel3: 300
   productionSpeedLevel1: 0.5
-  priceProductionSpeedLevel1: 25000
+  priceProductionSpeedLevel1: 50
   productionSpeedLevel2: 0.66
-  priceProductionSpeedLevel2: 25000
+  priceProductionSpeedLevel2: 250
   productionSpeedLevel3: 0
-  priceProductionSpeedLevel3: 100000
+  priceProductionSpeedLevel3: 2000
   refillSpeedLevel1: 0.5
-  priceRefillSpeedLevel1: 1000
+  priceRefillSpeedLevel1: 100
   refillSpeedLevel2: 0.66
-  priceRefillSpeedLevel2: 5000
+  priceRefillSpeedLevel2: 250
   refillSpeedLevel3: 0
-  priceRefillSpeedLevel3: 12500
+  priceRefillSpeedLevel3: 750
 --- !u!1 &369597226
 GameObject:
   m_ObjectHideFlags: 0
@@ -6136,23 +6136,23 @@ MonoBehaviour:
   refillText: {fileID: 804941924}
   productionText: {fileID: 1663641909}
   capacityLevel1: 25
-  priceCapacityLevel1: 10000
+  priceCapacityLevel1: 50
   capacityLevel2: 65
-  priceCapacityLevel2: 25000
+  priceCapacityLevel2: 200
   capacityLevel3: 150
-  priceCapacityLevel3: 50000
+  priceCapacityLevel3: 500
   productionSpeedLevel1: 0.5
-  priceProductionSpeedLevel1: 25000
+  priceProductionSpeedLevel1: 75
   productionSpeedLevel2: 0.66
-  priceProductionSpeedLevel2: 25000
+  priceProductionSpeedLevel2: 1000
   productionSpeedLevel3: 0
-  priceProductionSpeedLevel3: 100000
+  priceProductionSpeedLevel3: 3000
   refillSpeedLevel1: 0.5
-  priceRefillSpeedLevel1: 0
+  priceRefillSpeedLevel1: 150
   refillSpeedLevel2: 0.66
-  priceRefillSpeedLevel2: 0
+  priceRefillSpeedLevel2: 350
   refillSpeedLevel3: 0
-  priceRefillSpeedLevel3: 0
+  priceRefillSpeedLevel3: 1000
 --- !u!1 &420372131
 GameObject:
   m_ObjectHideFlags: 0
@@ -16278,23 +16278,23 @@ MonoBehaviour:
   refillText: {fileID: 1627331619}
   productionText: {fileID: 1916655106}
   capacityLevel1: 15
-  priceCapacityLevel1: 10000
+  priceCapacityLevel1: 100
   capacityLevel2: 25
-  priceCapacityLevel2: 25000
+  priceCapacityLevel2: 300
   capacityLevel3: 50
-  priceCapacityLevel3: 50000
+  priceCapacityLevel3: 700
   productionSpeedLevel1: 0.5
-  priceProductionSpeedLevel1: 0
+  priceProductionSpeedLevel1: 100
   productionSpeedLevel2: 0.66
-  priceProductionSpeedLevel2: 0
+  priceProductionSpeedLevel2: 1500
   productionSpeedLevel3: 0
-  priceProductionSpeedLevel3: 100000
+  priceProductionSpeedLevel3: 4500
   refillSpeedLevel1: 0.5
-  priceRefillSpeedLevel1: 1000
+  priceRefillSpeedLevel1: 75
   refillSpeedLevel2: 0.66
-  priceRefillSpeedLevel2: 5000
+  priceRefillSpeedLevel2: 250
   refillSpeedLevel3: 0
-  priceRefillSpeedLevel3: 12500
+  priceRefillSpeedLevel3: 1500
 --- !u!1001 &1142671116
 PrefabInstance:
   m_ObjectHideFlags: 0
