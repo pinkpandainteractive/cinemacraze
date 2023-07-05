@@ -82,7 +82,7 @@ public class MenuManager : MonoBehaviour
 
         // * Stop playing in Unity Editor
         // ! needs to be commented out for built application XXX
-        UnityEditor.EditorApplication.isPlaying = false;
+        // UnityEditor.EditorApplication.isPlaying = false;
 
         // * Stop playing in built application
         Application.Quit();
