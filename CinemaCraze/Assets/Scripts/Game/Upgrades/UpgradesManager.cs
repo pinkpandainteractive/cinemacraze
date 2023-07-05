@@ -10,7 +10,7 @@ public class UpgradesManager : MonoBehaviour
     public Button btn_upgrades;
     public Button btn_close;
     public GameObject upgradesMenu;
-    
+    public AudioHandler audioHandler;
     void Start()
     {
         btn_upgrades.onClick.AddListener(OpenUpgradesMenu);
@@ -19,11 +19,13 @@ public class UpgradesManager : MonoBehaviour
    
     public void OpenUpgradesMenu()
     {
+        audioHandler.PlayClick();
         upgradesMenu.SetActive(true);
         btn_upgrades.gameObject.SetActive(false);
     }
     public void CloseUpgradesMenu()
     {
+        audioHandler.PlayClick();
         upgradesMenu.SetActive(false);
         btn_upgrades.gameObject.SetActive(true);
     }

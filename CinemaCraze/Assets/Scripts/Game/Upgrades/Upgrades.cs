@@ -14,6 +14,7 @@ public class Upgrades : MonoBehaviour
     private CapacityLevelUpgradeStatus capacityLevel2UpgradeStatus;
     private CapacityLevelUpgradeStatus capacityLevel3UpgradeStatus;
     public Score score;
+    public AudioHandler audioHandler;
     private Color basic = Color.white;
     private Color invalid = new(1.0f, 0.3f, 0.3f, 1.0f);
     private Color finished = new(1.0f, 0.31f, 0.58f, 1.0f);
@@ -64,13 +65,14 @@ public class Upgrades : MonoBehaviour
         if (score.GetScore() < NewProdPriceLevel())
         {
             btn.GetComponent<Image>().color = invalid;
+            audioHandler.PlayFail();
             StartCoroutine(ChangeButtonColorForSec(btn));
             return;
         }
 
         obj.GetComponent<Product>().productionTime *= NewProdLevel();
         CreateNewProductionLevel();
-
+        audioHandler.PlayBuyUpgrades();
         if (productionLevel3UpgradeStatus.Equals(ProductionUpgradeStatus.Done))
         {
             btn.GetComponent<Image>().color = finished;
@@ -90,12 +92,14 @@ public class Upgrades : MonoBehaviour
         if (score.GetScore() < NewRefillPriceLevel())
         {
             btn.GetComponent<Image>().color = invalid;
+            audioHandler.PlayFail();
             StartCoroutine(ChangeButtonColorForSec(btn));
             return;
         }
+
         obj.GetComponent<Product>().refillTime *= NewRefillLevel();
         CreateNewRefillLevel();
-
+        audioHandler.PlayBuyUpgrades();
         if (refillLevel3UpgradeStatus.Equals(RefillLevelUpgradeStatus.Done))
         {
             btn.GetComponent<Image>().color = finished;
@@ -115,6 +119,7 @@ public class Upgrades : MonoBehaviour
         if (score.GetScore() < NewCapPriceLevel())
         {
             btn.GetComponent<Image>().color = invalid;
+            audioHandler.PlayFail();
             StartCoroutine(ChangeButtonColorForSec(btn));
             return;
         }
@@ -122,6 +127,7 @@ public class Upgrades : MonoBehaviour
         obj.GetComponent<Product>().capacity = NewCapLevel();
         obj.GetComponent<Product>().maxCapacity = NewCapLevel();
         CreateNewCapLevel();
+        audioHandler.PlayBuyUpgrades();
         if (capacityLevel3UpgradeStatus.Equals(CapacityLevelUpgradeStatus.Done))
         {
             btn.GetComponent<Image>().color = finished;
