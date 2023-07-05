@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Lives : MonoBehaviour
 {
+    public AudioClip heartLoseSound;
+    public AudioSource source; 
     public int lives = 3;
     public GameObject heart3;
     public GameObject heart2;
@@ -30,6 +32,8 @@ public class Lives : MonoBehaviour
 
     public void LoseLife()
     {
+        source.PlayOneShot(heartLoseSound,1f);
+
         Debug.Log("Losing life");
         lives--;
         if (lives == 2)
