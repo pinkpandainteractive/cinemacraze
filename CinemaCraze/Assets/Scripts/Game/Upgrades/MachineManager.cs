@@ -4,7 +4,7 @@ using static Machine;
 
 public class MachineManager : MonoBehaviour
 {
-
+    public AudioHandler audioHandler;
     public Score score;
     public Material matl_colorPalette;
     public Material mtl_locked;
@@ -22,6 +22,7 @@ public class MachineManager : MonoBehaviour
             Debug.Log("Not enough money to buy the machine");
             return;
         }
+        audioHandler.PlayBuyUpgrades();
         gameObject.GetComponent<Machine>().machineStatus = MachineStatus.Owned;
 
         gameObject.GetComponent<Machine>().product.SetActive(true);
@@ -35,15 +36,18 @@ public class MachineManager : MonoBehaviour
     {
         if (gameObject.GetComponent<Machine>().machineStatus.Equals(MachineStatus.Owned))
         {
+            
             CloseBuyScreen(gameObject);
             return;
         }
         if (gameObject.GetComponent<Machine>().buyScreenStatus.Equals(BuyScreenStatus.InActive))
         {
+            audioHandler.PlayClick();
             ShowBuyScreen(gameObject);
         }
         else
         {
+            audioHandler.PlayClick();
             CloseBuyScreen(gameObject);
         }
     }
