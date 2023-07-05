@@ -25,7 +25,7 @@ public class GameOverScreen : MonoBehaviour
 
     public void Restart()
     {
-        source.PlayOneShot(buttonsound,1f);
+        source.PlayOneShot(buttonsound, 1f);
 
         Debug.Log("Restarting Game");
         customerManager.Reset();
@@ -38,7 +38,7 @@ public class GameOverScreen : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        source.PlayOneShot(buttonsound,1f);
+        source.PlayOneShot(buttonsound, 1f);
         
         Debug.Log("Returning to Main Menu");
         Hide();

@@ -14,6 +14,10 @@ public class MachineManager : MonoBehaviour
     public bool nachosMachineUnlocked;
     public bool sodaMachineUnlocked;
 
+    public GameObject popcornMachine;
+    public GameObject nachosMachine;
+    public GameObject sodaMachine;
+
     public void HandleBuyMachineProcess(GameObject gameObject)
     {
         Debug.Log("HandleBuyMachineProcess");
@@ -91,6 +95,42 @@ public class MachineManager : MonoBehaviour
         popcornMachineUnlocked = false;
         nachosMachineUnlocked = false;
         sodaMachineUnlocked = false;
+
+        popcornMachine.GetComponent<Machine>().machineStatus = MachineStatus.None;
+        nachosMachine.GetComponent<Machine>().machineStatus = MachineStatus.None;
+        sodaMachine.GetComponent<Machine>().machineStatus = MachineStatus.None;
+
+        popcornMachine.GetComponent<Machine>().product.SetActive(false);
+        nachosMachine.GetComponent<Machine>().product.SetActive(false);
+        sodaMachine.GetComponent<Machine>().product.SetActive(false);
+
+        popcornMachine.GetComponent<Renderer>().material = mtl_locked;
+        nachosMachine.GetComponent<Renderer>().material = mtl_locked;
+        sodaMachine.GetComponent<Renderer>().material = mtl_locked;
+    }
+
+    public void LoadMachines()
+    {
+        if(popcornMachineUnlocked)
+        {
+            popcornMachine.GetComponent<Machine>().machineStatus = MachineStatus.Owned;
+            popcornMachine.GetComponent<Machine>().product.SetActive(true);
+            popcornMachine.GetComponent<Renderer>().material = matl_colorPalette;
+        }
+
+        if (nachosMachineUnlocked)
+        {
+            nachosMachine.GetComponent<Machine>().machineStatus = MachineStatus.Owned;
+            nachosMachine.GetComponent<Machine>().product.SetActive(true);
+            nachosMachine.GetComponent<Renderer>().material = matl_colorPalette;
+        }
+
+        if (sodaMachineUnlocked)
+        {
+            sodaMachine.GetComponent<Machine>().machineStatus = MachineStatus.Owned;
+            sodaMachine.GetComponent<Machine>().product.SetActive(true);
+            sodaMachine.GetComponent<Renderer>().material = matl_colorPalette;
+        }
     }
 
 }

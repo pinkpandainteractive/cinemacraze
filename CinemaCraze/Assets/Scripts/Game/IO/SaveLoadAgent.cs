@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class SaveLoadAgent : MonoBehaviour {
+public class SaveLoadAgent : MonoBehaviour
+{
 
     public AudioClip buttonsound;
     public AudioSource source;
@@ -10,11 +11,12 @@ public class SaveLoadAgent : MonoBehaviour {
     public Score score;
     public Inventory inventory;
     public CustomerManager customerManager;
+    public MachineManager machineManager;
 
 
     public void Save()
-    {   
-        source.PlayOneShot(buttonsound,1f);
+    {
+        source.PlayOneShot(buttonsound, 1f);
 
         Debug.Log("Saving game...");
         BinaryFormatter formatter = new BinaryFormatter();
@@ -22,7 +24,7 @@ public class SaveLoadAgent : MonoBehaviour {
 
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        GameData gameData = new GameData(lives, score, inventory, customerManager);
+        GameData gameData = new GameData(lives, score, inventory, customerManager, machineManager);
 
         formatter.Serialize(stream, gameData);
         stream.Close();
@@ -51,6 +53,12 @@ public class SaveLoadAgent : MonoBehaviour {
             customerManager.currentCustomersCount = gameData.customerCount;
             customerManager.totalCustomersCount = gameData.totalCustomerCount;
             customerManager.lastSpawnTime = gameData.timeOfLastSpawn;
+
+            machineManager.popcornMachineUnlocked = gameData.popcornUnlocked;
+            machineManager.sodaMachineUnlocked = gameData.sodaUnlocked;
+            machineManager.nachosMachineUnlocked = gameData.nachosUnlocked;
+
+            machineManager.LoadMachines();
 
         }
         else
