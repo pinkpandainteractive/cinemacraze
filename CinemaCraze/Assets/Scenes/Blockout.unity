@@ -7410,11 +7410,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f898a8d4bc29be443aa83cbdf80d102a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraSwitch: {fileID: 1558058125}
   inventory: {fileID: 1553683355}
   productManager: {fileID: 814163246}
   machineManager: {fileID: 64107690}
   upgradesManager: {fileID: 1341111892}
+  mainCamera: {fileID: 963194227}
+  productCamera: {fileID: 739153882}
 --- !u!4 &542451566
 Transform:
   m_ObjectHideFlags: 0
@@ -7428,7 +7429,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &544013661
 GameObject:
@@ -13664,7 +13665,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuManager: {fileID: 321129536}
-  cameraSwitch: {fileID: 1558058125}
+  mainCamera: {fileID: 963194227}
+  productCamera: {fileID: 739153882}
 --- !u!4 &948856174
 Transform:
   m_ObjectHideFlags: 0
@@ -13678,7 +13680,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -15890,7 +15892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22fa1f85c15874545b52645eecff16ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -399.6738
+      value: -393.6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22fa1f85c15874545b52645eecff16ee, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15898,7 +15900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22fa1f85c15874545b52645eecff16ee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.6792898
+      value: -10.21
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 22fa1f85c15874545b52645eecff16ee, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19071,7 +19073,6 @@ GameObject:
   - component: {fileID: 1409852030}
   - component: {fileID: 1409852029}
   - component: {fileID: 1409852028}
-  - component: {fileID: 1409852034}
   m_Layer: 5
   m_Name: Canvas Game
   m_TagString: Untagged
@@ -19164,30 +19165,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1409852034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1409852027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449ae55dbc42c044cbb3d5071f80988a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraMain: {fileID: 963194227}
-  CameraProduct: {fileID: 739153882}
-  CameraSwitch: {fileID: 1558058125}
-  selectedObjectText: {fileID: 769517716}
-  matl_popcorn: {fileID: 2100000, guid: 644e4dea05c0a2d4d8c48e8e181b093d, type: 2}
-  matl_nacho: {fileID: 2100000, guid: b74c80e7441b56b4693399aa8ba3b542, type: 2}
-  matl_cash: {fileID: 2100000, guid: fbc325bc748b9594aa4f8e2d6d6aed2d, type: 2}
-  matl_selected: {fileID: 2100000, guid: 7425483f814b6344183f0b4ed3058b96, type: 2}
-  matl_colorPalette: {fileID: 2100000, guid: 738e522f43848b54494ec119d20af4e1, type: 2}
-  btn_delete: {fileID: 1956277252}
-  menuStatus: {fileID: 0}
-  listSelectedObjects: []
 --- !u!1 &1431277398
 GameObject:
   m_ObjectHideFlags: 0
@@ -21220,7 +21197,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1558058126}
-  - component: {fileID: 1558058125}
   - component: {fileID: 1558058124}
   m_Layer: 0
   m_Name: Camera
@@ -21237,21 +21213,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558058123}
   m_Enabled: 1
---- !u!114 &1558058125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1558058123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94ed7cf07260f6b4e89e7ac29c1f670c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraMain: {fileID: 963194227}
-  cameraProduct: {fileID: 739153882}
-  isCameraMainActive: 1
 --- !u!4 &1558058126
 Transform:
   m_ObjectHideFlags: 0
@@ -28872,7 +28833,7 @@ Transform:
   - {fileID: 8821523184803702862}
   - {fileID: 1931644304}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &600519283531504365
 Transform:

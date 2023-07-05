@@ -3,7 +3,8 @@ using UnityEngine;
 public class KeyInputHandler : MonoBehaviour
 {
     public MenuManager menuManager;
-    public CameraSwitch cameraSwitch;
+    public Camera mainCamera;
+    public Camera productCamera;
     void Update()
     {
         // ! Bitte alle Tastenbelegungen hier eintragen
@@ -20,10 +21,18 @@ public class KeyInputHandler : MonoBehaviour
             Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         }
 
-        // * Toggles the CameraSwitcher
-        else if(Input.GetKeyDown(KeyCode.A))
+        // * Switches to main camera
+        else if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            cameraSwitch.Toggle();
+            mainCamera.enabled = true;
+            productCamera.enabled = false;
+        }
+
+        // * Switches to product camera
+        else if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            mainCamera.enabled = false;
+            productCamera.enabled = true;
         }
     }
 

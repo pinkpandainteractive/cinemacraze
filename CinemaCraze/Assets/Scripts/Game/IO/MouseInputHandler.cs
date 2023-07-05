@@ -8,11 +8,13 @@ public class MouseInputHandler : MonoBehaviour
     const int RIGHT_CLICK = 1;
     const int MIDDLE_CLICK = 2;
 
-    public CameraSwitch cameraSwitch;
     public Inventory inventory;
     public ProductManager productManager;
     public MachineManager machineManager;
     public UpgradesManager upgradesManager;
+
+    public Camera mainCamera;
+    public Camera productCamera;
     Camera activeCamera;
     int layerMask;
     Ray ray;
@@ -60,7 +62,7 @@ public class MouseInputHandler : MonoBehaviour
     Ray computeRay()
     {
         // * Computes the ray depending on the active camera
-        activeCamera = cameraSwitch.isCameraMainActive ? cameraSwitch.cameraMain : cameraSwitch.cameraProduct;
+        activeCamera = mainCamera.enabled ? mainCamera : productCamera;
         return activeCamera.ScreenPointToRay(Input.mousePosition);
     }
 

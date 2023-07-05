@@ -179,12 +179,13 @@ public class CustomerManager : MonoBehaviour
         // TODO plan is to save the rotationPercent in the customerData so it can continue rotating after loading a save file
         float rotationPercent = data.getRotationPercent();
 
-        rotationDegrees = Vector2.Angle(VectorTransformer.ToVec2xz(data.getDirection()), VectorTransformer.ToVec2xz(playerCamera.transform.position));
+        rotationDegrees = Vector2.Angle(
+            new Vector2(data.getDirection().x, data.getDirection().z), 
+            new Vector2(playerCamera.transform.position.x, playerCamera.transform.position.z));
 
-        Debug.Log("Rotation degrees: " + rotationDegrees);
         Quaternion rotationQuaternion = Quaternion.Euler(targetTransform.eulerAngles + Vector3.up * rotationDegrees);
 
-        // Interpolation
+        // * Interpolation
         while (rotationPercent < 1.0f)
         {
             rotationPercent += Time.deltaTime / ROTATION_TIME_SECONDS;
