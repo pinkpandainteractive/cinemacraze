@@ -3,6 +3,11 @@ using TMPro;
 
 public class Inventory : MonoBehaviour {
     
+    [Header("Inventory Settings")]
+    [Tooltip("The maximum amount of items that can be stored in the inventory")]
+    [Range(1, 100)]
+    public int maxItems = 10;
+
     public int nachos = 0;
     public int popcorn = 0;
     public int soda = 0;
@@ -66,5 +71,9 @@ public class Inventory : MonoBehaviour {
         if (soda > 0) sodaText = "Soda:\t\t" + soda + "\n";
         
         inventoryText.text = nachosText + popcornText + sodaText;
+    }
+
+    public bool HasSlotAvailable() {
+        return (nachos + popcorn + soda) < maxItems;
     }
 }

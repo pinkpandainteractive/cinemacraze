@@ -66,36 +66,35 @@ public class MouseInputHandler : MonoBehaviour
 
     void HandleLeftClick(GameObject obj)
     {
-        
         if (obj == null) return;
 
-        
         string tag = obj.tag;
-        
         
         if (tag.Equals("Customer"))
         {
-
             CustomerLogic customerLogic = obj.GetComponent<CustomerLogic>();
             customerLogic.HandInOrder();
-
         }
         else if (tag.Equals("Popcorn"))
         {
-            productManager.StartTimer(tag,obj);
+            if (inventory.HasSlotAvailable())
+                productManager.StartTimer(tag, obj);
         }
         else if (tag.Equals("Nachos"))
         {
-            productManager.StartTimer(tag, obj);
+            if (inventory.HasSlotAvailable())
+                productManager.StartTimer(tag, obj);
         }
         else if (tag.Equals("Soda"))
         {
-            productManager.StartTimer(tag, obj);
+            if (inventory.HasSlotAvailable())
+                productManager.StartTimer(tag, obj);
         }
         else if (tag.Equals("Machine"))
         {
             machineManager.HandleBuyScreen(obj);
-        }else if (!tag.Equals("UI_Upgrades"))
+        }
+        else if (!tag.Equals("UI_Upgrades"))
         {
             upgradesManager.CloseUpgradesMenu();
         }

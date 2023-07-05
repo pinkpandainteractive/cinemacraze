@@ -82,17 +82,21 @@ public class CustomerManager : MonoBehaviour
         {
             CustomerLogic logic = customer.GetComponent<CustomerLogic>();
             logic.UpdatePosition(customer.transform);
+            logic.UpdateOrderText();
 
             OrderStatus orderStatus = logic.GetOrderStatus();
             MovementStatus movementStatus = logic.GetMovementStatus();
 
             if (orderStatus.Equals(OrderStatus.Undefined))
             {
-                logic.GenerateOrder();
+                if (logic.GetDistanceToDestination() < 6.0f)
+                {
+                    logic.GenerateOrder();
+                    StartCoroutine(RotateCustomer(customer));
+                }
             }
             else if (orderStatus.Equals(OrderStatus.Ordering))
             {
-                logic.UpdateOrderText();
                 if (movementStatus.Equals(MovementStatus.MovingToBar))
                 {
                     if (logic.GetDistanceToDestination() < 0.5f)
@@ -101,8 +105,6 @@ public class CustomerManager : MonoBehaviour
                     }
                     else
                     {
-                        if (logic.GetDistanceToDestination() < 6.0f)
-                            StartCoroutine(RotateCustomer(customer));
                         logic.KeepDistanceToOtherCustomers();
                     }
                 }
@@ -116,8 +118,20 @@ public class CustomerManager : MonoBehaviour
             }
             else if (orderStatus.Equals(OrderStatus.Completed) || orderStatus.Equals(OrderStatus.Failed))
             {
-                if (movementStatus.Equals(MovementStatus.IdleAtBar))
+                if (movementStatus.Equals(MovementStatus.IdleAtBar) || movementStatus.Equals(MovementStatus.MovingToBar))
                 {
+                    if (orderStatus.Equals(OrderStatus.Failed))
+                    {
+                        logic.lives.LoseLife();
+                        logic.score.SubtractScore(100);
+                    }
+                    else
+                    {
+                        logic.score.AddScore(100);
+                    }
+
+                    customer.GetComponent<NavMeshAgent>().angularSpeed = 120f;
+
                     logic.SetDestination(waypointBeforeEnd.position);
                     logic.SetMovementStatus(MovementStatus.MovingToBeforeEnd);
                 }

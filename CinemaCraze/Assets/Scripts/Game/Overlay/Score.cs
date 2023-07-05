@@ -24,6 +24,12 @@ public class Score : MonoBehaviour {
     {
         Debug.Log("Subtracting " + scoreToSubtract + " from score");
         score -= scoreToSubtract;
+
+        if(score < 0)
+        {
+            score = 0;
+        }
+
         scoreText.text = score.ToString();
     }
 
@@ -41,7 +47,7 @@ public class Score : MonoBehaviour {
 
     public string GetScoreString()
     {
-        return score.ToString();
+        return "Score: " + score;
     }
 
 }

@@ -7,11 +7,10 @@ public class CustomerOrder
 
     public OrderStatus status { get; set; }
 
-    public int popcorn { get; set;}
+    public int popcorn { get; set; }
     public int nachos { get; set; }
     public int soda { get; set; }
 
-    public float time { get; set; }
     public float timeRemaining { get; set; }
 
     public CustomerOrder()
@@ -22,21 +21,23 @@ public class CustomerOrder
         nachos = 0;
         soda = 0;
 
-        time = 0f;
         timeRemaining = 0f;
     }
 
     public void GenerateOrder()
     {
-        int random = Random.Range(1, NUMBER_OF_ORDER_TYPES);
-
-        switch(random)
+        int random = Random.Range(1, NUMBER_OF_ORDER_TYPES + 1);
+        Debug.Log("Order type: " + random);
+        switch (random)
         {
             case 1:
                 GenerateSimpleOrder();
                 break;
             case 2:
                 GenerateComplexOrder();
+                break;
+            case 3:
+                Debug.Log("Order type 3");
                 break;
         }
 
@@ -49,7 +50,7 @@ public class CustomerOrder
     {
         int random = Random.Range(1, NUMBER_OF_ORDER_VARIATIONS);
 
-        switch(random)
+        switch (random)
         {
             case 1:
                 popcorn = Random.Range(0, 1);
@@ -77,7 +78,7 @@ public class CustomerOrder
                 break;
         }
 
-        time = timeRemaining = Random.Range(7.5f, 12.5f);
+        timeRemaining = Random.Range(7.5f, 12.5f);
 
     }
 
@@ -85,7 +86,7 @@ public class CustomerOrder
     {
         int random = Random.Range(1, NUMBER_OF_ORDER_VARIATIONS);
 
-        switch(random)
+        switch (random)
         {
             case 1:
                 popcorn = Random.Range(2, 5);
@@ -130,39 +131,48 @@ public class CustomerOrder
                 break;
         }
 
-        time = timeRemaining = Random.Range(12.5f, 17.5f);
+        timeRemaining = Random.Range(12.5f, 17.5f);
     }
 
     public override string ToString()
     {
         string order = "";
 
-        if (timeRemaining <= 0) return "";
-
-        if (popcorn > 0)
+        if (status == OrderStatus.Ordering)
         {
-            order += popcorn + " popcorn";
-        }
-
-        if (soda > 0)
-        {
-            if (order.Length > 0)
+            if (popcorn > 0)
             {
-                order += "\n";
+                order += popcorn + " popcorn";
             }
-            order += soda + " soda";
-        }
 
-        if (nachos > 0)
-        {
-            if (order.Length > 0)
+            if (soda > 0)
             {
-                order += "\n";
+                if (order.Length > 0)
+                {
+                    order += "\n";
+                }
+                order += soda + " soda";
             }
-            order += nachos + " nachos";
-        }
 
-        order += "\n" + timeRemaining.ToString("0.0") + "s";
+            if (nachos > 0)
+            {
+                if (order.Length > 0)
+                {
+                    order += "\n";
+                }
+                order += nachos + " nachos";
+            }
+
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+                order += "\n" + timeRemaining.ToString("0.0") + " s";
+            }
+            else
+            {
+                status = OrderStatus.Failed;
+            }
+        }
 
         return order;
     }

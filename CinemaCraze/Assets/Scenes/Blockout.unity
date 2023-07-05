@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.01857119, g: 0.014590584, b: 0.039228514, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9048,8 +9048,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1573435550}
-        m_TargetAssemblyTypeName: Util, Assembly-CSharp
+      - m_Target: {fileID: 321129536}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -14863,8 +14863,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1573435550}
-        m_TargetAssemblyTypeName: Util, Assembly-CSharp
+      - m_Target: {fileID: 321129536}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -20360,6 +20360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab250896383a9c4e9e43b179638cf6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxItems: 10
   nachos: 0
   popcorn: 0
   soda: 0
@@ -20530,7 +20531,6 @@ GameObject:
   - component: {fileID: 1573435545}
   - component: {fileID: 1573435544}
   - component: {fileID: 1573435543}
-  - component: {fileID: 1573435550}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -20588,18 +20588,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1573435550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573435542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71914eb0a04a5ea43b10ad63446946b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1576282288
 GameObject:
   m_ObjectHideFlags: 0
@@ -26645,12 +26633,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5628c8e39587cf4d9a197b20dd7982e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverScreenGO: {fileID: 2023027841}
   menuManager: {fileID: 321129536}
   customerManager: {fileID: 1391976100}
   score: {fileID: 626739133}
   lives: {fileID: 393626324}
   inventory: {fileID: 1553683355}
+  scoreText: {fileID: 226335910}
 --- !u!1 &2025751321
 GameObject:
   m_ObjectHideFlags: 0
@@ -28087,6 +28075,7 @@ MonoBehaviour:
   data: {}
   orderText: {fileID: 209179229}
   inventory: {fileID: 1553683355}
+  orderBubble: {fileID: 1906824675}
   score: {fileID: 626739133}
   lives: {fileID: 393626324}
   navMeshAgent: {fileID: 919132147875540592}

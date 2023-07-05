@@ -1,22 +1,24 @@
 using UnityEngine;
+using TMPro;
 
 public class GameOverScreen : MonoBehaviour
 {
-    public GameObject gameOverScreenGO;
     public MenuManager menuManager;
     public CustomerManager customerManager;
     public Score score;
     public Lives lives;
     public Inventory inventory;
+    public TMP_Text scoreText;
 
     public void Show()
     {
-        gameOverScreenGO.SetActive(true);
+        scoreText.text = score.GetScoreString();
+        gameObject.SetActive(true);
     }
 
     public void Hide()
     {
-        gameOverScreenGO.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void Restart()

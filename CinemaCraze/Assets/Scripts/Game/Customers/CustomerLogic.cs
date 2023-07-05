@@ -12,6 +12,7 @@ public class CustomerLogic : MonoBehaviour
     public CustomerData data;
     public TMP_Text orderText;
     public Inventory inventory;
+    public GameObject orderBubble;
     public Score score;
     public Lives lives;
     public NavMeshAgent navMeshAgent;
@@ -78,10 +79,7 @@ public class CustomerLogic : MonoBehaviour
         {
             Debug.Log("Order completed");
             data.getOrder().status = OrderStatus.Completed;
-            score.AddScore(100);
             navMeshAgent.isStopped = false;
-            navMeshAgent.angularSpeed = 120f;
-
         }
 
         UpdateOrderText();
@@ -124,32 +122,23 @@ public class CustomerLogic : MonoBehaviour
             if (otherCustomerLogic == null) continue;
 
             // * check if collider is not this customer
-            try
-            {
-                if (otherCustomerLogic.data.getId() == data.getId()) continue;
-                Vector3 otherPos = otherCustomerLogic.data.getPos();
-                Vector3 directionToOtherCustomer = (otherPos - data.getPos());
-                float distanceToOtherCustomer = directionToOtherCustomer.magnitude;
+            if (otherCustomerLogic.data.getId() == data.getId()) continue;
+            Vector3 otherPos = otherCustomerLogic.data.getPos();
+            Vector3 directionToOtherCustomer = (otherPos - data.getPos());
+            float distanceToOtherCustomer = directionToOtherCustomer.magnitude;
 
-                // * Check if other customer is too close in positive z direction
-                if (distanceToOtherCustomer <= DISTANCE_BETWEEN_CUSTOMERS && directionToOtherCustomer.normalized.z > 0.8)
-                {
-                    if (!navMeshAgent.isStopped)
-                    {
-                        navMeshAgent.isStopped = true;
-                    }
-                    SetMovementStatus(MovementStatus.IdleAtBar);
-                    return;
-                }
-            }
-            catch (NullReferenceException e)
+            // * Check if other customer is too close in positive z direction
+            if (distanceToOtherCustomer <= DISTANCE_BETWEEN_CUSTOMERS && directionToOtherCustomer.normalized.z > 0.8)
             {
-                // ! idk why this happens but it does before the customer is initialized
-                //Debug.Log("NullReferenceException: " + e);
-                continue;
+                if (!navMeshAgent.isStopped)
+                    navMeshAgent.isStopped = true;
+                
+                SetMovementStatus(MovementStatus.IdleAtBar);
+                return;
             }
+
         }
-        
+
         // * Activate NavMeshAgent if no other customer is too close in front
         navMeshAgent.isStopped = false;
         SetMovementStatus(MovementStatus.MovingToBar);
@@ -159,6 +148,16 @@ public class CustomerLogic : MonoBehaviour
     public void UpdateOrderText()
     {
         orderText.text = data.getOrder().ToString();
+        if (orderText.text.Equals(""))
+        {
+            orderBubble.SetActive(false);
+        }
+        else
+        {
+            orderBubble.SetActive(true);
+        }
+
+        // ! this is just here for debugging in inspector
         distanceToDestination = GetDistanceToDestination();
     }
     public void SetDestination(Vector3 destination)

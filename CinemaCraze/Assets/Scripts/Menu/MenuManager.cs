@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour {
-    
+public class MenuManager : MonoBehaviour
+{
+
     public MainMenu mainMenu;
     public PauseMenu pauseMenu;
     public GameOverlay gameOverlay;
@@ -70,6 +71,18 @@ public class MenuManager : MonoBehaviour {
     {
         Debug.Log("Disabling Pause Menu");
         pauseMenu.Disable();
+    }
+
+    public void Quit()
+    {
+        Debug.Log("Quitting Game");
+
+        // * Stop playing in Unity Editor
+        // ! needs to be commented out for built application XXX
+        UnityEditor.EditorApplication.isPlaying = false;
+
+        // * Stop playing in built application
+        Application.Quit();
     }
 
 }
