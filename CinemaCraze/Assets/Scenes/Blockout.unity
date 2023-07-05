@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00080954505, g: 0.004162026, b: 0.020064274, a: 1}
+  m_IndirectSpecularColor: {r: 0.0008095468, g: 0.004161891, b: 0.02006406, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -20116,6 +20116,14 @@ MonoBehaviour:
   MAX_CURRENT_CUSTOMERS_COUNT: 3
   SPAWN_DELAY_SECONDS: 5
   ROTATION_TIME_SECONDS: 1
+  mtl_pink: {fileID: 2100000, guid: 0e57d2ba5672cc64596093adae2070d8, type: 2}
+  mtl_blue: {fileID: 2100000, guid: 4275da419ba16e44499f4407e8487c79, type: 2}
+  mtl_red: {fileID: 2100000, guid: 3b08b31ce8e951e4d8a615a65a5e0347, type: 2}
+  mtl_black: {fileID: 2100000, guid: fe98f4246500f1f49b607458d2f0f3b3, type: 2}
+  mtl_legendary: {fileID: 2100000, guid: 938f8d354b07d4648b242116e79eb186, type: 2}
+  mtl_lila: {fileID: 2100000, guid: e9b05430b34ac8b4bb7159e61ad6a7fe, type: 2}
+  mtl_cyan: {fileID: 2100000, guid: c4906eebd170d594e980ad61fb072316, type: 2}
+  mtl_orange: {fileID: 2100000, guid: f8f5dd2e0cc780743ade9e977263e09d, type: 2}
   customersList: []
   currentCustomersCount: 0
   totalCustomersCount: 0

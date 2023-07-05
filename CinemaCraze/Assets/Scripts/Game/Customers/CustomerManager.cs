@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -13,7 +14,14 @@ public class CustomerManager : MonoBehaviour
     [Range(1, 10)]
     public float ROTATION_TIME_SECONDS = 1f;
 
-
+    public Material mtl_pink;
+    public Material mtl_blue;
+    public Material mtl_red;
+    public Material mtl_black;
+    public Material mtl_legendary;
+    public Material mtl_lila;
+    public Material mtl_cyan;
+    public Material mtl_orange;
     public List<GameObject> customersList = new List<GameObject>();
     public int currentCustomersCount;
     public int totalCustomersCount;
@@ -58,7 +66,7 @@ public class CustomerManager : MonoBehaviour
     GameObject SpawnCustomer()
     {
         GameObject customer = Instantiate(customerPrefab, waypointStart.position, Quaternion.identity);
-
+        RandomCustomerColor(customer);
         long id = totalCustomersCount;
         string name = "Customer_" + id;
 
@@ -74,7 +82,99 @@ public class CustomerManager : MonoBehaviour
 
         return customer;
     }
+    void RandomCustomerColor(GameObject customer)
+    {
+        List<Material> materials = customer.transform.GetChild(0).gameObject.GetComponent<Renderer>().materials.ToList();
 
+        var augenbrauen = materials[0];
+        var körper = materials[1];
+        var auge = materials[2]; // * wrong eyes
+
+        // * right eyes
+        List<Material> materialsEyes1 = customer.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Renderer>().materials.ToList();
+        var eye1 = materialsEyes1[0];
+        List<Material> materialsEyes2 = customer.transform.GetChild(0).gameObject.transform.GetChild(1).GetComponent<Renderer>().materials.ToList();
+        var eye2 = materialsEyes2[0];
+        List<Material> materialsEyes3 = customer.transform.GetChild(0).gameObject.transform.GetChild(2).GetComponent<Renderer>().materials.ToList();
+        var eye3 = materialsEyes3[0];
+        
+        float random = Random.Range(0, 10);
+
+        if (random > 2 && random <= 3)
+        {
+            eye1.color = mtl_red.color;
+            eye2.color = mtl_red.color;
+            eye3.color = mtl_red.color;
+            augenbrauen.color = mtl_orange.color;
+            körper.color = mtl_blue.color;
+        }
+        //Orange Guy
+        else if (random > 3 && random <= 4)
+        {
+            //eye1.color = mtl_cyan.color;
+            //eye2.color = mtl_cyan.color;
+            //eye3.color = mtl_cyan.color;
+            augenbrauen.color = mtl_orange.color;
+            körper.color = mtl_orange.color;
+        }
+        // Cyan Red eyes Guy (stoned)
+        else if (random > 4 && random <= 5)
+        {
+            eye1.color = mtl_red.color;
+            eye2.color = mtl_red.color;
+            eye3.color = mtl_red.color;
+            augenbrauen.color = mtl_cyan.color;
+            körper.color = mtl_cyan.color;
+        }
+        // Red Blue Guy
+        else if (random > 5 && random <= 6)
+        {
+            eye1.color = mtl_blue.color;
+            eye2.color = mtl_blue.color;
+            eye3.color = mtl_blue.color;
+            augenbrauen.color = mtl_blue.color;
+            körper.color = mtl_red.color;
+        }// Lila Guy
+        else if (random > 6 && random <= 7)
+        {
+            eye1.color = mtl_cyan.color;
+            eye2.color = mtl_cyan.color;
+            eye3.color = mtl_cyan.color;
+            augenbrauen.color = mtl_blue.color;
+            körper.color = mtl_lila.color;
+        }// Again orange guy but with no eyes
+        else if (random > 8 && random <= 9)
+        {
+            eye1.color = mtl_orange.color;
+            eye2.color = mtl_orange.color;
+            eye3.color = mtl_orange.color;
+            augenbrauen.color = mtl_cyan.color;
+            körper.color = mtl_orange.color;
+        }// Epic
+        else if (random > 9 && random <= 9.5)
+        {
+            eye1.color = mtl_legendary.color;
+            eye2.color = mtl_legendary.color;
+            eye3.color = mtl_legendary.color;
+            augenbrauen.color = mtl_legendary.color;
+            körper.color = mtl_black.color;
+        }
+        // Albino
+        else if (random >9.5 && random <= 9.9)
+        {
+            auge.color = Color.white;
+            augenbrauen.color = Color.white;
+            körper.color = Color.white;
+        }// Legendary 
+        else if (random >= 9.9)
+        {
+            eye1.color = mtl_legendary.color;
+            eye2.color = mtl_legendary.color;
+            eye3.color = mtl_legendary.color;
+            augenbrauen.color = mtl_legendary.color;
+            körper.color = mtl_legendary.color;
+        }
+    }
     // TODO sachen auslagern is eigene Methoden
     void CustomerRoutine()
     {
