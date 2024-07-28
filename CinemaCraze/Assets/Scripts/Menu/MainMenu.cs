@@ -26,6 +26,7 @@ public class MainMenu : MonoBehaviour
         menuManager.HidePauseMenu();
         menuManager.EnablePauseMenu();
         menuManager.ShowGameOverlay();
+        menuManager.ShowTutorialScreen();
         Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;

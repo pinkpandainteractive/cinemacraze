@@ -71,6 +71,8 @@ public class Upgrades : MonoBehaviour
         }
 
         obj.GetComponent<Product>().productionTime *= NewProdLevel();
+        Debug.Log("SCORE: " + score.GetScore() + " Subtract: " + NewProdPriceLevel());
+        score.SubtractScore(NewProdPriceLevel());
         CreateNewProductionLevel();
         audioHandler.PlayBuyUpgrades();
         if (productionLevel3UpgradeStatus.Equals(ProductionUpgradeStatus.Done))
@@ -98,6 +100,8 @@ public class Upgrades : MonoBehaviour
         }
 
         obj.GetComponent<Product>().refillTime *= NewRefillLevel();
+        Debug.Log("SCORE: " + score.GetScore() + " Subtract: " + NewRefillPriceLevel());
+        score.SubtractScore(NewRefillPriceLevel());
         CreateNewRefillLevel();
         audioHandler.PlayBuyUpgrades();
         if (refillLevel3UpgradeStatus.Equals(RefillLevelUpgradeStatus.Done))
@@ -126,6 +130,8 @@ public class Upgrades : MonoBehaviour
 
         obj.GetComponent<Product>().capacity = NewCapLevel();
         obj.GetComponent<Product>().maxCapacity = NewCapLevel();
+        Debug.Log("SCORE: " + score.GetScore() + " Subtract: " + NewCapPriceLevel());
+        score.SubtractScore(NewCapPriceLevel());
         CreateNewCapLevel();
         audioHandler.PlayBuyUpgrades();
         if (capacityLevel3UpgradeStatus.Equals(CapacityLevelUpgradeStatus.Done))

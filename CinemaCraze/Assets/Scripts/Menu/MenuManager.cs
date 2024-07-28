@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
     public PauseMenu pauseMenu;
     public GameOverlay gameOverlay;
     public GameOverScreen gameOverScreen;
-
+    public TutorialScreen tutorialScreen;
 
     public void Play()
     {
@@ -61,7 +61,14 @@ public class MenuManager : MonoBehaviour
         Debug.Log("Hiding Game Over Screen");
         gameOverScreen.Hide();
     }
-
+    public void ShowTutorialScreen()
+    {
+       tutorialScreen.Show();
+    }
+    public void HideTutorialScreen()
+    {
+        tutorialScreen.Hide();
+    }
     public void EnablePauseMenu()
     {
         Debug.Log("Enabling Pause Menu");
