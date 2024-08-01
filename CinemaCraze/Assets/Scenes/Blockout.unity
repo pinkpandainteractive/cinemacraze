@@ -3220,7 +3220,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 115}
-  m_SizeDelta: {x: 220, y: 50}
+  m_SizeDelta: {x: 230, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &214978888
 MonoBehaviour:
@@ -3275,7 +3275,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -23835,7 +23835,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 98}
-  m_SizeDelta: {x: 220, y: 50}
+  m_SizeDelta: {x: 230, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1526992548
 MonoBehaviour:
@@ -23890,7 +23890,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -25549,7 +25549,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1636013352}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5276e53597bd0b64bb236ead8b7dc0b5, type: 3}
@@ -28829,10 +28829,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<b>A / Linke Pfeiltaste</b> - Sicht auf die Kunden\r\n<b>D / Rechte Pfeiltaste</b>
-    - Sicht auf die Maschinen\r\n<b>ESC</b> - Pause Menu\r\n<b>P</b> - Pause\r\n\n<i><b>Maschinen:</b></i>\r\n<b>Maustaste
+    - Sicht auf die Maschinen\r\n<b>ESC</b> - Pause Menu\r\n<b>P</b> - Pause\r\n\n<b>Maschinen:</b>\n<b>Maustaste
     Links</b> - +1 von jeweiligem Item (nach Animation)\r\n<b>Maustaste Rechts</b>
-    - -1 von jeweiligem Item (sofort)\r\n\n<i><b>Kunden:</b></i>\r\n<b>Maustaste
-    Links</b> - Bestellung wird dem Kunden \xFCbergeben (auch wenn diese nicht vollst\xE4ndig
+    - -1 von jeweiligem Item (sofort)\r\n\n<b>Kunden:</b>\n<b>Maustaste Links</b>
+    - Bestellung wird dem Kunden \xFCbergeben (auch wenn diese nicht vollst\xE4ndig
     ist)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -32389,7 +32389,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 101}
-  m_SizeDelta: {x: 220, y: 50}
+  m_SizeDelta: {x: 230, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2069616139
 CanvasRenderer:
@@ -32452,7 +32452,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
