@@ -17,7 +17,12 @@ public class GameData
     public bool sodaUnlocked;
     public bool nachosUnlocked;
 
-    public GameData(Lives lives, Score score, Inventory inventory, CustomerManager customerManager, MachineManager machineManager)
+    
+     public List<ProductData> products;
+    public List<UpgradesData> upgrades;
+    public GameData(Lives lives, Score score, Inventory inventory, CustomerManager customerManager, MachineManager machineManager,
+    Product popcorn, Product nacho, Product soda, Upgrades popcornUpgrades, Upgrades nachoUpgrades, Upgrades sodaUpgrades
+    )
     {
         this.lives = lives.lives;
         this.score = score.score;
@@ -35,7 +40,20 @@ public class GameData
             if (customer == null) continue;
             this.customers.Add(customer.GetComponent<CustomerLogic>().data);
         }
-
+        
+        
+        this.products = new List<ProductData>
+        {
+            popcorn.GetProductData(),
+            nacho.GetProductData(),
+            soda.GetProductData()
+        };
+        this.upgrades = new List<UpgradesData>
+        {
+            popcornUpgrades.GetUpgradesData(),
+            nachoUpgrades.GetUpgradesData(),
+            sodaUpgrades.GetUpgradesData()
+        };
         this.popcornUnlocked = machineManager.popcornMachineUnlocked;
         this.sodaUnlocked = machineManager.sodaMachineUnlocked;
         this.nachosUnlocked = machineManager.nachosMachineUnlocked;

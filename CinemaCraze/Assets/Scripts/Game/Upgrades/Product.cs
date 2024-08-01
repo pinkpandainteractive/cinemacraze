@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static ProductData;
+
 
 public class Product : MonoBehaviour
 {
@@ -10,9 +12,12 @@ public class Product : MonoBehaviour
     public RefillStatus refillStatus;
     
     public Button btn_refill;
-    public float productionTime = 3.0f;
-    public float refillTime = 3.0f;
-    public int maxCapacity = 10;
+    public float productionTime;
+    public int productionLevel;
+    public float refillTime;
+    public int refillLevel;
+    public int maxCapacity;
+    public int maxCapacityLevel;
     public int capacity;
 
     public TMP_Text txt_machineEmpty;
@@ -21,8 +26,58 @@ public class Product : MonoBehaviour
     public Progressbar progressbar;
     private Material mtl_default;
 
+    
+    private Coroutine refillCoroutine;
+
+
+    private float defaultProductionTime;
+    private int defaultProductionLevel;
+    private float defaultRefillTime;
+    private int defaultRefillLevel;
+    private int defaultMaxCapacity;
+    private int defaultMaxCapacityLevel;
+    private int defaultCapacity;
+public ProductData GetProductData()
+    {
+        return new ProductData
+        {
+            productionStatus = this.productionStatus,
+            capacityStatus = this.capacityStatus,
+            refillStatus = this.refillStatus,
+            productionTime = this.productionTime,
+            productionLevel = this.productionLevel,
+            refillTime = this.refillTime,
+            refillLevel = this.refillLevel,
+            maxCapacity = this.maxCapacity,
+            maxCapacityLevel = this.maxCapacityLevel,
+            capacity = this.capacity
+        };
+    }
+
+    public void SetProductData(ProductData data)
+    {
+        this.productionStatus = data.productionStatus;
+        this.capacityStatus = data.capacityStatus;
+        this.refillStatus = data.refillStatus;
+        this.productionTime = data.productionTime;
+        this.productionLevel = data.productionLevel;
+        this.refillTime = data.refillTime;
+        this.refillLevel = data.refillLevel;
+        this.maxCapacity = data.maxCapacity;
+        this.maxCapacityLevel = data.maxCapacityLevel;
+        this.capacity = data.capacity;
+    }
     void Start()
     {
+        
+        defaultProductionTime = productionTime;
+        defaultProductionLevel = productionLevel;
+        defaultRefillTime = refillTime;
+        defaultRefillLevel = refillLevel;
+        defaultMaxCapacity = maxCapacity;
+        defaultMaxCapacityLevel = maxCapacityLevel;
+        defaultCapacity = maxCapacity;
+
         capacity = maxCapacity;
         mtl_default = gameObject.GetComponent<Renderer>().material;
         btn_refill.onClick.AddListener(StartRefill);
@@ -32,6 +87,8 @@ public class Product : MonoBehaviour
         HandleEmptyVisibilty();
         productionStatus = ProductionStatus.None;
         capacityStatus = CapacityStatus.Full;
+      
+     
     }
 
     public IEnumerator ProductionTimer(string tag)
@@ -92,8 +149,17 @@ public class Product : MonoBehaviour
         if (refillStatus == RefillStatus.Filling) return;
 
         progressbar.ProgressbarColor(Color.red);
-        StartCoroutine(RefillCapacity());
+        refillCoroutine = StartCoroutine(RefillCapacity());
         StartCoroutine(progressbar.SliderProgress(refillTime));
+    }
+    void StopRefill()
+    {
+        if(refillCoroutine != null){
+        StopCoroutine(RefillCapacity());
+        refillCoroutine = null;
+        }
+        progressbar.ResetProgressbar();
+        refillStatus = RefillStatus.None;
     }
     
     IEnumerator RefillCapacity()
@@ -110,23 +176,27 @@ public class Product : MonoBehaviour
         refillStatus = RefillStatus.Done;
         HandleEmptyVisibilty();
     }
+    public void ResetProduct()
+    {
+       
+        productionTime = defaultProductionTime;
+        productionLevel = defaultProductionLevel;
+        refillTime = defaultRefillTime;
+        refillLevel = defaultRefillLevel;
+        maxCapacity = defaultMaxCapacity;
+        maxCapacityLevel = defaultMaxCapacityLevel;
+        capacity = defaultCapacity;
+        txt_cap.text = capacity.ToString() + " / " + maxCapacity;
+        productionStatus = ProductionStatus.None;
+        capacityStatus = CapacityStatus.Full;
+        refillStatus = RefillStatus.None;
+        StopRefill();
+    }
+    public void LoadProducts(GameData gameData, int index){
+        
+        SetProductData(gameData.products[index]);
+        
+    }
    
-    public enum ProductionStatus
-    {
-        None,
-        Waiting,
-        Done
-    }
-    public enum RefillStatus
-    {
-        None,
-        Filling,
-        Done
-    }
-    public enum CapacityStatus
-    {
-        Empty,
-        Available,
-        Full
-    }
+   
 }

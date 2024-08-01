@@ -12,7 +12,8 @@ public class MainMenu : MonoBehaviour
     public Inventory inventory;
     public SaveLoadAgent saveLoadAgent;
     public MachineManager machineManager;
-
+    public ProductManager productManager;
+    public UpgradesManager upgrades;
     public void Play()
     {
         source.PlayOneShot(buttonsound,1f);
@@ -31,6 +32,8 @@ public class MainMenu : MonoBehaviour
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
         machineManager.Reset();
+        upgrades.ResetUpgrades();
+        productManager.ResetProducts();
     }
 
     public void Load()
@@ -46,6 +49,7 @@ public class MainMenu : MonoBehaviour
         Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
+        
     }
 
     public void Show()

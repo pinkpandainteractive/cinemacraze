@@ -1,26 +1,20 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UpgradesData;
 public class Upgrades : MonoBehaviour
 {
-    private ProductionUpgradeStatus productionLevel1UpgradeStatus;
-    private ProductionUpgradeStatus productionLevel2UpgradeStatus;
-    private ProductionUpgradeStatus productionLevel3UpgradeStatus;
-    private RefillLevelUpgradeStatus refillLevel1UpgradeStatus;
-    private RefillLevelUpgradeStatus refillLevel2UpgradeStatus;
-    private RefillLevelUpgradeStatus refillLevel3UpgradeStatus;
-    private CapacityLevelUpgradeStatus capacityLevel1UpgradeStatus;
-    private CapacityLevelUpgradeStatus capacityLevel2UpgradeStatus;
-    private CapacityLevelUpgradeStatus capacityLevel3UpgradeStatus;
+
     public Score score;
     public AudioHandler audioHandler;
     private Color basic = Color.white;
-    private Color invalid = new(1.0f, 0.3f, 0.3f, 1.0f);
-    private Color finished = new(1.0f, 0.31f, 0.58f, 1.0f);
-    //private Color lvl1 = new(0.0f, 1.0f, 0.3f, 1.0f);
-    private Color lvl2 = new(0.0f, 0.2f, 1.0f, 1.0f);
-    private Color lvl3 = new(1.0f,1.0f,0,1.0f);
+    private Color invalid = ProjectColors.LIGHT_RED;
+    private Color finished = ProjectColors.LIGHT_GREEN;
+    private Color lvl0 = ProjectColors.BLUE;
+    private Color lvl1 = ProjectColors.GREEN;
+    private Color lvl2 = ProjectColors.PINK;
     public GameObject product;
     public Button btnRefillSpeed;
     public Button btnProductionSpeed;
@@ -30,7 +24,7 @@ public class Upgrades : MonoBehaviour
     public TMP_Text productionText;
     [Header("Capacity upgrades")]
     public int capacityLevel1 = 20;
-    public int priceCapacityLevel1 = 10000;
+    public int priceCapacityLevel1 = 1;
     public int capacityLevel2 = 45;
     public int priceCapacityLevel2 = 25000;
     public int capacityLevel3 = 100;
@@ -50,18 +44,61 @@ public class Upgrades : MonoBehaviour
     public float refillSpeedLevel3 = 0.0f;
     public int priceRefillSpeedLevel3 = 12500;
 
+
+    private int currentRefillSpeedLevel;
+    private int currentProductionSpeedLevel;
+    private int currentCapacityLevel;
+    private int defaultCapacityPrice;
+    private float defaultRefillPrice;
+    private float defaultProductionPrice;
+
+    public UpgradesData GetUpgradesData(){
+        return new UpgradesData{
+            currentCapacityLevel = this.currentCapacityLevel,
+            currentProductionSpeedLevel = this.currentProductionSpeedLevel,
+            currentRefillSpeedLevel = this.currentRefillSpeedLevel
+        };
+        }
+    public void SetUpgradesData(UpgradesData upgradesData){
+       
+        this.currentCapacityLevel = upgradesData.currentCapacityLevel;
+        this.currentProductionSpeedLevel = upgradesData.currentProductionSpeedLevel;
+        this.currentRefillSpeedLevel = upgradesData.currentRefillSpeedLevel;
+    }
     void Start()
     {
+        
         InitPrice();
+        defaultCapacityPrice = priceCapacityLevel1;
+        defaultRefillPrice = priceRefillSpeedLevel1;
+        defaultProductionPrice = priceProductionSpeedLevel1;
+        if(product.tag.Equals("Popcorn")){
+            Debug.Log("Popcorn");
+            Debug.Log("PriceCAP: "+priceCapacityLevel2);
+        }
+        if(product.tag.Equals("Nachos")){
+            Debug.Log("Nachos");
+            Debug.Log("PriceCAP: "+priceCapacityLevel2);
+        }
+        if(product.tag.Equals("Soda")){
+            Debug.Log("Soda");
+            Debug.Log("PriceCAP: "+priceCapacityLevel2);
+        }
+        currentCapacityLevel = 0;
+        currentProductionSpeedLevel = 0;
+        currentRefillSpeedLevel = 0;
         InitText(capacityLevel1,refillSpeedLevel1,productionSpeedLevel1);
-
+        
         btnProductionSpeed.onClick.AddListener(delegate {UpgradeProduction(product, btnProductionSpeed); });
         btnRefillSpeed.onClick.AddListener(delegate { UpgradeRefill(product, btnRefillSpeed); });
         btnCapacity.onClick.AddListener(delegate {UpgradeCapacity(product, btnCapacity); });
     }
+    
     public void UpgradeProduction(GameObject obj, Button btn)
     {
-        if (productionLevel3UpgradeStatus.Equals(ProductionUpgradeStatus.Done)) return;
+        
+        if (currentProductionSpeedLevel == 3) return;
+        
         if (score.GetScore() < NewProdPriceLevel())
         {
             btn.GetComponent<Image>().color = invalid;
@@ -70,12 +107,17 @@ public class Upgrades : MonoBehaviour
             return;
         }
 
-        obj.GetComponent<Product>().productionTime *= NewProdLevel();
         Debug.Log("SCORE: " + score.GetScore() + " Subtract: " + NewProdPriceLevel());
         score.SubtractScore(NewProdPriceLevel());
+        
+         obj.GetComponent<Product>().productionTime *= NewProdLevel();
+        obj.GetComponent<Product>().productionLevel++;
+        currentProductionSpeedLevel++;
+         btn.GetComponentInChildren<TMP_Text>().text = $"{NewProdPriceLevel()}" + " $";
+        
         CreateNewProductionLevel();
         audioHandler.PlayBuyUpgrades();
-        if (productionLevel3UpgradeStatus.Equals(ProductionUpgradeStatus.Done))
+        if (currentProductionSpeedLevel == 3)
         {
             btn.GetComponent<Image>().color = finished;
             btn.interactable = false;
@@ -83,14 +125,14 @@ public class Upgrades : MonoBehaviour
             return;
         }
         
-        btn.GetComponentInChildren<TMP_Text>().text = $"{NewProdPriceLevel()}" + " $";
+       
         UpdateTextProduction(NewProdLevel());
     }
     public void UpgradeRefill(GameObject obj, Button btn)
     {
-        if (refillLevel3UpgradeStatus.Equals(RefillLevelUpgradeStatus.Done)) return;
+        if (currentRefillSpeedLevel == 3) return;
 
-
+        
         if (score.GetScore() < NewRefillPriceLevel())
         {
             btn.GetComponent<Image>().color = invalid;
@@ -99,12 +141,17 @@ public class Upgrades : MonoBehaviour
             return;
         }
 
-        obj.GetComponent<Product>().refillTime *= NewRefillLevel();
         Debug.Log("SCORE: " + score.GetScore() + " Subtract: " + NewRefillPriceLevel());
         score.SubtractScore(NewRefillPriceLevel());
+        
+        obj.GetComponent<Product>().refillTime *= NewRefillLevel();
+        obj.GetComponent<Product>().refillLevel++;
+        currentRefillSpeedLevel++;
+        btn.GetComponentInChildren<TMP_Text>().text = $"{NewRefillPriceLevel()}" + " $";
+        
         CreateNewRefillLevel();
         audioHandler.PlayBuyUpgrades();
-        if (refillLevel3UpgradeStatus.Equals(RefillLevelUpgradeStatus.Done))
+        if (currentRefillSpeedLevel == 3)
         {
             btn.GetComponent<Image>().color = finished;
             btn.interactable = false;
@@ -112,13 +159,13 @@ public class Upgrades : MonoBehaviour
             return;
         }
 
-        btn.GetComponentInChildren<TMP_Text>().text = $"{NewRefillPriceLevel()}" + " $";
+        
         UpdateTextRefill( NewRefillLevel());
     }
     public void UpgradeCapacity(GameObject obj, Button btn)
     {
         // * All upgrades done
-        if (capacityLevel3UpgradeStatus.Equals(CapacityLevelUpgradeStatus.Done)) return;
+        if (currentCapacityLevel == 3) return;
         
         if (score.GetScore() < NewCapPriceLevel())
         {
@@ -128,26 +175,31 @@ public class Upgrades : MonoBehaviour
             return;
         }
 
-        obj.GetComponent<Product>().capacity = NewCapLevel();
-        obj.GetComponent<Product>().maxCapacity = NewCapLevel();
         Debug.Log("SCORE: " + score.GetScore() + " Subtract: " + NewCapPriceLevel());
         score.SubtractScore(NewCapPriceLevel());
+        
+        obj.GetComponent<Product>().capacity = NewCapLevel();
+        obj.GetComponent<Product>().maxCapacity = NewCapLevel();
+        obj.GetComponent<Product>().maxCapacityLevel++;
+        currentCapacityLevel++;
+        btn.GetComponentInChildren<TMP_Text>().text = $"{NewCapPriceLevel()}"+" $";
         CreateNewCapLevel();
         audioHandler.PlayBuyUpgrades();
-        if (capacityLevel3UpgradeStatus.Equals(CapacityLevelUpgradeStatus.Done))
+        
+        if (currentCapacityLevel == 3)
         {
             btn.GetComponent<Image>().color = finished;
             btn.interactable = false;
             btn.GetComponentInChildren<TMP_Text>().text = "Fertig";
             return;
         }
-        btn.GetComponentInChildren<TMP_Text>().text = $"{NewCapPriceLevel()}"+" $";
+        
         UpdateTextCapacity(NewCapLevel());
     }
 
     void UpdateTextRefill( float value)
     {
-        string speed = "erhöhen";
+        string speed = "erhÃ¶hen";
         if (value == 0.5f)
         {
             speed = "verdoppeln";
@@ -161,11 +213,11 @@ public class Upgrades : MonoBehaviour
             speed = "sofort";
         }
         
-        refillText.text = "Auffüll-geschwindigkeit " + speed; 
+        refillText.text = "AuffÃ¼ll-geschwindigkeit " + speed; 
     }
     void UpdateTextProduction(float value )
     {
-        string speed = "erhöhen";
+        string speed = "erhÃ¶hen";
         if (value == 0.5f)
         {
             speed = "verdoppeln";
@@ -184,11 +236,11 @@ public class Upgrades : MonoBehaviour
 
     void UpdateTextCapacity(int cap)
     {   
-        capacityText.text = "Kapazität auf " + cap.ToString() + " erhöhen"; 
+        capacityText.text = "KapazitÃ¤t auf " + cap.ToString() + " erhÃ¶hen"; 
     }
     void InitText(int value, float speed, float prodSpeed)
     {
-        capacityText.text = "Kapazität auf " + value.ToString() + " erhöhen";
+        capacityText.text = "KapazitÃ¤t auf " + value.ToString() + " erhÃ¶hen";
         UpdateTextRefill(speed);
         UpdateTextProduction(prodSpeed);
     }
@@ -201,200 +253,278 @@ public class Upgrades : MonoBehaviour
 
     void CreateNewCapLevel()
     {
-        if (capacityLevel1UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
+        
+        if (currentCapacityLevel == 1)
         {
-            capacityLevel1UpgradeStatus = CapacityLevelUpgradeStatus.Done;
-            capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
-            capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "2";
+           
+            capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl1;
+            capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "1";
         }
         else
-        if (capacityLevel2UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
+        if (currentCapacityLevel == 2)
         {
-            capacityLevel2UpgradeStatus = CapacityLevelUpgradeStatus.Done;
-            capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl3;
+           
+            capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
             capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "*";
         }
         else
-        if (capacityLevel3UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
+        if (currentCapacityLevel == 3)
         {
-            capacityLevel3UpgradeStatus = CapacityLevelUpgradeStatus.Done;
+           
             capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "";
         }
     }
     void CreateNewRefillLevel()
     {
-        if (refillLevel1UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
+        if (currentRefillSpeedLevel == 1)
         {
-            refillLevel1UpgradeStatus = RefillLevelUpgradeStatus.Done;
-            refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
-            refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "2";
+            
+            refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl1;
+            refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "1";
         }
         else
-        if (refillLevel2UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
+        if (currentRefillSpeedLevel == 2)
         {
-            refillLevel2UpgradeStatus = RefillLevelUpgradeStatus.Done;
-            refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl3;
+            refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
             refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "*";
         }
         else
-        if (refillLevel3UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
+        if (currentRefillSpeedLevel == 3)
         {
-            refillLevel3UpgradeStatus = RefillLevelUpgradeStatus.Done;
             refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "";
         }
     }
     void CreateNewProductionLevel()
     {
-        if (productionLevel1UpgradeStatus.Equals(ProductionUpgradeStatus.None))
+        if (currentProductionSpeedLevel == 1)
         {
-            productionLevel1UpgradeStatus = ProductionUpgradeStatus.Done;
-            productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
-            productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "2";
+            productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl1;
+            productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "1";
         }
         else
-        if (productionLevel2UpgradeStatus.Equals(ProductionUpgradeStatus.None))
+        if (currentProductionSpeedLevel == 2)
         {
-            productionLevel2UpgradeStatus = ProductionUpgradeStatus.Done;
-            productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl3;
+            productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
             productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "*";
         }
         else
-        if (productionLevel3UpgradeStatus.Equals(ProductionUpgradeStatus.None))
+        if (currentProductionSpeedLevel == 3)
         {
-            productionLevel3UpgradeStatus = ProductionUpgradeStatus.Done;
             productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "";
         }
     }
     int NewCapLevel()
     {
-        if (capacityLevel1UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
+        switch(currentCapacityLevel)
         {
-            return capacityLevel1;
+            case 0:
+                return capacityLevel1;
+            case 1:
+                return capacityLevel2;
+            case 2:
+                return capacityLevel3;
+            default:
+                return 0;
         }
-        else
-        if (capacityLevel2UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
-        {
-            return capacityLevel2;
-        }
-        else
-        if (capacityLevel3UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
-        {
-            return capacityLevel3;
-        }
-        return 0;
+
     }
     float NewRefillLevel()
     {
-        if (refillLevel1UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
+        switch(currentRefillSpeedLevel)
         {
-            return refillSpeedLevel1;
+            case 0:
+                return refillSpeedLevel1;
+            case 1:
+                return refillSpeedLevel2;
+            case 2:
+                return refillSpeedLevel3;
+            default:
+                return 0;
         }
-        else
-        if (refillLevel2UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
-        {
-            return refillSpeedLevel2;
-        }
-        else
-        if (refillLevel3UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
-        {
-            return refillSpeedLevel3;
-        }
-        return 0;
+        
     }
     float NewProdLevel()
     {
-        if (productionLevel1UpgradeStatus.Equals(ProductionUpgradeStatus.None))
+        switch(currentProductionSpeedLevel)
         {
-            return productionSpeedLevel1;
+            case 0:
+                return productionSpeedLevel1;
+            case 1:
+                return productionSpeedLevel2;
+            case 2:
+                return productionSpeedLevel3;
+            default:
+                return 0;
         }
-        else
-        if (productionLevel2UpgradeStatus.Equals(ProductionUpgradeStatus.None))
-        {
-            return productionSpeedLevel2;
-        }
-        else
-        if (productionLevel3UpgradeStatus.Equals(ProductionUpgradeStatus.None))
-        {
-            return productionSpeedLevel3;
-        }
-        return 0;
+       
     }
     int NewRefillPriceLevel()
     {
-        if (refillLevel1UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
+        switch(currentRefillSpeedLevel)
         {
-            return priceRefillSpeedLevel1;
+            case 0:
+                return priceRefillSpeedLevel1;
+            case 1:
+                return priceRefillSpeedLevel2;
+            case 2:
+                return priceRefillSpeedLevel3;
+            default:
+                return 0;
         }
-        else
-        if (refillLevel2UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
-        {
-            return priceRefillSpeedLevel2;
-        }
-        else
-        if (refillLevel3UpgradeStatus.Equals(RefillLevelUpgradeStatus.None))
-        {
-            return priceRefillSpeedLevel3;
-        }
-        return 0;
+       
     }
     int NewCapPriceLevel()
     {
-        if (capacityLevel1UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
+        switch(currentCapacityLevel)
         {
-            return priceCapacityLevel1;
+            case 0:
+                return priceCapacityLevel1;
+            case 1:
+                return priceCapacityLevel2;
+            case 2:
+                return priceCapacityLevel3;
+            default:
+                return 0;
         }
-        else
-        if (capacityLevel2UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
-        {
-            return priceCapacityLevel2;
-        }
-        else
-        if (capacityLevel3UpgradeStatus.Equals(CapacityLevelUpgradeStatus.None))
-        {
-            return priceCapacityLevel3;
-        }
-        return 0;
+   
+       
     }
     int NewProdPriceLevel()
     {
-        if (productionLevel1UpgradeStatus.Equals(ProductionUpgradeStatus.None))
+        switch(currentProductionSpeedLevel)
         {
-            return priceProductionSpeedLevel1;
+            case 0:
+                return priceProductionSpeedLevel1;
+            case 1:
+                return priceProductionSpeedLevel2;
+            case 2:
+                return priceProductionSpeedLevel3;
+            default:
+                return 0;
         }
-        else
-        if (productionLevel2UpgradeStatus.Equals(ProductionUpgradeStatus.None))
-        {
-            return priceProductionSpeedLevel2;
-        }
-        else
-        if (productionLevel3UpgradeStatus.Equals(ProductionUpgradeStatus.None))
-        {
-            return priceProductionSpeedLevel3;
-        }
-        return 0;
     }
+public void ResetUpgrades()
+    {       
 
+        currentCapacityLevel = 0;
+        currentProductionSpeedLevel = 0;
+        currentRefillSpeedLevel = 0;
+
+        btnCapacity.GetComponentInChildren<TMP_Text>().text = $"{defaultCapacityPrice}"+" $";
+        btnCapacity.GetComponent<Image>().color = basic;
+        btnCapacity.interactable = true;
+        btnProductionSpeed.GetComponentInChildren<TMP_Text>().text = $"{defaultProductionPrice}"+" $";
+        btnProductionSpeed.GetComponent<Image>().color = basic;
+        btnProductionSpeed.interactable = true;
+        btnRefillSpeed.GetComponentInChildren<TMP_Text>().text = $"{defaultRefillPrice}"+" $";
+        btnRefillSpeed.GetComponent<Image>().color = basic;
+        btnRefillSpeed.interactable = true;
+
+        UpdateTextCapacity(capacityLevel1);
+        UpdateTextRefill(refillSpeedLevel1);
+        UpdateTextProduction(productionSpeedLevel1);
+
+        productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "0";
+        productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl0;
+        refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "0";
+        refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl0;
+        capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "0";
+        capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl0;
+    }
+    
     IEnumerator ChangeButtonColorForSec(Button btn)
     {
         yield return new WaitForSeconds(0.5f);
         btn.GetComponent<Image>().color = basic;
     }
-    // * Upgrade enums
-    public enum ProductionUpgradeStatus
-    {
-        None,
-        Done
-    }
-    public enum RefillLevelUpgradeStatus
-    {
-        None,
-        Done
-    }
-    
-    public enum CapacityLevelUpgradeStatus
-    {
-        None,
-        Done
+   
+    public void LoadUpgrades(GameData gameData,int index){
+
+        SetUpgradesData(gameData.upgrades[index]);
+
+        switch(currentCapacityLevel){
+            case 0:
+                UpdateTextCapacity(capacityLevel1);
+                btnCapacity.GetComponentInChildren<TMP_Text>().text = $"{priceCapacityLevel1}"+" $";
+                capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "0";
+                capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl0;
+                break;
+            case 1:
+                UpdateTextCapacity(capacityLevel2);
+                btnCapacity.GetComponentInChildren<TMP_Text>().text = $"{priceCapacityLevel2}"+" $";
+                capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "1";
+                capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl1;
+                break;
+            case 2:
+                UpdateTextCapacity(capacityLevel3);
+                btnCapacity.GetComponentInChildren<TMP_Text>().text = $"{priceCapacityLevel3}"+" $";
+                capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "*";
+                capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
+                break;
+            case 3:
+         
+            btnCapacity.GetComponent<Image>().color = finished;
+            btnCapacity.interactable = false;
+            btnCapacity.GetComponentInChildren<TMP_Text>().text = "Fertig";
+            capacityText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "";
+            break;
+        }
+        
+        
+        switch(currentProductionSpeedLevel){
+            case 0:
+                UpdateTextProduction(productionSpeedLevel1);
+                btnProductionSpeed.GetComponentInChildren<TMP_Text>().text = $"{priceProductionSpeedLevel1}"+" $";
+                productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "0";
+                productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl0;
+                break;
+            case 1:
+                UpdateTextProduction(productionSpeedLevel2);
+                btnProductionSpeed.GetComponentInChildren<TMP_Text>().text = $"{priceProductionSpeedLevel2}"+" $";
+                productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "1";
+                productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl1;
+                break;
+            case 2:
+                UpdateTextProduction(productionSpeedLevel3);
+                btnProductionSpeed.GetComponentInChildren<TMP_Text>().text = $"{priceProductionSpeedLevel3}"+" $";
+                productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "*";
+                productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
+                break;
+            case 3:
+                btnProductionSpeed.GetComponent<Image>().color = finished;
+                btnProductionSpeed.interactable = false;
+                btnProductionSpeed.GetComponentInChildren<TMP_Text>().text = "Fertig";
+                productionText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "";
+                break;
+        }
+
+        switch(currentRefillSpeedLevel){
+            case 0:
+                UpdateTextRefill(refillSpeedLevel1);
+                btnRefillSpeed.GetComponentInChildren<TMP_Text>().text = $"{priceRefillSpeedLevel1}"+" $";
+                refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "0";
+                refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl0;
+                break;
+            case 1:
+                UpdateTextRefill(refillSpeedLevel2);
+                btnRefillSpeed.GetComponentInChildren<TMP_Text>().text = $"{priceRefillSpeedLevel2}"+" $";
+                refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "1";
+                refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl1;
+                break;
+            case 2:
+                UpdateTextRefill(refillSpeedLevel3);
+                btnRefillSpeed.GetComponentInChildren<TMP_Text>().text = $"{priceRefillSpeedLevel3}"+" $";
+                refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "*";
+                refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().color = lvl2;
+                break;
+            case 3:
+                btnRefillSpeed.GetComponent<Image>().color = finished;
+                btnRefillSpeed.interactable = false;
+                btnRefillSpeed.GetComponentInChildren<TMP_Text>().text = "Fertig";
+                refillText.gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text = "";
+                break;
+        }
+
     }
     
 }

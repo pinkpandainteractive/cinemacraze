@@ -27,7 +27,7 @@ public class Machine : MonoBehaviour
         scoreText.text = $"{machineManager.price}";
         GetComponent<Renderer>().material = machineManager.mtl_locked;
         
-        product.SetActive(false);
+        /* product.SetActive(false); */
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
         button.onClick.AddListener(BuyMachine);

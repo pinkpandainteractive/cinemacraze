@@ -2975,15 +2975,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3006,7 +3006,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5906,17 +5906,17 @@ MonoBehaviour:
   refillText: {fileID: 473279325}
   productionText: {fileID: 455207115}
   capacityLevel1: 20
-  priceCapacityLevel1: 10
+  priceCapacityLevel1: 20
   capacityLevel2: 45
-  priceCapacityLevel2: 100
+  priceCapacityLevel2: 50
   capacityLevel3: 100
-  priceCapacityLevel3: 300
+  priceCapacityLevel3: 120
   productionSpeedLevel1: 0.5
-  priceProductionSpeedLevel1: 50
+  priceProductionSpeedLevel1: 100
   productionSpeedLevel2: 0.66
-  priceProductionSpeedLevel2: 250
+  priceProductionSpeedLevel2: 300
   productionSpeedLevel3: 0
-  priceProductionSpeedLevel3: 2000
+  priceProductionSpeedLevel3: 1000
   refillSpeedLevel1: 0.5
   priceRefillSpeedLevel1: 100
   refillSpeedLevel2: 0.66
@@ -6685,13 +6685,13 @@ MonoBehaviour:
   refillText: {fileID: 804941924}
   productionText: {fileID: 1663641909}
   capacityLevel1: 25
-  priceCapacityLevel1: 50
+  priceCapacityLevel1: 100
   capacityLevel2: 65
   priceCapacityLevel2: 200
   capacityLevel3: 150
   priceCapacityLevel3: 500
   productionSpeedLevel1: 0.5
-  priceProductionSpeedLevel1: 75
+  priceProductionSpeedLevel1: 175
   productionSpeedLevel2: 0.66
   priceProductionSpeedLevel2: 1000
   productionSpeedLevel3: 0
@@ -13026,8 +13026,11 @@ MonoBehaviour:
   refillStatus: 0
   btn_refill: {fileID: 0}
   productionTime: 3
+  productionLevel: 0
   refillTime: 3
+  refillLevel: 0
   maxCapacity: 10
+  maxCapacityLevel: 0
   capacity: 0
   txt_machineEmpty: {fileID: 0}
   txt_cap: {fileID: 0}
@@ -13149,8 +13152,11 @@ MonoBehaviour:
   refillStatus: 0
   btn_refill: {fileID: 0}
   productionTime: 3
+  productionLevel: 0
   refillTime: 3
+  refillLevel: 0
   maxCapacity: 10
+  maxCapacityLevel: 0
   capacity: 0
   txt_machineEmpty: {fileID: 0}
   txt_cap: {fileID: 0}
@@ -14127,6 +14133,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mtl_glow: {fileID: 2100000, guid: 7425483f814b6344183f0b4ed3058b96, type: 2}
+  popcorn: {fileID: 1576282290}
+  nachos: {fileID: 1959156919}
+  soda: {fileID: 1629237545}
 --- !u!4 &814163247
 Transform:
   m_ObjectHideFlags: 0
@@ -15744,6 +15753,14 @@ MonoBehaviour:
   inventory: {fileID: 1553683355}
   customerManager: {fileID: 1391976100}
   machineManager: {fileID: 64107690}
+  popcorn: {fileID: 1576282290}
+  nacho: {fileID: 1959156919}
+  soda: {fileID: 1629237545}
+  popcornUpgrades: {fileID: 362163944}
+  nachoUpgrades: {fileID: 1139668252}
+  sodaUpgrades: {fileID: 414252687}
+  productManager: {fileID: 814163246}
+  upgradesManager: {fileID: 1341111892}
 --- !u!4 &991033977
 Transform:
   m_ObjectHideFlags: 0
@@ -17785,11 +17802,11 @@ MonoBehaviour:
   capacityLevel3: 50
   priceCapacityLevel3: 700
   productionSpeedLevel1: 0.5
-  priceProductionSpeedLevel1: 100
+  priceProductionSpeedLevel1: 250
   productionSpeedLevel2: 0.66
-  priceProductionSpeedLevel2: 1500
+  priceProductionSpeedLevel2: 750
   productionSpeedLevel3: 0
-  priceProductionSpeedLevel3: 4500
+  priceProductionSpeedLevel3: 2000
   refillSpeedLevel1: 0.5
   priceRefillSpeedLevel1: 75
   refillSpeedLevel2: 0.66
@@ -20814,6 +20831,9 @@ MonoBehaviour:
   btn_close: {fileID: 1996996212}
   upgradesMenu: {fileID: 1017702666}
   audioHandler: {fileID: 1754633701}
+  PopcornUpgrades: {fileID: 362163944}
+  NachosUpgrades: {fileID: 1139668252}
+  SodaUpgrades: {fileID: 414252687}
 --- !u!4 &1341111893
 Transform:
   m_ObjectHideFlags: 0
@@ -22461,6 +22481,8 @@ MonoBehaviour:
   inventory: {fileID: 1553683355}
   saveLoadAgent: {fileID: 991033976}
   machineManager: {fileID: 64107690}
+  productManager: {fileID: 814163246}
+  upgrades: {fileID: 1341111892}
 --- !u!82 &1463098982
 AudioSource:
   m_ObjectHideFlags: 0
@@ -24652,8 +24674,11 @@ MonoBehaviour:
   refillStatus: 0
   btn_refill: {fileID: 1602119656}
   productionTime: 1.5
+  productionLevel: 0
   refillTime: 3
+  refillLevel: 0
   maxCapacity: 10
+  maxCapacityLevel: 0
   capacity: 0
   txt_machineEmpty: {fileID: 2069616140}
   txt_cap: {fileID: 554313595}
@@ -25477,8 +25502,11 @@ MonoBehaviour:
   refillStatus: 0
   btn_refill: {fileID: 2118804734}
   productionTime: 1
+  productionLevel: 0
   refillTime: 3
+  refillLevel: 0
   maxCapacity: 10
+  maxCapacityLevel: 0
   capacity: 0
   txt_machineEmpty: {fileID: 1526992548}
   txt_cap: {fileID: 322549235}
@@ -25521,7 +25549,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1636013352}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5276e53597bd0b64bb236ead8b7dc0b5, type: 3}
@@ -29864,7 +29892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5283019, g: 0.3508722, b: 0.4986408, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -30879,8 +30907,11 @@ MonoBehaviour:
   refillStatus: 0
   btn_refill: {fileID: 1375007819}
   productionTime: 1
+  productionLevel: 0
   refillTime: 3
+  refillLevel: 0
   maxCapacity: 10
+  maxCapacityLevel: 0
   capacity: 0
   txt_machineEmpty: {fileID: 214978888}
   txt_cap: {fileID: 180446660}
