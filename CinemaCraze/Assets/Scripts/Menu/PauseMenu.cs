@@ -7,13 +7,14 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuGO;
     public MenuManager menuManager;
     public CustomerManager customerManager;
+    public RandomUnlock gameEvent;
     public Score score;
     public Lives lives;
     public Inventory inventory;
     public bool paused = false;
     public bool Enabled = true;
 
-
+    private float pausedTime = 0f;
     public void Start() {
         Debug.Log("Start PauseMenu");
     }
@@ -34,14 +35,14 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-
-        source.PlayOneShot(buttonsound,1f);
+        source.PlayOneShot(buttonsound, 1f);
 
         Debug.Log("Resumed Game");
         Hide();
         menuManager.ShowGameOverlay();
         Time.timeScale = 1f;
         paused = false;
+        pausedTime += Time.realtimeSinceStartup;
     }
 
     public void Pause()
@@ -55,7 +56,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        source.PlayOneShot(buttonsound,1f);
+        source.PlayOneShot(buttonsound, 1f);
         
         Debug.Log("Returning to Main Menu");
         Hide();
@@ -90,5 +91,11 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuGO.SetActive(false);
     }
-    
+    public void DisplayGameTime()
+    {
+        float gameTime = Time.time;
+        float realTime = Time.realtimeSinceStartup - pausedTime; 
+        Debug.Log("Game Time: " + gameTime + " seconds");
+        Debug.Log("Real Time: " + realTime + " seconds");
+    }
 }

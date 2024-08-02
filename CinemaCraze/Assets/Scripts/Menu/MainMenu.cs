@@ -14,6 +14,11 @@ public class MainMenu : MonoBehaviour
     public MachineManager machineManager;
     public ProductManager productManager;
     public UpgradesManager upgrades;
+    public RandomUnlock gameEvent;
+    void Start()
+    {
+        Time.timeScale = 0f;
+    }
     public void Play()
     {
         source.PlayOneShot(buttonsound,1f);
@@ -28,6 +33,8 @@ public class MainMenu : MonoBehaviour
         menuManager.EnablePauseMenu();
         menuManager.ShowGameOverlay();
         menuManager.ShowTutorialScreen();
+        gameEvent.HideWarningScreen();
+        gameEvent.Reset();
         Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
@@ -47,6 +54,7 @@ public class MainMenu : MonoBehaviour
         menuManager.EnablePauseMenu();
         menuManager.ShowGameOverlay();
         menuManager.HideTutorialScreen();
+        gameEvent.HideWarningScreen();
         Time.timeScale = 1f;
         customerManager.status = LiveCycleStatus.Active;
         customerManager.isGameRunning = true;
@@ -55,6 +63,7 @@ public class MainMenu : MonoBehaviour
 
     public void Show()
     {
+        Debug.Log("Showing Main Menu");
         mainMenuGO.SetActive(true);
     }
 

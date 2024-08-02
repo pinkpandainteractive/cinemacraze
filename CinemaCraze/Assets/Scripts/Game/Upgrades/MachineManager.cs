@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Machine;
+using static RandomUnlock;
 
 public class MachineManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MachineManager : MonoBehaviour
     public Material mtl_locked;
     public Material mtl_hover;
 
+    public const int NUMBER_OF_MACHINES = 3;
     public bool popcornMachineUnlocked;
     public bool nachosMachineUnlocked;
     public bool sodaMachineUnlocked;
@@ -21,6 +23,11 @@ public class MachineManager : MonoBehaviour
 
     public List<GameObject> machines;
     public int price;
+
+    public float timeFirstBuy;
+    public bool isFirstBuy = false;
+    public bool isSecondBuy = false;
+    public float timeSecondBuy;
    
     public void HandleBuyMachineProcess(GameObject gameObject)
     {
@@ -55,7 +62,16 @@ public class MachineManager : MonoBehaviour
         {
             sodaMachineUnlocked = true;
         }
-
+        if(!isSecondBuy && isFirstBuy){
+            isSecondBuy = true;
+            timeSecondBuy = Time.time;
+        }
+        if(!isFirstBuy)
+        {
+            isFirstBuy = true;
+            timeFirstBuy = Time.time;
+        }
+        
         HandleBuyScreen(gameObject);
     }
 
@@ -109,6 +125,7 @@ public class MachineManager : MonoBehaviour
         if (gameObject.GetComponent<Machine>().buyScreenStatus.Equals(BuyScreenStatus.Active)) return;
         // * Accessing the Canvas with GetChild(0)
         UpdatePrice();
+        
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
         gameObject.GetComponent<Machine>().buyScreenStatus = BuyScreenStatus.Active;
     }

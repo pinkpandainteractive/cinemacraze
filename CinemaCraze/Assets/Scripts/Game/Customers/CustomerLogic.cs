@@ -23,7 +23,7 @@ public class CustomerLogic : MonoBehaviour
 
     public void Initialize(string name, long id, Vector3 pos, Vector3 direction, Vector3 destination)
     {
-        Debug.Log("Initialize Customer");
+        /* Debug.Log("Initialize Customer"); */
         this.data = new CustomerData(name, id, pos, direction, destination);
         navMeshAgent.SetDestination(destination);
         SetMovementStatus(MovementStatus.MovingToBar);
@@ -32,7 +32,7 @@ public class CustomerLogic : MonoBehaviour
     // * Use this for initialization after loading from save
     public void Initialize(CustomerData data)
     {
-        Debug.Log("Initialize Customer");
+        /* Debug.Log("Initialize Customer"); */
         this.data = data;
         navMeshAgent.SetDestination(data.getDestination());
         SetMovementStatus(data.getMovementStatus());
@@ -46,7 +46,7 @@ public class CustomerLogic : MonoBehaviour
 
     public void HandInOrder()
     {
-        Debug.Log("HandInOrder");
+        /* Debug.Log("HandInOrder"); */
 
         if (!data.getOrder().status.Equals(OrderStatus.Ordering)) return;
 
@@ -77,7 +77,7 @@ public class CustomerLogic : MonoBehaviour
 
         if (data.getOrder().popcorn == 0 && data.getOrder().soda == 0 && data.getOrder().nachos == 0)
         {
-            Debug.Log("Order completed");
+           /*  Debug.Log("Order completed"); */
             data.getOrder().status = OrderStatus.Completed;
             navMeshAgent.isStopped = false;
         }
@@ -162,7 +162,7 @@ public class CustomerLogic : MonoBehaviour
     }
     public void SetDestination(Vector3 destination)
     {
-        Debug.Log(data.getName() + "SetDestination to: " + destination);
+        /* Debug.Log(data.getName() + "SetDestination to: " + destination); */
         navMeshAgent.SetDestination(destination);
         data.setDestination(destination);
     }
@@ -170,7 +170,7 @@ public class CustomerLogic : MonoBehaviour
     public void SetMovementStatus(MovementStatus movementStatus)
     {
         if (this.movementStatus == movementStatus) return;
-        Debug.Log(data.getName() + "SetMovementStatus to:" + movementStatus);
+        /* Debug.Log(data.getName() + "SetMovementStatus to:" + movementStatus); */
         data.setMovementStatus(movementStatus);
         this.movementStatus = movementStatus;
     }

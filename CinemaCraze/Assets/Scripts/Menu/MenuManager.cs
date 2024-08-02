@@ -17,12 +17,14 @@ public class MenuManager : MonoBehaviour
     public void ShowMainMenu()
     {
         Debug.Log("Showing Main Menu");
+        Time.timeScale = 0f;
         mainMenu.Show();
     }
 
     public void HideMainMenu()
     {
         Debug.Log("Hiding Main Menu");
+        Time.timeScale = 1f;
         mainMenu.Hide();
     }
 

@@ -40,7 +40,6 @@ public class CustomerManager : MonoBehaviour
     public Transform waypointEnd;
 
     public bool isGameRunning = false;
-
     public Queue<GameObject> toDestroyQueue = new Queue<GameObject>();
 
 
@@ -52,7 +51,6 @@ public class CustomerManager : MonoBehaviour
     {
         if (!isGameRunning) return;
         if (!machineManager.popcornMachineUnlocked && !machineManager.nachosMachineUnlocked && !machineManager.sodaMachineUnlocked) return;
-
         SpawnRoutine();
         CustomerRoutine();
         DestroyRoutine();

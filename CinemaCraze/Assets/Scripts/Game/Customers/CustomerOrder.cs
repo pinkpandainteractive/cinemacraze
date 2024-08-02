@@ -35,15 +35,16 @@ public class CustomerOrder
         timeRemaining = 0f;
     }
 
+   
     public void GenerateOrder(bool popcornUnlocked, bool sodaUnlocked, bool nachosUnlocked)
     {
 
         this.popcornUnlocked = popcornUnlocked;
         this.sodaUnlocked = sodaUnlocked;
         this.nachosUnlocked = nachosUnlocked;
-
+        
         float random = Random.Range(0, 1f);
-        Debug.Log("Random: " + random);
+        /* Debug.Log("Random: " + random); */
 
         if (random < 0.80f)
         {
@@ -57,110 +58,104 @@ public class CustomerOrder
         }
 
         this.status = OrderStatus.Ordering;
-        Debug.Log("Order generated: " + popcorn + " popcorn, " + soda + " soda, " + nachos + " nachos");
+        /* Debug.Log("Order generated: " + popcorn + " popcorn, " + soda + " soda, " + nachos + " nachos"); */
 
     }
 
     void GenerateSimpleOrder()
     {
         int random = Random.Range(1, NUMBER_OF_ORDER_VARIATIONS + 1);
-        Debug.Log("Simple order: " + random);
+      
         switch (random)
         {
             case 1:
-                popcorn = Random.Range(0, 2);
-                soda = Random.Range(2, 3);
-                nachos = Random.Range(0, 2);
+                popcorn = popcornUnlocked ? Random.Range(0, 2) : 0;
+                soda =  sodaUnlocked ? Random.Range(2, 3) : 0;
+                nachos = nachosUnlocked ? Random.Range(0, 2) : 0;
                 break;
             case 2:
-                popcorn = Random.Range(0, 2);
-                soda = Random.Range(0, 2);
-                nachos = Random.Range(2, 3);
+                popcorn = popcornUnlocked ? Random.Range(0, 2):0;
+                soda = sodaUnlocked ? Random.Range(0, 2) : 0;
+                nachos = nachosUnlocked ? Random.Range(2, 3): 0;
                 break;
             case 3:
-                popcorn = Random.Range(2, 3);
-                soda = Random.Range(0, 2);
-                nachos = Random.Range(0, 2);
+                popcorn = popcornUnlocked ? Random.Range(2, 3) : 0;
+                soda = sodaUnlocked ? Random.Range(0, 2) : 0;
+                nachos = nachosUnlocked ? Random.Range(0, 2) : 0;
                 break;
             case 4:
-                popcorn = Random.Range(3, 4);
-                soda = Random.Range(0, 2);
+                popcorn = popcornUnlocked ? Random.Range(3, 4) : 0;
+                soda = sodaUnlocked ? Random.Range(0, 2) : 0;
                 break;
             case 5:
-                popcorn = Random.Range(0, 2);
-                soda = Random.Range(0, 2);
-                nachos = Random.Range(1, 2);
+                popcorn = popcornUnlocked ? Random.Range(0, 2) : 0;
+                soda = sodaUnlocked ? Random.Range(0, 2) : 0;
+                nachos = nachosUnlocked ? Random.Range(1, 2) : 0;
                 break;
         }
-        if (!popcornUnlocked && popcorn > 0)
+        if(popcorn==0 && soda==0 && nachos==0)
+        {
             GenerateSimpleOrder();
-        if (!sodaUnlocked && soda > 0)
-            GenerateSimpleOrder();
-        if (!nachosUnlocked && nachos > 0)
-            GenerateSimpleOrder();
+        }
+        Debug.Log("Simple order: " + popcorn + " popcorn, " + soda + " soda, " + nachos + " nachos"+" popcornUnlocked: "+!popcornUnlocked);
+       
 
         timeRemaining = Random.Range(10f, 15f);
 
     }
 
-    void GenerateComplexOrder()
+void GenerateComplexOrder()
+{
+    int random = Random.Range(1, NUMBER_OF_ORDER_VARIATIONS);
+    Debug.Log("Complex order variation: " + random);
+
+    switch (random)
     {
-        int random = Random.Range(1, NUMBER_OF_ORDER_VARIATIONS + 1);
-        Debug.Log("Complex order variation: " + random);
-        switch (random)
-        {
-            case 1:
-                popcorn = Random.Range(3, 6);
-                soda = Random.Range(2, 4);
-                nachos = Random.Range(2, 4);
-                break;
-            case 2:
-                popcorn = Random.Range(2, 4);
-                soda = Random.Range(2, 4);
-                nachos = Random.Range(3, 6);
-                break;
-            case 3:
-                popcorn = Random.Range(2, 3);
-                nachos = Random.Range(3, 5);
-                soda = Random.Range(5, 6);
-                break;
-            case 4:
-                popcorn = Random.Range(3, 5);
-                nachos = Random.Range(2, 3);
-                soda = Random.Range(5, 6);
-                break;
-            case 5:
-                random = Random.Range(0, 4);
-                if (random == 1)
-                {
-                    popcorn = Random.Range(6, 9);
-                    nachos = Random.Range(0, 2);
-                    soda = Random.Range(0, 2);
-                }
-                else if (random == 2)
-                {
-                    popcorn = Random.Range(0, 2);
-                    nachos = Random.Range(6, 9);
-                    soda = Random.Range(0, 2);
-                }
-                else if (random == 3)
-                {
-                    popcorn = Random.Range(0, 2);
-                    nachos = Random.Range(0, 2);
-                    soda = Random.Range(6, 9);
-                }
-                break;
-        }
-
-        if (!popcornUnlocked && popcorn > 0)
-            GenerateComplexOrder();
-        if (!sodaUnlocked && soda > 0)
-            GenerateComplexOrder();
-        if (!nachosUnlocked && nachos > 0)
-            GenerateComplexOrder();
-
-        timeRemaining = Random.Range(22f, 35f);
+        case 1:
+            popcorn = popcornUnlocked ? Random.Range(3, 6) : 0;
+            soda = sodaUnlocked ? Random.Range(2, 4) : 0;
+            nachos = nachosUnlocked ? Random.Range(2, 4) : 0;
+            break;
+        case 2:
+            popcorn = popcornUnlocked ? Random.Range(2, 4) : 0;
+            soda = sodaUnlocked ? Random.Range(2, 4) : 0;
+            nachos = nachosUnlocked ? Random.Range(3, 6) : 0;
+            break;
+        case 3:
+            popcorn = popcornUnlocked ? Random.Range(2, 3) : 0;
+            nachos = nachosUnlocked ? Random.Range(3, 5) : 0;
+            soda = sodaUnlocked ? Random.Range(5, 6) : 0;
+            break;
+        case 4:
+            popcorn = popcornUnlocked ? Random.Range(3, 5) : 0;
+            nachos = nachosUnlocked ? Random.Range(2, 3) : 0;
+            soda = sodaUnlocked ? Random.Range(5, 6) : 0;
+            break;
+        case 5:
+            int subRandom = Random.Range(0, 3);
+            if (subRandom == 0)
+            {
+                popcorn = popcornUnlocked ? Random.Range(6, 9) : 0;
+                nachos = nachosUnlocked ? Random.Range(0, 2) : 0;
+                soda = sodaUnlocked ? Random.Range(0, 2) : 0;
+            }
+            else if (subRandom == 1)
+            {
+                popcorn = popcornUnlocked ? Random.Range(0, 2) : 0;
+                nachos = nachosUnlocked ? Random.Range(6, 9) : 0;
+                soda = sodaUnlocked ? Random.Range(0, 2) : 0;
+            }
+            else if (subRandom == 2)
+            {
+                popcorn = popcornUnlocked ? Random.Range(0, 2) : 0;
+                nachos = nachosUnlocked ? Random.Range(0, 2) : 0;
+                soda = sodaUnlocked ? Random.Range(6, 9) : 0;
+            }
+            break;
     }
+
+    timeRemaining = Random.Range(22f, 35f);
+}
 
     public override string ToString()
     {
